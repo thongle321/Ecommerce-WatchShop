@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce_WatchShop.Models;
 
@@ -17,7 +17,15 @@ public class HomeController : Controller
     {
         return View();
     }
-
+    // Phần của Linh làm
+    public IActionResult Cart()
+    {
+        return View();
+    }
+    public IActionResult Checkout()
+    {
+        return View();
+    }
     public IActionResult Privacy()
     {
         return View();
