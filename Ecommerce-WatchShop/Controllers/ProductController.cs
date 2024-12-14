@@ -2,13 +2,13 @@
 
 namespace Ecommerce_WatchShop.Controllers
 {
-    public class CartController : Controller
+    public class ProductController : Controller
     {
-        public IActionResult Cart()
+        public IActionResult Product()
         {
             return View();
         }
-        public IActionResult Checkout()
+        public IActionResult ProductDetail()
         {
             return View();
         }
