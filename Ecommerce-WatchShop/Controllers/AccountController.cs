@@ -16,4 +16,8 @@ public class AccountController : Controller
         ViewBag.Title = "Đơn hàng";
         return View();
     }
+    public IActionResult Favorite()
+    {
+        return View();
+    }
 }
