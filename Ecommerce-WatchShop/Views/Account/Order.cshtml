@@ -1,0 +1,80 @@
+<!-- ...:::: Start Breadcrumb Section:::... -->
+<div class="breadcrumb-section breadcrumb-bg-color--golden">
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="breadcrumb-title">Tài Khoản Của Tôi</h3>
+                    <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                        <nav aria-label="breadcrumb">
+                            <ul>
+                                <li><a href="index.html">Trang Chủ</a></li>
+                                <li class="active" aria-current="page">@ViewBag.Title</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Breadcrumb Section:::... -->
+<!-- ...:::: Start Account Dashboard Section:::... -->
+<div class="account-dashboard">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-3 col-lg-3">
+                <!-- Nav tabs -->
+                <div class="dashboard_tab_button" data-aos="fade-up" data-aos-delay="0">
+                    <ul role="tablist" class="nav flex-column dashboard-list">
+                        <li>
+                            <a asp-controller="Account" asp-action="Order"
+                               class="nav-link btn btn-block btn-md btn-black-default-hover active">Đơn hàng</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Account" asp-action="AccountDetails"
+                               class="nav-link btn btn-block btn-md btn-black-default-hover">Thông tin cá nhân</a>
+                        </li>
+                        <li>
+                            <a href="" data-bs-toggle="tab"
+                               class="nav-link btn btn-block btn-md btn-black-default-hover">Yêu Thích</a>
+                        </li>
+                        <li>
+                            <a href=""
+                               class="nav-link btn btn-block btn-md btn-black-default-hover">Đăng xuất</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9">
+                <!-- Tab panes -->
+                <div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
+                    <div class="tab-pane fade show active">
+                        <h4>Đơn hàng</h4>
+                        <div class="table_page table-responsive">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Mã đơn hàng</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Trạng thái</th>
+                                    <th>Tổng tiền</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>31-01-2024</td>
+                                    <td><span class="success">Hoàn thành</span></td>
+                                    <td>2.159.000₫</td>
+                                    <td><a href="cart.html" class="view">Xem</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Account Dashboard Section:::... -->
