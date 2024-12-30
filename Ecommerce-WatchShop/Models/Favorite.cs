@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce_WatchShop.Models;
 
 public partial class Favorite
 {
+    [Key]
     public int FavoriteId { get; set; }
 
     public int ProductId { get; set; }

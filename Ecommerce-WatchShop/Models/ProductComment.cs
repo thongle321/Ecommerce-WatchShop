@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce_WatchShop.Models;
 
 public partial class ProductComment
 {
+    [Key]
     public int CommentId { get; set; }
 
     public int ProductId { get; set; }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce_WatchShop.Models;
 
 public partial class Cart
 {
+    [Key]
     public int CartId { get; set; }
 
     public int ProductId { get; set; }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce_WatchShop.Models;
 
 public partial class Invoice
 {
+    [Key]
     public int InvoiceId { get; set; }
 
     public int BillId { get; set; }

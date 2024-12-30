@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce_WatchShop.Models;
 
 public partial class Supplier
 {
+    [Key]
     public int SupplierId { get; set; }
 
     public string Name { get; set; } = null!;

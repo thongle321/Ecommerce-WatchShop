@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce_WatchShop.Models;
 
 public partial class WarehouseReceipt
 {
+    [Key]
     public int ReceiptId { get; set; }
 
     public string? Voucher { get; set; }

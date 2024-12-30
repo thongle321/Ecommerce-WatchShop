@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce_WatchShop.Models;
 
 public partial class BlogImage
 {
+    [Key]
     public int BlogImageId { get; set; }
 
     public int? BlogId { get; set; }
