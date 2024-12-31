@@ -23,6 +23,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.MapStaticAssets();
+app.MapAreaControllerRoute(
+    name: "Admin",
+    areaName: "Admin",
+    pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}")
+    .WithStaticAssets();
 app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")
