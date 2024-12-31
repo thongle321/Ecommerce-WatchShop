@@ -14,6 +14,24 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Areas\Admin\Data\" />
+      <Folder Include="Areas\Admin\Models\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\assets\css\.DS_Store" />
+      <None Include="wwwroot\assets\images\.DS_Store" />
+      <None Include="wwwroot\assets\images\users\.DS_Store" />
+      <None Include="wwwroot\assets\js\.DS_Store" />
+      <None Include="wwwroot\assets\scss\.DS_Store" />
+      <None Include="wwwroot\assets\scss\app\.DS_Store" />
+      <None Include="wwwroot\assets\scss\bootstrap\.DS_Store" />
+      <None Include="wwwroot\assets\scss\bootstrap\scss\.DS_Store" />
+      <None Include="wwwroot\assets\scss\bootstrap\scss\tests\.DS_Store" />
     </ItemGroup>
 
 </Project>
