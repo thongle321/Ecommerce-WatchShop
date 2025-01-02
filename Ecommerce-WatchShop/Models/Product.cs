@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce_WatchShop.Models;
 
@@ -11,6 +13,7 @@ public partial class Product
 
     public string Image { get; set; } = null!;
 
+    [Column(TypeName = "nvarchar(255)")]
     public string? ProductName { get; set; }
 
     public int? CategoryId { get; set; }
@@ -23,10 +26,13 @@ public partial class Product
 
     public double? Price { get; set; }
 
+    [Column(TypeName = "nvarchar(255)")]
     public string? ShortDescription { get; set; }
 
+    [Column(TypeName = "nvarchar(300)")]
     public string? Description { get; set; }
 
+    [Column(TypeName = "nvarchar(500)")]
     public string? Specification { get; set; }
 
     public int? Quantity { get; set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,6 +14,7 @@ public partial class Cart
 
     public int? CustomerId { get; set; }
 
+    [Precision(18, 0)]
     public decimal? Price { get; set; }
 
     public int Quantity { get; set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,10 +14,12 @@ public partial class Invoice
 
     public int ProductId { get; set; }
 
+    [Precision(18, 0)]
     public decimal Price { get; set; }
 
     public int Quantity { get; set; }
 
+    [Precision(18, 0)]
     public decimal Total { get; set; }
 
     public virtual Bill Bill { get; set; } = null!;
