@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce_WatchShop.Models;
 
@@ -12,7 +13,7 @@ public partial class Cart
     public int ProductId { get; set; }
 
     public int? CustomerId { get; set; }
-
+    [Column(TypeName = "decimal(18,0)")]
     public decimal? Price { get; set; }
 
     public int Quantity { get; set; }

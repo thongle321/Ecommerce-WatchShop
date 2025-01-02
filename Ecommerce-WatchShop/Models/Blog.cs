@@ -9,11 +9,11 @@ public partial class Blog
 {
     [Key]
     public int BlogId { get; set; }
-    [Column(TypeName ="")]
+    [Column(TypeName ="varchar(255)")]
     public string? Image { get; set; }
-
+    [Column(TypeName = "nvarchar(255)")]
     public string? Subject { get; set; }
-
+    [Column(TypeName = "nvarchar(MAX)")]
     public string? Contents { get; set; }
 
     public virtual ICollection<BlogImage> BlogImages { get; set; } = new List<BlogImage>();

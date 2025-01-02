@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce_WatchShop.Models;
 
@@ -8,9 +9,9 @@ public partial class Product
 {
     [Key]
     public int ProductId { get; set; }
-
+    [Column(TypeName = "nvarchar(100)")]
     public string Image { get; set; } = null!;
-
+    [Column(TypeName = "nvarchar(100)")]
     public string? ProductName { get; set; }
 
     public int? CategoryId { get; set; }
@@ -22,11 +23,11 @@ public partial class Product
     public int? Gender { get; set; }
 
     public double? Price { get; set; }
-
+    [Column(TypeName = "nvarchar(200)")]
     public string? ShortDescription { get; set; }
-
+    [Column(TypeName = "nvarchar(300)")]
     public string? Description { get; set; }
-
+    [Column(TypeName = "nvarchar(500)")]
     public string? Specification { get; set; }
 
     public int? Quantity { get; set; }
@@ -38,7 +39,7 @@ public partial class Product
     public DateTime? UpdatedAt { get; set; }
 
     public int? Deleted { get; set; }
-
+    [Column(TypeName = "varchar(100)")]
     public string? Slug { get; set; }
 
     public virtual Brand? Brand { get; set; }
