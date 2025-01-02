@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce_WatchShop.Models;
 
@@ -13,6 +14,7 @@ public partial class ProductComment
 
     public int? CustomerId { get; set; }
 
+    [Column(TypeName = "nvarchar(MAX)")]
     public string? Contents { get; set; }
 
     public DateTime? CreatedAt { get; set; }
