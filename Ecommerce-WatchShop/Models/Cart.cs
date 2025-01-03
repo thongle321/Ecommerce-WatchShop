@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,11 +12,9 @@ public partial class Cart
     public int CartId { get; set; }
 
     public int ProductId { get; set; }
-
     public int? CustomerId { get; set; }
     [Column(TypeName = "decimal(18,0)")]
     public decimal? Price { get; set; }
-
     public int Quantity { get; set; }
 
     public virtual Customer? Customer { get; set; }
