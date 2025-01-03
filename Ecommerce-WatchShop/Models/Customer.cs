@@ -9,16 +9,13 @@ public partial class Customer
 {
     [Key]
     public int CustomerId { get; set; }
-
     [Column(TypeName = "nvarchar(200)")]
     public string? FullName { get; set; }
-
-    [MaxLength(15)]
+    [Column(TypeName = "varchar(15)")]
     public string? Phone { get; set; }
-
     [Column(TypeName = "nvarchar(255)")]
     public string? Address { get; set; }
-
+    [Column(TypeName = "varchar(100)")]
     public string? Email { get; set; }
 
     public DateOnly? Dob { get; set; }

@@ -13,8 +13,7 @@ public partial class ProductComment
     public int ProductId { get; set; }
 
     public int? CustomerId { get; set; }
-
-    [Column(TypeName = "nvarchar(MAX)")]
+    [Column(TypeName = "nvarchar(max)")]
     public string? Contents { get; set; }
 
     public DateTime? CreatedAt { get; set; }

@@ -9,16 +9,12 @@ public partial class Supplier
 {
     [Key]
     public int SupplierId { get; set; }
-
     [Column(TypeName = "nvarchar(100)")]
     public string Name { get; set; } = null!;
-
-    [MaxLength(15)]
+    [Column(TypeName = "varchar(15)")]
     public string Phone { get; set; } = null!;
-
     [Column(TypeName = "nvarchar(200)")]
     public string? Information { get; set; }
-
     [Column(TypeName = "nvarchar(150)")]
     public string? Address { get; set; }
 
