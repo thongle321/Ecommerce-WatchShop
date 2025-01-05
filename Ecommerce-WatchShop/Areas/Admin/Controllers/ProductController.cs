@@ -9,5 +9,9 @@ namespace DongHo_Admin.Areas.Admin.Controllers
         {
             return View();
         }
+        public IActionResult ProductDetail()
+        {
+            return View();
+        }
     }
 }
