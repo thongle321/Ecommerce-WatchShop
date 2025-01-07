@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Ecommerce_WatchShop.Abstractions;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 
 namespace Ecommerce_WatchShop.Controllers;
@@ -14,10 +16,13 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly DongHoContext _context;
-    public HomeController(ILogger<HomeController> logger, DongHoContext context)
+    private readonly IPasswordHasher _passwordHasher;
+
+    public HomeController(ILogger<HomeController> logger, DongHoContext context, IPasswordHasher passwordHasher)
     {
         _logger = logger;
         _context = context;
+        _passwordHasher = passwordHasher;
     }
 
     public IActionResult Index()
@@ -39,23 +44,25 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegisterVM registerVM)
     {
+        var passwordHash = _passwordHasher.Hash(registerVM.Password);
+
         if (!ModelState.IsValid)
         {
-            //return PartialView("_RegisterPartial", registerVM);
+            return PartialView("_RegisterPartial", registerVM);
         }
         var existingUser = _context.Accounts
             .FirstOrDefault(a => a.Username == registerVM.Username);
 
         if (existingUser != null)
         {
-            //ModelState.AddModelError("Username", "Username đã tồn tại.");
-            //return PartialView("_RegisterPartial", registerVM);
+            ModelState.AddModelError("Username", "Username đã tồn tại.");
+            return PartialView("_RegisterPartial", registerVM);
         }
 
         var account = new Account
         {
             Username = registerVM.Username,
-            Password = registerVM.Password,
+            Password = passwordHash,
             RoleId = 1,
         };
 
@@ -86,18 +93,23 @@ public class HomeController : Controller
 
         return RedirectToAction("Index");
     }
+
     [HttpPost]
     public async Task<IActionResult> Login(LoginVM loginVM)
     {
         if (!ModelState.IsValid)
         {
-            //return PartialView("_LoginPartial", loginVM);
         }
         var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Username == loginVM.Username);
 
-        if (account == null || account.Password != loginVM.Password)
+        if (account == null)
         {
-            TempData["LoginError"] = "Tài khoản hoặc mật khẩu không đúng.";
+        }
+
+        var result = _passwordHasher.Verify(account.Password, loginVM.Password);
+
+        if (!result)
+        {
         }
 
         var claims = new List<Claim>
@@ -116,7 +128,6 @@ public class HomeController : Controller
 
         return RedirectToAction("Index", "Home");
     }
-
 
     public IActionResult Privacy()
     {

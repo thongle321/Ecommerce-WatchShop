@@ -7,7 +7,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form asp-action="Login" method="POST">
+                <form asp-action="Login" asp-controller="Home" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div> <!-- Hiển thị tất cả các thông báo lỗi -->
                     <div class="default-form-box">
                         <label asp-for="Username">Tên đăng nhập <span>*</span></label>
                         <input asp-for="Username" type="text" required>
@@ -29,11 +30,6 @@
                         </div>
                         <a href="#" class="lost-password">Quên mật khẩu?</a>
                     </div>
-                    @if (TempData["LoginError"] != null)
-                    {
-                        <div class="alert alert-danger">@TempData["LoginError"]</div>
-                    }
-
                     <button class="btn btn-block btn-black-default-hover mb-4" type="submit">Đăng nhập</button>
                     <div class="d-flex justify-content-center">
                         <a href="#" class="" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal"><strong>Chưa có tài khoản? Đăng ký</strong></a>
