@@ -473,8 +473,9 @@
     <!-- End Footer Section -->
     <!-- material-scrolltop button -->
     <button class="material-scrolltop" type="button"></button>
-    @await Html.PartialAsync("_LoginPartial") 
-    @await Html.PartialAsync("_RegisterPartial")
+  
+    @await Html.PartialAsync("_LoginPartial", new Ecommerce_WatchShop.Models.ViewModels.LoginVM())
+    @await Html.PartialAsync("_RegisterPartial", new Ecommerce_WatchShop.Models.ViewModels.RegisterVM())
 
     <button type="button" class="btn btn-success position-fixed right-0 text-white rounded-circle" style="bottom: 100px; margin-right: 23px; width: 56px; height: 56px">  
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
@@ -491,5 +492,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    @RenderSectionAsync("Scripts", required: false);
 </body>
 </html>
