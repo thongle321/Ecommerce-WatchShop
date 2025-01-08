@@ -53,7 +53,3 @@ namespace Ecommerce_WatchShop.Controllers
         }
     }
 }
-//data.ProductRatings
-//                .Where(r => r.ProductId == id) // Lọc đánh giá theo ProductId
-//                .Select(r => (double?)r.Rating)  // Chuyển giá trị đánh giá sang nullable double
-//                .Average() ?? 0
