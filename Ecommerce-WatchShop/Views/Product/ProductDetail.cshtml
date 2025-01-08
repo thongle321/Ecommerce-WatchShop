@@ -2,26 +2,33 @@
 @{
     ViewData["Title"] = "Chi tiết sản phẩm";
 }
-
-@section Scripts {
+@section scripts
+{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function changeImage(thumbnail) {
-            // Lấy phần tử ảnh lớn
-            const mainImage = document.getElementById("mainImage");
+        $(document).on('click', '.add-to-wishlist', function (e) {
+            e.preventDefault();
 
-            // Thay đổi src của ảnh lớn thành src của ảnh được nhấn
-            mainImage.src = thumbnail.src;
+            var productId = $(this).data('id'); // Lấy ID sản phẩm
 
-            // Xóa hiệu ứng viền của các ảnh nhỏ
-            const thumbnails = document.querySelectorAll(".thumbnail");
-            thumbnails.forEach(img => img.classList.remove("border-primary"));
-
-            // Thêm hiệu ứng viền cho ảnh nhỏ được chọn
-            thumbnail.classList.add("border-primary");
-        }
+            $.ajax({
+                url: '/Account/AddToWishlist', // Đường dẫn tới action
+                type: 'POST',
+                data: { productId: productId },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message); // Thông báo thành công
+                    } else {
+                        alert(response.message); // Thông báo lỗi
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi thêm vào danh sách yêu thích.');
+                }
+            });
+        });
     </script>
 }
-
 <!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
     <div class="breadcrumb-wrapper">
@@ -85,7 +92,7 @@
                         <div class="d-flex align-items-center">
                             <ul class="review-star">
                                 @{
-                                    bool hasHalfStar = (Model.ProductRating - (int)Model.ProductRating) >= 0.1;
+                                    bool hasHalfStar = (Model.ProductRating - (int)Model.ProductRating) >= 0.4;
 
                                 }
                                 @for(int i=1;i<= (int) Model.ProductRating;i++)
@@ -107,7 +114,7 @@
                                 }
                             </ul>
                             <a href="#" class="customer-review ml-2">1 lượt xem</a>
-                            <a href="#" class="customer-review ml-2">(@Model.TotalRating )</a>
+                            <a href="#" class="customer-review ml-2">(@Model.TotalRating)</a>
                         </div>
                         <div class="price">
                             @Model.Product.Price VNĐ
@@ -149,8 +156,8 @@
                         </div>
                         <!-- Start  Product Details Meta Area-->
                         <div class="product-details-meta mb-20">
-                            <a href="wishlist.html" class="icon-space-right">
-                                <i class="icon-heart"></i>Thêm vào yêu thích
+                            <a href="javascript:void(0)" class="icon-space-right add-to-wishlist" data-id="@Model.Product.ProductId">
+                                <i class="icon-heart"></i> Thêm vào yêu thích
                             </a>
                         </div> <!-- End  Product Details Meta Area-->
                     </div> <!-- End Product Variable Area -->
