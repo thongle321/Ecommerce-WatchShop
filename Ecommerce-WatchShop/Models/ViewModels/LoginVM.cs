@@ -10,6 +10,5 @@ namespace Ecommerce_WatchShop.Models.ViewModels
         [Required(ErrorMessage = "Mật khẩu không được trống")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        public string LoginInValid { get; set; }
     }
 }
