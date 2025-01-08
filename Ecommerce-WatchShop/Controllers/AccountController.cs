@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce_WatchShop.Controllers;
@@ -19,5 +20,10 @@ public class AccountController : Controller
     public IActionResult Favorite()
     {
         return View();
+    }
+    public IActionResult Logout()
+    {
+        HttpContext.SignOutAsync();
+        return RedirectToAction("Index", "Home");
     }
 }
