@@ -7,17 +7,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form asp-action="Login" asp-controller="Home" method="post">
-                    <div asp-validation-summary="All" class="text-danger"></div> <!-- Hiển thị tất cả các thông báo lỗi -->
+                <form asp-action="Login" method="post">
+                    @Html.AntiForgeryToken()
                     <div class="default-form-box">
                         <label asp-for="Username">Tên đăng nhập <span>*</span></label>
-                        <input asp-for="Username" type="text" required>
+                        <input asp-for="Username" class="form-control" required>
                         <span asp-validation-for="Username" class="text-danger"></span>
 
                     </div>
                     <div class="default-form-box">
                         <label asp-for="Password">Mật khẩu <span>*</span></label>
-                        <input asp-for="Password" type="password" required>
+                        <input asp-for="Password" class="form-control" required>
                         <span asp-validation-for="Password" class="text-danger"></span>
 
                     </div>
@@ -30,6 +30,8 @@
                         </div>
                         <a href="#" class="lost-password">Quên mật khẩu?</a>
                     </div>
+                    <input type="hidden" asp-for="LoginInValid" />
+                    <div class="validation-summary-errors text-danger"></div>
                     <button class="btn btn-block btn-black-default-hover mb-4" type="submit">Đăng nhập</button>
                     <div class="d-flex justify-content-center">
                         <a href="#" class="" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal"><strong>Chưa có tài khoản? Đăng ký</strong></a>
