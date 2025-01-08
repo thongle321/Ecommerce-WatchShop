@@ -2,7 +2,6 @@ using Ecommerce_WatchShop.Abstractions;
 using Ecommerce_WatchShop.Helper;
 using Ecommerce_WatchShop.Models;
 using Microsoft.EntityFrameworkCore;
-using Ecommerce_WatchShop.Helper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);

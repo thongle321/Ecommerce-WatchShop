@@ -1,5 +1,6 @@
 using Ecommerce_WatchShop.Models;
 using Ecommerce_WatchShop.Models.ViewModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -69,5 +70,10 @@ public class AccountController : Controller
         _context.SaveChanges();
 
         return Json(new { success = true, message = "Đã thêm vào danh sách yêu thích!" });
+    }
+    public IActionResult Logout()
+    {
+        HttpContext.SignOutAsync();
+        return RedirectToAction("Index", "Home");
     }
 }

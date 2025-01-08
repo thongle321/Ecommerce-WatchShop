@@ -8,6 +8,7 @@ using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce_WatchShop.Abstractions;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Ecommerce_WatchShop.Controllers;
@@ -33,13 +34,34 @@ public class HomeController : Controller
     {
         return View();
     }
+    [HttpGet]
     public IActionResult Contact()
     {
         return View();
     }
-    public IActionResult Favorite()
+    [HttpPost]
+    public async Task<IActionResult> Contact(ContactVM contactVM)
     {
-        return View();
+        if (ModelState.IsValid)
+        {
+            var contact = new Contact
+            {
+                FullName = contactVM.FullName,
+                Email = contactVM.Email,
+                Subject = contactVM.Subject,
+                Note = contactVM.Note
+            };
+
+          
+            _context.Contacts.Add(contact);
+            await _context.SaveChangesAsync();
+
+           
+            return RedirectToAction("Index");
+        }
+
+        
+        return View("Contact", contactVM);
     }
     [HttpPost]
     public async Task<IActionResult> Register(RegisterVM registerVM)
@@ -77,39 +99,34 @@ public class HomeController : Controller
         _context.Customers.Add(customer);
         await _context.SaveChangesAsync();
 
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, account.Username),
-            new Claim(ClaimTypes.Role, "User")
-        };
-
-        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        var authProperties = new AuthenticationProperties
-        {
-            IsPersistent = true
-        };
-
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
         return RedirectToAction("Index");
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginVM loginVM)
     {
         if (!ModelState.IsValid)
         {
+            return PartialView("_LoginPartial", loginVM);
+
         }
         var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Username == loginVM.Username);
 
         if (account == null)
         {
+            //ModelState.AddModelError(string.Empty, "Tài khoản không tồn tại");
+            //return PartialView("_LoginPartial", loginVM);
+
         }
 
         var result = _passwordHasher.Verify(account.Password, loginVM.Password);
 
         if (!result)
         {
+            //ModelState.AddModelError(string.Empty, "Tài khoản hoặc mật khẩu không đúng");
+            //return PartialView("_LoginPartial", loginVM);
         }
 
         var claims = new List<Claim>
@@ -128,7 +145,6 @@ public class HomeController : Controller
 
         return RedirectToAction("Index", "Home");
     }
-
     public IActionResult Privacy()
     {
         return View();
