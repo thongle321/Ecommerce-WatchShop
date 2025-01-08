@@ -33,9 +33,34 @@ public class HomeController : Controller
     {
         return View();
     }
+    [HttpGet]
     public IActionResult Contact()
     {
         return View();
+    }
+    [HttpPost]
+    public async Task<IActionResult> Contact(ContactVM contactVM)
+    {
+        if (ModelState.IsValid)
+        {
+            var contact = new Contact
+            {
+                FullName = contactVM.FullName,
+                Email = contactVM.Email,
+                Subject = contactVM.Subject,
+                Note = contactVM.Note
+            };
+
+          
+            _context.Contacts.Add(contact);
+            await _context.SaveChangesAsync();
+
+           
+            return RedirectToAction("Index");
+        }
+
+        
+        return View("Contact", contactVM);
     }
     public IActionResult Favorite()
     {
