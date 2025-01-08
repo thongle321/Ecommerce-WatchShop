@@ -99,19 +99,6 @@ public class HomeController : Controller
         _context.Customers.Add(customer);
         await _context.SaveChangesAsync();
 
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, account.Username),
-            new Claim(ClaimTypes.Role, "User")
-        };
-
-        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        var authProperties = new AuthenticationProperties
-        {
-            IsPersistent = true
-        };
-
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
         return RedirectToAction("Index");
     }
@@ -129,8 +116,8 @@ public class HomeController : Controller
 
         if (account == null)
         {
-            ModelState.AddModelError(string.Empty, "Tài khoản không tồn tại");
-            return PartialView("_LoginPartial", loginVM);
+            //ModelState.AddModelError(string.Empty, "Tài khoản không tồn tại");
+            //return PartialView("_LoginPartial", loginVM);
 
         }
 
@@ -138,8 +125,8 @@ public class HomeController : Controller
 
         if (!result)
         {
-            ModelState.AddModelError(string.Empty, "Tài khoản hoặc mật khẩu không đúng");
-            return PartialView("_LoginPartial", loginVM);
+            //ModelState.AddModelError(string.Empty, "Tài khoản hoặc mật khẩu không đúng");
+            //return PartialView("_LoginPartial", loginVM);
         }
 
         var claims = new List<Claim>
