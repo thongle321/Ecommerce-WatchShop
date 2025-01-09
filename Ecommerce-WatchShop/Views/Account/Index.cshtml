@@ -1,7 +1,9 @@
-﻿@{
+﻿@model Ecommerce_WatchShop.Models.Customer
+@{
     ViewData["Title"] = "Thông tin tài khoản";
 }
-    <!-- ...:::: Start Breadcrumb Section:::... -->
+
+<!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
     <div class="breadcrumb-wrapper">
         <div class="container">
@@ -11,7 +13,7 @@
                     <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
                         <nav aria-label="breadcrumb">
                             <ul>
-                                <li><a href="index.html">Trang Chủ</a></li>
+                                <li><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
                                 <li class="active" aria-current="page">@ViewBag.Title</li>
                             </ul>
                         </nav>
@@ -20,7 +22,8 @@
             </div>
         </div>
     </div>
-</div> <!-- ...:::: End Breadcrumb Section:::... -->
+</div>
+<!-- ...:::: End Breadcrumb Section:::... -->
 <!-- ...:::: Start Account Dashboard Section:::... -->
 <div class="account-dashboard">
     <div class="container">
@@ -34,15 +37,15 @@
                                class="nav-link btn btn-block btn-md btn-black-default-hover">Đơn hàng</a>
                         </li>
                         <li>
-                            <a asp-controller="Account" asp-action="AccountDetails" 
+                            <a asp-controller="Account" asp-action="AccountDetails"
                                class="nav-link btn btn-block btn-md btn-black-default-hover active">Thông tin cá nhân</a>
                         </li>
                         <li>
-                            <a href=""
+                            <a asp-controller="Account" asp-action="Favorite"
                                class="nav-link btn btn-block btn-md btn-black-default-hover">Yêu Thích</a>
                         </li>
                         <li>
-                            <a asp-action="Logout" asp-controller="Account"
+                            <a asp-controller="Account" asp-action="Logout"
                                class="nav-link btn btn-block btn-md btn-black-default-hover">Đăng xuất</a>
                         </li>
                     </ul>
@@ -56,43 +59,47 @@
                         <div class="login">
                             <div class="login_form_container">
                                 <div class="account_login_form">
-                                    <form action="#">
+                                    <form asp-action="UpdateAccountDetails" method="post">
                                         <div class="default-form-box input-radio">
                                             <label>Giới tính</label>
                                             <br />
                                             <span class="custom-radio">
                                                 <input type="radio" value="1"
-                                                       name="id_gender"> Nam
+                                                       name="Gender" @(Model.Gender == true ? "checked" : "")> Nam
                                             </span>
                                             <span class="custom-radio">
-                                                <input type="radio" value="1"
-                                                       name="id_gender"> Nữ
+                                                <input type="radio" value="2"
+                                                       name="Gender" @(Model.Gender == false ? "checked" : "")> Nữ
                                             </span>
-                                        </div> <br>
-                                        <div class="default-form-box mb-20">
-                                            <label>Họ tên</label>
-                                            <input type="text" name="first-name">
                                         </div>
+                                        <br>
                                         <div class="default-form-box mb-20">
                                             <label>Tên hiển thị</label>
-                                            <input type="text" name="first-name">
+                                            <input type="text" name="DisplayName" value="@Model.DisplayName">
+                                        </div>
+                                        <div class="default-form-box mb-20">
+                                            <label>Họ tên</label>
+                                            <input type="text" name="FullName" value="@Model.FullName">
                                         </div>
                                         <div class="default-form-box mb-20">
                                             <label>Email</label>
-                                            <input type="text" name="email-name">
+                                            <input type="email" name="Email" value="@Model.Email">
                                         </div>
                                         <div class="default-form-box mb-20">
                                             <label>Số điện thoại</label>
-                                            <input type="text" name="phone">
+                                            <input type="text" name="PhoneNumber" value="@Model.Phone">
                                         </div>
                                         <div class="default-form-box mb-20">
-                                            <label>Birthdate</label>
-                                            <input type="date" name="birthday">
+                                            <label>Địa chỉ</label>
+                                            <input type="text" name="PhoneNumber" value="@Model.Address">
+                                        </div>
+                                        <div class="default-form-box mb-20">
+                                            <label>Ngày sinh</label>
+                                            <input type="date" name="BirthDate" value="@(Model.Dob.HasValue ? Model.Dob.Value.ToString("yyyy-MM-dd") : "")" />
                                         </div>
                                         <br>
                                         <div class="save_button mt-3">
-                                            <button class="btn btn-md btn-black-default-hover"
-                                                    type="submit">
+                                            <button class="btn btn-md btn-black-default-hover" type="submit">
                                                 Lưu thay đổi
                                             </button>
                                         </div>
@@ -105,4 +112,5 @@
             </div>
         </div>
     </div>
-</div> <!-- ...:::: End Account Dashboard Section:::... -->
+</div>
+<!-- ...:::: End Account Dashboard Section:::... -->

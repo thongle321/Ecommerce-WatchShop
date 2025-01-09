@@ -1,8 +1,10 @@
 using Ecommerce_WatchShop.Models;
 using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Ecommerce_WatchShop.Controllers;
 
@@ -16,11 +18,20 @@ public class AccountController : Controller
         _context = context;
     }
 
-
-    public IActionResult AccountDetails()
+    public async Task<IActionResult> Index()
     {
         ViewBag.Title = "Thông tin cá nhân";
-        return View();
+
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "AccountId");
+        if (customerIdClaim == null) return RedirectToAction("Index", "Home");
+
+        int customerId = int.Parse(customerIdClaim.Value);
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == customerId);
+
+        if (customer == null) return NotFound();
+
+        return View(customer);
+
     }
 
     public IActionResult Order()
@@ -31,7 +42,6 @@ public class AccountController : Controller
     public IActionResult Favorite()
     {
         int customerId = 2;
-
         var favoriteProducts = _context.Favorites
             .Include(f => f.Product)
             .Where(f => f.CustomerId == customerId)

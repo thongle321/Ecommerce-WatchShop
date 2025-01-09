@@ -142,23 +142,23 @@
                                         <i class="icon-magnifier"></i>
                                     </a>
                                 </li>
-                                <li>
-
-                                    @if(User.Identity.IsAuthenticated)
-                                    {
-                                        <a asp-controller="Account" asp-action="AccountDetails">
+                                @if(User.Identity?.IsAuthenticated ?? false)
+                                {
+                                    <li>
+                                        <a asp-controller="Account" asp-action="Index">
 
                                             <i class="icon-user"></i>
                                         </a>
-                                    }
-                                    else
-                                    {
+                                    </li>
+                                }
+                                else {
+                                    <li>
                                         <a data-bs-toggle="modal" data-bs-target="#loginModal">
 
-                                            <i class="icon-user"></i>
+                                            <i class="icon-login"></i>
                                         </a>
-                                    }
-                                </li>
+                                    </li>
+                                }
                                 <li>
                                     <a asp-controller="Account" asp-action="Favorite">
                                         <i class="icon-heart"></i>
