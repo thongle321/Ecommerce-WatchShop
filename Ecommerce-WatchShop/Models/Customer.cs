@@ -17,7 +17,8 @@ public partial class Customer
     public string? Address { get; set; }
     [Column(TypeName = "varchar(100)")]
     public string? Email { get; set; }
-
+    [Column(TypeName = "varchar(200)")]
+    public string? DisplayName { get; set; }
     public DateOnly? Dob { get; set; }
 
     public bool? Gender { get; set; }

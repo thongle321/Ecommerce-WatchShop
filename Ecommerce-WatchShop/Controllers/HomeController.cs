@@ -94,6 +94,7 @@ public class HomeController : Controller
         var customer = new Customer
         {
             AccountId = account.AccountId,
+            DisplayName = account.Username
         };
 
         _context.Customers.Add(customer);
@@ -131,8 +132,7 @@ public class HomeController : Controller
 
         var claims = new List<Claim>
         {
-        new Claim(ClaimTypes.Name, account.Username),
-        new Claim(ClaimTypes.Role, "User")
+            new Claim("AccountId", account.AccountId.ToString())
         };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -142,7 +142,6 @@ public class HomeController : Controller
         };
 
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-
         return RedirectToAction("Index", "Home");
     }
     public IActionResult Privacy()
@@ -151,8 +150,16 @@ public class HomeController : Controller
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error(int statuscode)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        if (statuscode == 404)
+        {
+            return View("404");
+        }
+        else
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
+        }
     }
 }
