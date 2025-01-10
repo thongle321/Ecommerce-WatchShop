@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form asp-action="Login" method="post">
+                <form id="loginForm" asp-controller="Home" asp-action="Login">
                     @Html.AntiForgeryToken()
                     <div class="default-form-box">
                         <label asp-for="Username">Tên đăng nhập <span>*</span></label>
@@ -23,8 +23,8 @@
                     </div>
                     <div class="login_submit d-flex justify-content-between align-items-center">
                         <div>
-                            <label class="checkbox-default mb-4" for="offer">
-                                <input type="checkbox" id="offer">
+                            <label class="checkbox-default mb-4" asp-for="RememberMe">
+                                <input type="checkbox" asp-for="RememberMe" name="RememberMe">
                                 <span>Ghi nhớ tài khoản</span>
                             </label>
                         </div>

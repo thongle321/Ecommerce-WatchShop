@@ -117,8 +117,6 @@ public class HomeController : Controller
 
         if (account == null)
         {
-            //ModelState.AddModelError(string.Empty, "Tài khoản không tồn tại");
-            //return PartialView("_LoginPartial", loginVM);
 
         }
 
@@ -126,24 +124,31 @@ public class HomeController : Controller
 
         if (!result)
         {
-            //ModelState.AddModelError(string.Empty, "Tài khoản hoặc mật khẩu không đúng");
-            //return PartialView("_LoginPartial", loginVM);
         }
 
+        //Tạo claim cho người dùng
         var claims = new List<Claim>
         {
-            new Claim("AccountId", account.AccountId.ToString())
+            new Claim("AccountId", account.AccountId.ToString()),
+            new Claim(ClaimTypes.Role, account.RoleId.ToString()) 
         };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
         var authProperties = new AuthenticationProperties
         {
-            IsPersistent = true
+            IsPersistent = loginVM.RememberMe, //Lưu trữ trạng thái đăng nhập với sesssion cookie
+            ExpiresUtc = DateTime.Now.AddDays(5),
+
         };
 
+        // Đăng nhập và lưu cookie
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
         return RedirectToAction("Index", "Home");
     }
+
+
     public IActionResult Privacy()
     {
         return View();
