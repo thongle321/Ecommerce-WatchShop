@@ -1,4 +1,4 @@
-using Ecommerce_WatchShop.Abstractions;
+﻿using Ecommerce_WatchShop.Abstractions;
 using Ecommerce_WatchShop.Helper;
 using Ecommerce_WatchShop.Models;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +12,12 @@ builder.Services.AddDbContext<DongHoContext>(options => options.UseSqlServer(bui
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(60); // Thời gian sống của session
+    options.Cookie.HttpOnly = true; // Chỉ sử dụng session qua HTTP
+    options.Cookie.IsEssential = true; // Bắt buộc session hoạt động
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,7 +27,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseRouting();
 

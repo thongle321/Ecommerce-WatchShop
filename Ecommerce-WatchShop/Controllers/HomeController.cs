@@ -132,7 +132,8 @@ public class HomeController : Controller
         var claims = new List<Claim>
         {
         new Claim(ClaimTypes.Name, account.Username),
-        new Claim(ClaimTypes.Role, "User")
+        new Claim(ClaimTypes.Role, "User"),
+        new Claim("CustomerId", account.AccountId.ToString())
         };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -142,6 +143,8 @@ public class HomeController : Controller
         };
 
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+        
+        HttpContext.Session.SetInt32("CustomerId", account.AccountId);
 
         return RedirectToAction("Index", "Home");
     }

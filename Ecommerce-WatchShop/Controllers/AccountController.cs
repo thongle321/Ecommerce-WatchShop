@@ -17,10 +17,20 @@ public class AccountController : Controller
     }
 
 
-    public IActionResult AccountDetails()
+    public async Task<IActionResult> AccountDetails()
     {
         ViewBag.Title = "Thông tin cá nhân";
-        return View();
+      
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
+        if (customerIdClaim == null) return RedirectToAction("Index", "Home");
+
+        int customerId = int.Parse(customerIdClaim.Value);
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == customerId);
+
+        if (customer == null) return NotFound();
+
+        return View(customer);
+
     }
 
     public IActionResult Order()
@@ -30,7 +40,7 @@ public class AccountController : Controller
     }
     public IActionResult Favorite()
     {
-        int customerId = 2;
+        int? customerId = HttpContext.Session.GetInt32("CustomerId");
 
         var favoriteProducts = _context.Favorites
             .Include(f => f.Product)
@@ -49,7 +59,7 @@ public class AccountController : Controller
     public JsonResult AddToWishlist(int productId)
     {
         // Lấy CustomerId từ session hoặc auth system (nếu đã triển khai)
-        int customerId = 2; // Ví dụ: ID người dùng hiện tại
+        int? customerId = HttpContext.Session.GetInt32("CustomerId");
 
         // Kiểm tra sản phẩm đã tồn tại trong danh sách yêu thích chưa
         var existingWishlist = _context.Favorites
@@ -76,4 +86,5 @@ public class AccountController : Controller
         HttpContext.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
+   
 }
