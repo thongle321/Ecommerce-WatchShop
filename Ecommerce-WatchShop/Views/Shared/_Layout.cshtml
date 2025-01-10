@@ -363,7 +363,8 @@
     <div class="offcanvas-overlay"></div>
 
     @RenderBody()
-    <!-- Start Footer Section -->
+    @await Component.InvokeAsync("Footer")
+@*     <!-- Start Footer Section -->
     <footer class="footer-section footer-bg section-top-gap-100">
         <div class="footer-wrapper">
             <!-- Start Footer Top -->
@@ -474,7 +475,7 @@
             <!-- Start Footer Bottom -->
         </div>
     </footer>
-    <!-- End Footer Section -->
+    <!-- End Footer Section --> *@
     <!-- material-scrolltop button -->
     <button class="material-scrolltop" type="button"></button>
 
