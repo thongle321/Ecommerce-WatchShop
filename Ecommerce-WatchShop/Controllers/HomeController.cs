@@ -129,8 +129,7 @@ public class HomeController : Controller
         //Tạo claim cho người dùng
         var claims = new List<Claim>
         {
-            new Claim("AccountId", account.AccountId.ToString()),
-            new Claim(ClaimTypes.Role, account.RoleId.ToString()) 
+
         };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -144,6 +143,8 @@ public class HomeController : Controller
 
         // Đăng nhập và lưu cookie
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+        
+        HttpContext.Session.SetInt32("CustomerId", account.AccountId);
 
         return RedirectToAction("Index", "Home");
     }
