@@ -1,5 +1,8 @@
-﻿using System.Runtime.InteropServices;
-
+﻿using Ecommerce_WatchShop.Abstractions;
+using Ecommerce_WatchShop.Helper;
+using Ecommerce_WatchShop.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
