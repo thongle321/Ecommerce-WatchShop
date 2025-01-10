@@ -33,7 +33,7 @@ public class AccountController : Controller
     }
     public IActionResult Favorite()
     {
-
+        int? customerId = HttpContext.Session.GetInt32("CustomerId");
         var favoriteProducts = _context.Favorites
             .Include(f => f.Product)
             .Where(f => f.CustomerId == customerId)
