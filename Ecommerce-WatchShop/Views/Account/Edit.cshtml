@@ -1,7 +1,7 @@
-﻿@model Ecommerce_WatchShop.Models.Customer
+﻿@model Ecommerce_WatchShop.Models.ViewModels.CustomerVM
 @{
-    ViewData["Title"] = "Thông tin tài khoản"; 
-} 
+    ViewData["Title"] = "Thông tin tài khoản";
+}
 
 <!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
@@ -14,7 +14,7 @@
                         <nav aria-label="breadcrumb">
                             <ul>
                                 <li><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
-                                <li class="active" aria-current="page">Thông tin cá nhân</li>
+                                <li class="active" aria-current="page">Cập nhật thông tin</li>
                             </ul>
                         </nav>
                     </div>
@@ -59,47 +59,56 @@
                         <div class="login">
                             <div class="login_form_container">
                                 <div class="account_login_form">
-                                    <form asp-action="" method="post">
+                                    <form asp-action="Edit" method="post">
                                         <div class="default-form-box input-radio">
                                             <label>Giới tính</label>
                                             <br />
                                             <span class="custom-radio">
-                                                <input type="radio" value="1"
-                                                       name="Gender" @(Model.Gender == true ? "checked" : "") readonly> Nam
+                                                <input type="radio" value="true" asp-for="Gender" > Nam
                                             </span>
                                             <span class="custom-radio">
-                                                <input type="radio" value="2"
-                                                       name="Gender" @(Model.Gender == false ? "checked" : "") readonly> Nữ
+                                                <input type="radio" value="false" asp-for="Gender" > Nữ
                                             </span>
                                         </div>
                                         <br>
                                         <div class="default-form-box mb-20">
-                                            <label>Tên hiển thị</label>
-                                            <input type="text" value="@Model.DisplayName" readonly>
+                                            <label asp-for="DisplayName">Tên hiển thị</label>
+                                            <input type="text" asp-for="DisplayName" value="@Model.DisplayName">
+                                            <span asp-validation-for="DisplayName" class="text-danger"></span>
                                         </div>
                                         <div class="default-form-box mb-20">
-                                            <label>Họ tên</label>
-                                            <input type="text" value="@Model.FullName" readonly>
+                                            <label asp-for="FullName">Họ tên</label>
+                                            <input type="text" asp-for="FullName" value="@Model.FullName">
+                                            <span asp-validation-for="FullName" class="text-danger"></span>
                                         </div>
                                         <div class="default-form-box mb-20">
-                                            <label>Email</label>
-                                            <input type="email" value="@Model.Email" readonly>
+                                            <label asp-for="Email">Email</label>
+                                            <input type="email" asp-for="Email" value="@Model.Email">
+                                            <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
                                         <div class="default-form-box mb-20">
-                                            <label>Số điện thoại</label>
-                                            <input type="text"  value="@Model.Phone" readonly>
+                                            <label asp-for="Phone">Số điện thoại</label>
+                                            <input type="text" asp-for="Phone" value="@Model.Phone">
+                                            <span asp-validation-for="Phone" class="text-danger"></span>
                                         </div>
                                         <div class="default-form-box mb-20">
-                                            <label>Địa chỉ</label>
-                                            <input type="text" value="@Model.Address" readonly>
+                                            <label asp-for="Address">Địa chỉ</label>
+                                            <input type="text" asp-for="Address" value="@Model.Address">
+                                            <span asp-validation-for="Address" class="text-danger"></span>
                                         </div>
                                         <div class="default-form-box mb-20">
-                                            <label>Ngày sinh</label>
-                                            <input type="date" value="@(Model.Dob.HasValue ? Model.Dob.Value.ToString("yyyy-MM-dd") : "")" readonly/>
+                                            <label asp-for="Dob">Ngày sinh</label>
+                                            <input type="date" asp-for="Dob" value="@(Model.Dob.HasValue ? Model.Dob.Value.ToString("yyyy-MM-dd") : "")" />
+                                            <span asp-validation-for="Dob" class="text-danger"></span>
                                         </div>
                                         <br>
                                         <div class="save_button mt-3">
-                                            <a asp-action="Edit" class="btn btn-warning">Cập nhật thông tin</a>
+                                            <button class="btn btn-md btn-black-default-hover" type="submit">
+                                                Lưu thay đổi
+                                            </button>
+                                            <button class="btn btn-md btn-black-default-hover" asp-controller="Account" asp-action="Index">
+                                                Quay lại
+                                            </button>
                                         </div>
                                     </form>
                                 </div>

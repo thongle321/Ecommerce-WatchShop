@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Ecommerce_WatchShop.Abstractions;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 
 namespace Ecommerce_WatchShop.Controllers;
@@ -117,19 +118,23 @@ public class HomeController : Controller
 
         if (account == null)
         {
+            ModelState.AddModelError("Username", "Tài khoản không tồn tại");
+            return PartialView("_LoginPartial", loginVM);
 
         }
 
-        var result = _passwordHasher.Verify(account.Password, loginVM.Password);
+        //var result = _passwordHasher.Verify(account.Password, loginVM.Password);
 
-        if (!result)
+        if (account.Password != loginVM.Password)
         {
+            ModelState.AddModelError("Username", "Tài khoản hoặc mật khẩu bị sai");
+            return PartialView("_LoginPartial", loginVM);
         }
 
         //Tạo claim cho người dùng
         var claims = new List<Claim>
         {
-
+            new Claim("AccountId", account.AccountId.ToString())
         };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -143,7 +148,7 @@ public class HomeController : Controller
 
         // Đăng nhập và lưu cookie
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-        
+
         HttpContext.Session.SetInt32("CustomerId", account.AccountId);
 
         return RedirectToAction("Index", "Home");

@@ -20,11 +20,74 @@ public class AccountController : Controller
     }
 
 
-    public IActionResult AccountDetails()
+    public async Task<IActionResult> Index()
     {
-        ViewBag.Title = "Thông tin cá nhân";
-        return View();
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "AccountId");
+        if (customerIdClaim == null) return RedirectToAction("Index", "Home");
+
+        int customerId = int.Parse(customerIdClaim.Value);
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == customerId);
+
+        if (customer == null) return NotFound();
+        return View(customer);
     }
+    public async Task<IActionResult> Edit()
+    {
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "AccountId");
+        if (customerIdClaim == null) return RedirectToAction("Index", "Home");
+
+        int customerId = int.Parse(customerIdClaim.Value);
+
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == customerId);
+
+        if (customer == null) return NotFound();
+
+        // Tạo CustomerVM và truyền dữ liệu vào từ khách hàng
+        var customerVM = new CustomerVM
+        {
+            FullName = customer.FullName,
+            Phone = customer.Phone,
+            Address = customer.Address,
+            Email = customer.Email,
+            DisplayName = customer.DisplayName,
+            Dob = customer.Dob,
+            Gender = customer.Gender
+        };
+
+        return View(customerVM);
+    }
+    [HttpPost]
+    public async Task<IActionResult> Edit(CustomerVM customerVM)
+    {
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "AccountId");
+        if (customerIdClaim == null) return RedirectToAction("Index", "Home");
+
+        int customerId = int.Parse(customerIdClaim.Value);
+
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == customerId);
+
+        if (customer == null) return NotFound();
+
+        if (!ModelState.IsValid)
+        {
+            // Nếu ModelState không hợp lệ, trả về lại form để hiển thị lỗi
+            return View(customerVM);
+        }
+
+        customer.FullName = customerVM.FullName;
+        customer.Phone = customerVM.Phone;
+        customer.Address = customerVM.Address;
+        customer.Email = customerVM.Email;
+        customer.DisplayName = customerVM.DisplayName;
+        customer.Dob = customerVM.Dob;
+        customer.Gender = customerVM.Gender;
+
+        _context.Update(customer);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("Index", "Account");
+    }
+
 
     public IActionResult Order()
     {
