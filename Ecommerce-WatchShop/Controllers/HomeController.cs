@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Ecommerce_WatchShop.Abstractions;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 
 namespace Ecommerce_WatchShop.Controllers;
@@ -66,7 +67,7 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegisterVM registerVM)
     {
-        var passwordHash = _passwordHasher.Hash(registerVM.Password);
+        //var passwordHash = _passwordHasher.Hash(registerVM.Password);
 
         if (!ModelState.IsValid)
         {
@@ -84,7 +85,7 @@ public class HomeController : Controller
         var account = new Account
         {
             Username = registerVM.Username,
-            Password = passwordHash,
+            Password = registerVM.Password,
             RoleId = 1,
         };
 
@@ -117,19 +118,28 @@ public class HomeController : Controller
 
         if (account == null)
         {
+            ModelState.AddModelError("Username", "Tài khoản không tồn tại");
+            return PartialView("_LoginPartial", loginVM);
 
         }
 
-        var result = _passwordHasher.Verify(account.Password, loginVM.Password);
+        //var result = _passwordHasher.Verify(account.Password, loginVM.Password);
 
-        if (!result)
+        if (account.Password != loginVM.Password)
         {
+            ModelState.AddModelError("Username", "Tài khoản hoặc mật khẩu bị sai");
+            return PartialView("_LoginPartial", loginVM);
+        }
+        if (account.RoleId == 2) 
+        {
+            ModelState.AddModelError("Username", "Không có quyền truy cập");
+            return PartialView("_LoginPartial", loginVM);
         }
 
         //Tạo claim cho người dùng
         var claims = new List<Claim>
         {
-
+            new Claim("AccountId", account.AccountId.ToString())
         };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -143,7 +153,7 @@ public class HomeController : Controller
 
         // Đăng nhập và lưu cookie
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-        
+
         HttpContext.Session.SetInt32("CustomerId", account.AccountId);
 
         return RedirectToAction("Index", "Home");

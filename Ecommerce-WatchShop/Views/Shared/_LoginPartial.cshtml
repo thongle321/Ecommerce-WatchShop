@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="loginForm" asp-controller="Home" asp-action="Login">
+                <form id="loginForm" asp-controller="Home" asp-action="Login" method="post">
                     @Html.AntiForgeryToken()
                     <div class="default-form-box">
                         <label asp-for="Username">Tên đăng nhập <span>*</span></label>
