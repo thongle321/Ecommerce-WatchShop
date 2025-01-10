@@ -5,6 +5,36 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Ecommerce_WatchShop</RootNamespace>
+        <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Areas\Admin\Data\" />
+      <Folder Include="Areas\Admin\Models\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\assets\css\.DS_Store" />
+      <None Include="wwwroot\assets\images\.DS_Store" />
+      <None Include="wwwroot\assets\images\users\.DS_Store" />
+      <None Include="wwwroot\assets\js\.DS_Store" />
+      <None Include="wwwroot\assets\scss\.DS_Store" />
+      <None Include="wwwroot\assets\scss\app\.DS_Store" />
+      <None Include="wwwroot\assets\scss\bootstrap\.DS_Store" />
+      <None Include="wwwroot\assets\scss\bootstrap\scss\.DS_Store" />
+      <None Include="wwwroot\assets\scss\bootstrap\scss\tests\.DS_Store" />
+    </ItemGroup>
+
+    <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/architectfx.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

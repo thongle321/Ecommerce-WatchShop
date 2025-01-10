@@ -1,3 +1,6 @@
+@{
+    ViewData["Title"] = "Đơn hàng";
+}
 <!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
     <div class="breadcrumb-wrapper">
@@ -8,7 +11,7 @@
                     <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
                         <nav aria-label="breadcrumb">
                             <ul>
-                                <li><a href="index.html">Trang Chủ</a></li>
+                                <li><a asp-controller="Home" asp-action="index">Trang Chủ</a></li>
                                 <li class="active" aria-current="page">@ViewBag.Title</li>
                             </ul>
                         </nav>

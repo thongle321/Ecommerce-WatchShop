@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Quản lý nhà cung cấp";
+}
+<div class="container-xl">
+    <div class="row g-3 mb-4 align-items-center justify-content-between">
+        <div class="col-auto">
+            <h1 class="app-page-title mb-0">Nhà cung cấp</h1>
+        </div>
+        <div class="col-auto">
+            <div class="page-utilities">
+                <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                    <div class="col-auto">
+                        <form class="table-search-form row gx-1 align-items-center">
+                            <div class="col-auto">
+                                <input type="text" id="search-suppliers" name="searchsuppliers" class="form-control search-orders" placeholder="Tìm kiếm">
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn app-btn-secondary">Tìm kiếm</button>
+                            </div>
+                        </form>
+                    </div><!--//row-->
+                </div><!--//table-utilities-->
+            </div><!--//col-auto-->
+        </div><!--//row-->
+    </div>
+    <a href="#" class="btn btn-secondary mb-4">
+        <span><i class="bi bi-plus" style="margin-right: 5px"></i>Thêm</span>
+    </a>
+    <div>
+        <div class="tab-content" id="suppliers-table-tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="app-card-body">
+                        <div class="table-responsive">
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                    <tr>
+                                        <th class="cell">Id</th>
+                                        <th class="cell">Tên</th>
+                                        <th class="cell">Email</th>
+                                        <th class="cell">Phone</th>
+                                        <th class="cell">Địa chỉ</th>
+                                        <th class="cell">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="cell">1</td>
+                                        <td class="cell">Công ty Đồng Hồ ABC</td>
+                                        <td class="cell">contact@abcwatches.com</td>
+                                        <td class="cell">0901234567</td>
+                                        <td class="cell">123 Đường A, TP. Hồ Chí Minh</td>
+                                        <td class="cell">
+                                            <a class="btn" href="#"><i class="bi bi-pencil-square" style="font-size: 1.2rem"></i></a>
+                                            <a class="btn" href="#"><i class="bi bi-trash" style="font-size: 1.2rem"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell">2</td>
+                                        <td class="cell">Công ty Đồng Hồ XYZ</td>
+                                        <td class="cell">sales@xyzwatches.com</td>
+                                        <td class="cell">0912345678</td>
+                                        <td class="cell">456 Đường B, Hà Nội</td>
+                                        <td class="cell">
+                                            <a class="btn" href="#"><i class="bi bi-pencil-square" style="font-size: 1.2rem"></i></a>
+                                            <a class="btn" href="#"><i class="bi bi-trash" style="font-size: 1.2rem"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell">3</td>
+                                        <td class="cell">Công ty Đồng Hồ DEF</td>
+                                        <td class="cell">info@defwatches.com</td>
+                                        <td class="cell">0923456789</td>
+                                        <td class="cell">789 Đường C, Đà Nẵng</td>
+                                        <td class="cell">
+                                            <a class="btn" href="#"><i class="bi bi-pencil-square" style="font-size: 1.2rem"></i></a>
+                                            <a class="btn" href="#"><i class="bi bi-trash" style="font-size: 1.2rem"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cell">4</td>
+                                        <td class="cell">Công ty Đồng Hồ GHI</td>
+                                        <td class="cell">support@ghiwatches.com</td>
+                                        <td class="cell">0934567890</td>
+                                        <td class="cell">101 Đường D, Cần Thơ</td>
+                                        <td class="cell">
+                                            <a class="btn" href="#"><i class="bi bi-pencil-square" style="font-size: 1.2rem"></i></a>
+                                            <a class="btn" href="#"><i class="bi bi-trash" style="font-size: 1.2rem"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!--//table-responsive-->
+                    </div><!--//app-card-body-->
+                </div><!--//app-card-->
+            </div><!--//tab-pane-->
+        </div><!--//container-fluid-->
+    </div>
+</div>
