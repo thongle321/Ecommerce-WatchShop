@@ -1,5 +1,33 @@
-﻿@{
+﻿@model Ecommerce_WatchShop.Models.ViewModels.ProductDetailVM
+@{
     ViewData["Title"] = "Chi tiết sản phẩm";
+}
+@section scripts
+{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).on('click', '.add-to-wishlist', function (e) {
+            e.preventDefault();
+
+            var productId = $(this).data('id'); // Lấy ID sản phẩm
+
+            $.ajax({
+                url: '/Account/AddToWishlist', // Đường dẫn tới action
+                type: 'POST',
+                data: { productId: productId },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message); // Thông báo thành công
+                    } else {
+                        alert(response.message); // Thông báo lỗi
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi thêm vào danh sách yêu thích.');
+                }
+            });
+        });
+    </script>
 }
 <!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
@@ -12,8 +40,8 @@
                         <nav aria-label="breadcrumb">
                             <ul>
                                 <li><a asp-controller="home" asp-action="index">Trang chủ</a></li>
-                                <li><a href="shop-grid-sidebar-left.html">Sản phẩm</a></li>
-                                <li class="active" aria-current="page">Đồng hồ Curnon Kashmir</li>
+                                <li><a asp-controller="product" action="product">Sản phẩm</a></li>
+                                <li class="active" aria-current="page">@Model.Product.ProductName</li>
                             </ul>
                         </nav>
                     </div>
@@ -32,10 +60,8 @@
                     <div class="product-large-image product-large-image-horaizontal swiper-container">
                         <div class="swiper-wrapper">
                             <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
-                                <img src="~/images/Curnon Kashmir.png" alt="">
-                            </div>
-                            <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
-                                <img src="~/Images/Curnon_Kashmir_Silver___Abyss-removebg-preview.jpg" alt="">
+                                <img src="~/images/@Model.Product.Image" alt="" />
+
                             </div>
                         </div>
                     </div>
@@ -43,14 +69,12 @@
                     <!-- Start Thumbnail Image -->
                     <div class="product-image-thumb product-image-thumb-horizontal swiper-container pos-relative mt-5">
                         <div class="swiper-wrapper">
-                            <div class="product-image-thumb-single swiper-slide">
-                                <img class="img-fluid" src="~/Images/Curnon Kashmir.png"
-                                     alt="">
-                            </div>
-                            <div class="product-image-thumb-single swiper-slide">
-                                <img class="img-fluid" src="~/Images/Curnon_Kashmir_Silver___Abyss-removebg-preview.jpg"
-                                     alt="">
-                            </div>
+                            @foreach (var img in Model.Product.ProductImages)
+                            {
+                                <div class="product-image-thumb-single swiper-slide">
+                                    <img class="img-fluid" src="~/images/@img.Image" alt="">
+                                </div>
+                            }
                         </div>
                         <!-- Add Arrows -->
                         <div class="gallery-thumb-arrow swiper-button-next"></div>
@@ -64,22 +88,51 @@
                      data-aos-delay="200">
                     <!-- Start  Product Details Text Area-->
                     <div class="product-details-text">
-                        <h4 class="title">Đồng hồ Curnon Kashmir</h4>
+                        <h4 class="title">@Model.Product.ProductName</h4>
                         <div class="d-flex align-items-center">
                             <ul class="review-star">
-                                <li class="fill"><i class="ion-android-star"></i></li>
-                                <li class="fill"><i class="ion-android-star"></i></li>
-                                <li class="fill"><i class="ion-android-star"></i></li>
-                                <li class="fill"><i class="ion-android-star"></i></li>
-                                <li class="empty"><i class="ion-android-star"></i></li>
+                                @{
+                                    bool hasHalfStar = (Model.ProductRating - (int)Model.ProductRating) >= 0.4;
+
+                                }
+                                @if(Model.ProductRating==0)
+                                {
+                                    for(int i=1;i<=5;i++)
+                                    {
+                                        <li class="fill"><i class="ion-android-star"></i></li>
+                                    }
+                                }
+                                else
+                                {
+                                    @for (int i = 1; i <= (int)Model.ProductRating; i++)
+                                    {
+                                        <li class="fill"><i class="ion-android-star"></i></li>
+                                    }
+
+                                    {
+                                        if ((int)Model.ProductRating < 5)
+                                        {
+                                            if (hasHalfStar)
+                                            {
+                                                <li class="half" style="color: #b19361"><i class="ion-android-star-half"></i></li>
+                                            }
+                                            else
+                                            {
+                                                <li class="empty"><i class="ion-android-star"></i></li>
+                                            }
+                                        }
+                                    }
+                                }
+                              
                             </ul>
                             <a href="#" class="customer-review ml-2">1 lượt xem</a>
-                            <a href="#" class="customer-review ml-2">( 1 đánh giá )</a>
+                            <a href="#" class="customer-review ml-2">(@Model.TotalRating)</a>
                         </div>
-                        <div class="price">2.159.000₫</div>
-                        <p>
-                            Curnon là thương hiệu Đồng hồ thời trang đầu tiên của Việt Nam, được hình thành và phát triển bởi đội ngũ những con người Việt Nam, mang theo cảm hứng và sự khát khao của tuổi trẻ. Chúng tôi tạo ra những sản phẩm phụ kiện không thể thiếu, với thiết kế hiện đại và mức giá không thể hợp lý hơn.
-                        </p>
+                        <div class="price">
+                            @Model.Product.Price VNĐ
+                        </div>
+
+                        <p>@Model.Product.ShortDescription </p>
                     </div> <!-- End  Product Details Text Area-->
                     <!-- Start Product Variable Area -->
                     <div class="product-details-variable">
@@ -88,8 +141,15 @@
                         <div class="variable-single-item">
                             <div class="product-stock">
                                 <span class="product-stock-in">
-
-                                </span> Còn hàng
+                                    @if (Convert.ToInt32(Model.Product.Quantity) == 0)
+                                    {
+                                        <span style="color: red;">Hết hàng</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color: green;">Còn hàng(@Model.Product.Quantity)</span>
+                                    }
+                                </span>
                             </div>
                         </div>
                         <!-- Product Variable Single Item -->
@@ -108,8 +168,8 @@
                         </div>
                         <!-- Start  Product Details Meta Area-->
                         <div class="product-details-meta mb-20">
-                            <a href="wishlist.html" class="icon-space-right">
-                                <i class="icon-heart"></i>Thêm vào yêu thích
+                            <a href="javascript:void(0)" class="icon-space-right add-to-wishlist" data-id="@Model.Product.ProductId">
+                                <i class="icon-heart"></i> Thêm vào yêu thích
                             </a>
                         </div> <!-- End  Product Details Meta Area-->
                     </div> <!-- End Product Variable Area -->
@@ -169,46 +229,13 @@
                             <!-- Start Product Details Tab Content Singel -->
                             <div class="tab-pane active show" id="description">
                                 <div class="single-tab-content-item">
-                                    <p>
-                                        Đồng hồ nam Curnon Kashmir Classic có thiết kế tối giản, mang phong cách trẻ trung; Dây da, có kim rốn, Mặt kính Sapphire chống trầy xước, Chống nước 3ATM…
-                                    </p>
+                                    <p>@Model.Product.Description</p>
                                 </div>
                             </div> <!-- End Product Details Tab Content Singel -->
                             <!-- Start Product Details Tab Content Singel -->
                             <div class="tab-pane" id="specification">
                                 <div class="single-tab-content-item">
-                                    <table class="table table-bordered mb-20">
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">Kích thước mặt</th>
-                                                <td>40mm</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">Độ dày</th>
-                                                <td>7mm</td>
-                                            <tr>
-                                                <th scope="row">Loại may</th>
-                                                <td>MIYOTA QUARTZ</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">Kích cỡ dây</th>
-                                                <td>20mm</td>
-                                            <tr>
-                                                <th scope="row">Màu mặt</th>
-                                                <td>White</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">Chống nước</th>
-                                                <td>3ATM</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">Mặt kính</th>
-                                                <td>Sapphire</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-
+                                    <p>@Model.Product.Specification</p>
                                 </div>
                             </div> <!-- End Product Details Tab Content Singel -->
                             <!-- Start Product Details Tab Content Singel -->

@@ -7,8 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form asp-action="Register" method="POST">
-                    <div id="errorMessages" class="text-danger"></div> <!-- Khu vực hiển thị lỗi -->
+                <form asp-action="Register" method="post">
                     <div class="default-form-box">
                         <label asp-for="Username">Tên đăng nhập <span>*</span></label>
                         <input asp-for="Username" class="form-control" type="text" required>
@@ -29,7 +28,7 @@
                
                     <button class="btn btn-block btn-black-default-hover mb-4" type="submit">Đăng ký</button>
                     <div class="d-flex justify-content-center">
-                        <a href="#" class=""><strong> Có tài khoản? Đăng Nhập</strong></a>
+                        <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal"><strong> Có tài khoản? Đăng Nhập</strong></a>
                     </div>
                 </form>
             </div>
