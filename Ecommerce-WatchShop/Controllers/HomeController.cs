@@ -67,7 +67,7 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegisterVM registerVM)
     {
-        var passwordHash = _passwordHasher.Hash(registerVM.Password);
+        //var passwordHash = _passwordHasher.Hash(registerVM.Password);
 
         if (!ModelState.IsValid)
         {
@@ -85,7 +85,7 @@ public class HomeController : Controller
         var account = new Account
         {
             Username = registerVM.Username,
-            Password = passwordHash,
+            Password = registerVM.Password,
             RoleId = 1,
         };
 
@@ -128,6 +128,11 @@ public class HomeController : Controller
         if (account.Password != loginVM.Password)
         {
             ModelState.AddModelError("Username", "Tài khoản hoặc mật khẩu bị sai");
+            return PartialView("_LoginPartial", loginVM);
+        }
+        if (account.RoleId == 2) 
+        {
+            ModelState.AddModelError("Username", "Không có quyền truy cập");
             return PartialView("_LoginPartial", loginVM);
         }
 

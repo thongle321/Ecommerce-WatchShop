@@ -60,6 +60,7 @@
                             <div class="login_form_container">
                                 <div class="account_login_form">
                                     <form asp-action="Edit" method="post">
+                                        @Html.AntiForgeryToken()
                                         <div class="default-form-box input-radio">
                                             <label>Giới tính</label>
                                             <br />

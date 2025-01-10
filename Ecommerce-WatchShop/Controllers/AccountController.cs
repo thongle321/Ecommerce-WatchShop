@@ -57,6 +57,7 @@ public class AccountController : Controller
         return View(customerVM);
     }
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(CustomerVM customerVM)
     {
         var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "AccountId");
