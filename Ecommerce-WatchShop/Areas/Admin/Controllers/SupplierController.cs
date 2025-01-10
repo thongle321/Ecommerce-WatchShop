@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DongHo_Admin.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Policy = "Admin")]
     public class SupplierController : Controller
     {
-        [Area("Admin")]
 
         public IActionResult Index()
         {

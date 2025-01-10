@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce_WatchShop.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Policy = "Admin")]
     public class ContactController : Controller
     {
-        [Area("Admin")]
 
         public IActionResult Index()
         {

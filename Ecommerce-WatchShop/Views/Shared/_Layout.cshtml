@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="~/assets/css/vendor/vendor.min.css">
     <link rel="stylesheet" href="~/assets/css/plugins/plugins.min.css">
     <link rel="stylesheet" href="~/assets/css/style.min.css">
+    <link href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.min.css " rel="stylesheet">
+
 </head>
 <body>
     <!-- Start Header Area -->
@@ -69,12 +71,12 @@
                                                         <a href="#" class="mega-menu-item-title">Đồng hồ nam</a>
                                                         <ul class="mega-menu-sub">
                                                             <li>
-                                                                <a href="shop-grid-sidebar-left.html">
+                                                                <a href="#">
                                                                     Đồng hồ nam Rolex
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="shop-grid-sidebar-right.html">
+                                                                <a href="#">
                                                                     Đồng hồ nam Hublot
                                                                 </a>
                                                             </li>
@@ -123,13 +125,13 @@
                                             <a asp-controller="Product" asp-action="Product">Sản Phẩm</a>
                                         </li>
                                         <li>
-                                            <a asp-action="Introduction">Giới Thiệu</a>
+                                            <a asp-controller="Home" asp-action="Introduction">Giới Thiệu</a>
                                         </li>
                                         <li>
                                             <a asp-controller="Blog" asp-action="Index">Blog</a>
                                         </li>
                                         <li>
-                                            <a asp-action="Contact">Liên Hệ</a>
+                                            <a asp-controller="Home" asp-action="Contact">Liên Hệ</a>
                                         </li>
                                     </ul>
                                 </nav>
@@ -160,15 +162,8 @@
                                     </li>
                                 }
                                 <li>
-                                    <a asp-controller="Account" asp-action="Favorite">
-                                        <i class="icon-heart"></i>
-                                        <span class="item-count">3</span>
-                                    </a>
-                                </li>
-                                <li>
                                     <a asp-controller="cart" asp-action="cart">
                                         <i class="icon-bag"></i>
-                                        <span class="item-count">3</span>
                                     </a>
                                 </li>
 
@@ -502,6 +497,31 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js "></script>
+ @*    <script>
+        $(function () {
+            var successMessage = '@Html.Raw(TempData["success"])';
+            var errorMessage = '@Html.Raw(TempData["error"])';
+
+            // Kiểm tra thông báo thành công
+            if (successMessage != '') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: successMessage
+                });
+            }
+
+            // Kiểm tra thông báo thất bại
+            if (errorMessage != '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: errorMessage
+                });
+            }
+        });
+    </script> *@
     @RenderSectionAsync("Scripts", required: false);
 </body>
 </html>
