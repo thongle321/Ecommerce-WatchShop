@@ -1,12 +1,8 @@
 ﻿using Ecommerce_WatchShop.Abstractions;
 using Ecommerce_WatchShop.Helper;
 using Ecommerce_WatchShop.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
-using System.Net;
-using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -42,6 +38,12 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; 
 });
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(60); // Thời gian sống của session
+    options.Cookie.HttpOnly = true; // Chỉ sử dụng session qua HTTP
+    options.Cookie.IsEssential = true; // Bắt buộc session hoạt động
+});
 var app = builder.Build();
 
 app.UseStatusCodePagesWithReExecute("/Home/Error", "?statuscode={0}");
