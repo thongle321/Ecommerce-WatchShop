@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Ecommerce_WatchShop.Models.Category>
+@model IEnumerable<Ecommerce_WatchShop.Models.Category>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <div class="container-xl">
     <div class="row g-3 mb-4 align-items-center justify-content-between">
@@ -118,7 +118,6 @@
                 // Xử lý sự kiện submit của form
                 $('#addCategoryModal form').on('submit', function (e) {
                     e.preventDefault(); // Ngăn hành động submit mặc định
-
                     const formData = $(this).serialize(); // Thu thập dữ liệu từ form
                     $.ajax({
                         url: '/admin/category/create', // Đường dẫn đến API hoặc Action

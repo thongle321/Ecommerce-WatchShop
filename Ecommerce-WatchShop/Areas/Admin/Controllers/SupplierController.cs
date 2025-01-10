@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DongHo_Admin.Areas.Admin.Controllers
@@ -7,7 +7,6 @@ namespace DongHo_Admin.Areas.Admin.Controllers
     [Authorize(Policy = "Admin")]
     public class SupplierController : Controller
     {
-
         public IActionResult Index()
         {
             return View();
