@@ -49,4 +49,8 @@ public partial class DongHoContext : DbContext
     public virtual DbSet<Supplier> Suppliers { get; set; }
 
     public virtual DbSet<WarehouseReceipt> WarehouseReceipts { get; set; }
+
+    public virtual DbSet<Footer> Footers { get; set; }
+
+    public virtual DbSet<FooterLink> FooterLinks { get; set; }
 }

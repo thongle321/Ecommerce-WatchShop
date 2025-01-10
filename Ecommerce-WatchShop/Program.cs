@@ -44,7 +44,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 var app = builder.Build();
 
-//app.UseStatusCodePagesWithReExecute("/Home/Error", "?statuscode={0}");
+app.UseStatusCodePagesWithReExecute("/Home/Error", "?statuscode={0}");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
