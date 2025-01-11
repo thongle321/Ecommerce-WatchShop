@@ -479,8 +479,54 @@
     <!-- material-scrolltop button -->
     <button class="material-scrolltop" type="button"></button>
 
-    @await Html.PartialAsync("_LoginPartial", new Ecommerce_WatchShop.Models.ViewModels.LoginVM())
-    @await Html.PartialAsync("_RegisterPartial", new Ecommerce_WatchShop.Models.ViewModels.RegisterVM())
+
+    <div class="account_form modal fade" tabindex="-1" role="dialog" id="loginModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h3 class="modal-title text-center w-100">Đăng nhập</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        @Html.AntiForgeryToken()
+                        <div id="loginPartial">
+                            @await Html.PartialAsync("_LoginPartial", new Ecommerce_WatchShop.Models.ViewModels.LoginVM())
+                        </div>
+                        <button type="submit" class="btn btn-block btn-black-default-hover mb-4">Đăng nhập</button>
+                        <div class="d-flex justify-content-center">
+                            <a href="#" class="" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal"><strong>Chưa có tài khoản? Đăng ký</strong></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="account_form modal fade" tabindex="-1" role="dialog" id="registerModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h3 class="modal-title text-center w-100">Đăng ký</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        @Html.AntiForgeryToken()
+                        <div id="registerPartial">
+                            @await Html.PartialAsync("_RegisterPartial", new Ecommerce_WatchShop.Models.ViewModels.RegisterVM())
+                        </div>
+                        <button class="btn btn-block btn-black-default-hover mb-4" type="submit">Đăng ký</button>
+                        <div class="d-flex justify-content-center">
+                            <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal"><strong>Có tài khoản? Đăng Nhập</strong></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>x
+
+    @* @await Html.PartialAsync("_LoginPartial", new Ecommerce_WatchShop.Models.ViewModels.LoginVM()) *@
+    @* @await Html.PartialAsync("_RegisterPartial", new Ecommerce_WatchShop.Models.ViewModels.RegisterVM()) *@
 
     <button type="button" class="btn btn-success position-fixed right-0 text-white rounded-circle" style="bottom: 100px; margin-right: 23px; width: 56px; height: 56px">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
@@ -499,7 +545,7 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
     <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js "></script>
- @*    <script>
+    <script>
         $(function () {
             var successMessage = '@Html.Raw(TempData["success"])';
             var errorMessage = '@Html.Raw(TempData["error"])';
@@ -522,7 +568,47 @@
                 });
             }
         });
-    </script> *@
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#loginForm').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("Login", "Home")',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.redirectToUrl) {
+                            window.location.href = response.redirectToUrl;
+                        } else {
+                            $('#loginPartial').html(response);
+                        }
+                    },
+                    error: function () {
+                        alert('Đã xảy lỗi ra lỗi');
+                    }
+                });
+            });
+        $('#registerForm').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("Register", "Home")',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.redirectToUrl) {
+                            window.location.href = response.redirectToUrl;
+                        } else {
+                            $('#registerPartial').html(response);
+                        }
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi đăng ký.');
+                    }
+                });
+            });
+        });
+    </script>
     @RenderSectionAsync("Scripts", required: false);
 </body>
 </html>

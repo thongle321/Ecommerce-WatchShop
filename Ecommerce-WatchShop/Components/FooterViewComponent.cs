@@ -24,7 +24,7 @@ namespace YourProject.Components
                 .ThenBy(x => x.DisplayOrder)
                 .ToListAsync();
 
-            var model = new FooterVM
+            var footerVM = new FooterVM
             {
                 Footer = footer,
                 InformationLinks = footerLinks.Where(x => x.GroupId == 1).ToList(),
@@ -32,7 +32,7 @@ namespace YourProject.Components
                 CategoryLinks = footerLinks.Where(x => x.GroupId == 3).ToList()
             };
 
-            return View(model);
+            return View(footerVM);
         }
     }
 }
