@@ -1,9 +1,8 @@
-﻿using Ecommerce_WatchShop.Helper;
-using Ecommerce_WatchShop.Models;
+﻿using Ecommerce_WatchShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Ecommerce_WatchShop.Helper;
 namespace DongHo_Admin.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -29,7 +28,7 @@ namespace DongHo_Admin.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                model.Slug = SlugHelper.GenerateSlug(model.CategoryName!).ToString();
+                 model.Slug = SlugHelper.GenerateSlug(model.CategoryName!).ToString();
                 _context.Categories.Add(model);
 
                 try
