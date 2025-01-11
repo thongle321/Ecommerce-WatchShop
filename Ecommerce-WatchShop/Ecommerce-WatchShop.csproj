@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Ecommerce_WatchShop</RootNamespace>
+        <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
     </PropertyGroup>
 
     <ItemGroup>
@@ -33,5 +34,7 @@
       <None Include="wwwroot\assets\scss\bootstrap\scss\.DS_Store" />
       <None Include="wwwroot\assets\scss\bootstrap\scss\tests\.DS_Store" />
     </ItemGroup>
+
+    <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/architectfx.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

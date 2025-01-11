@@ -1,15 +1,94 @@
+using Ecommerce_WatchShop.Models;
+using Ecommerce_WatchShop.Models.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Ecommerce_WatchShop.Controllers;
 
 public class AccountController : Controller
 {
 
-    public IActionResult AccountDetails()
+    private readonly DongHoContext _context;
+    public AccountController(DongHoContext context)
     {
-        ViewBag.Title = "Thông tin cá nhân";
-        return View();
+
+        _context = context;
     }
+
+
+    public async Task<IActionResult> Index()
+    {
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "AccountId");
+        if (customerIdClaim == null) return RedirectToAction("Index", "Home");
+
+        int customerId = int.Parse(customerIdClaim.Value);
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == customerId);
+
+        if (customer == null) return NotFound();
+        return View(customer);
+    }
+    public async Task<IActionResult> Edit()
+    {
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "AccountId");
+        if (customerIdClaim == null) return RedirectToAction("Index", "Home");
+
+        int customerId = int.Parse(customerIdClaim.Value);
+
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == customerId);
+
+        if (customer == null) return NotFound();
+
+        // Tạo CustomerVM và truyền dữ liệu vào từ khách hàng
+        var customerVM = new CustomerVM
+        {
+            FullName = customer.FullName,
+            Phone = customer.Phone,
+            Address = customer.Address,
+            Email = customer.Email,
+            DisplayName = customer.DisplayName,
+            Dob = customer.Dob,
+            Gender = customer.Gender
+        };
+
+        return View(customerVM);
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(CustomerVM customerVM)
+    {
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "AccountId");
+        if (customerIdClaim == null) return RedirectToAction("Index", "Home");
+
+        int customerId = int.Parse(customerIdClaim.Value);
+
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == customerId);
+
+        if (customer == null) return NotFound();
+
+        if (!ModelState.IsValid)
+        {
+            // Nếu ModelState không hợp lệ, trả về lại form để hiển thị lỗi
+            return View(customerVM);
+        }
+
+        customer.FullName = customerVM.FullName;
+        customer.Phone = customerVM.Phone;
+        customer.Address = customerVM.Address;
+        customer.Email = customerVM.Email;
+        customer.DisplayName = customerVM.DisplayName;
+        customer.Dob = customerVM.Dob;
+        customer.Gender = customerVM.Gender;
+
+        _context.Update(customer);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("Index", "Account");
+    }
+
 
     public IActionResult Order()
     {
@@ -18,6 +97,50 @@ public class AccountController : Controller
     }
     public IActionResult Favorite()
     {
-        return View();
+        int? customerId = HttpContext.Session.GetInt32("CustomerId");
+        var favoriteProducts = _context.Favorites
+            .Include(f => f.Product)
+            .Where(f => f.CustomerId == customerId)
+            .Select(f => new FavoriteVM
+            {
+                ProductId = f.Product.ProductId,
+                Name = f.Product.ProductName!,
+                Price = f.Product.Price,
+                Image = f.Product.Image
+            }).ToList();
+
+        return View(favoriteProducts);
     }
+    [HttpPost]
+    public JsonResult AddToWishlist(int productId)
+    {
+        // Lấy CustomerId từ session hoặc auth system (nếu đã triển khai)
+        int? customerId = HttpContext.Session.GetInt32("CustomerId");
+
+        // Kiểm tra sản phẩm đã tồn tại trong danh sách yêu thích chưa
+        var existingWishlist = _context.Favorites
+            .FirstOrDefault(w => w.CustomerId == customerId && w.ProductId == productId);
+
+        if (existingWishlist != null)
+        {
+            return Json(new { success = false, message = "Sản phẩm đã có trong danh sách yêu thích!" });
+        }
+
+        // Thêm sản phẩm mới vào danh sách yêu thích
+        var wishlist = new Favorite
+        {
+            CustomerId = customerId,
+            ProductId = productId
+        };
+        _context.Favorites.Add(wishlist);
+        _context.SaveChanges();
+
+        return Json(new { success = true, message = "Đã thêm vào danh sách yêu thích!" });
+    }
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction("Index", "Home");
+    }
+   
 }

@@ -7,7 +7,7 @@ namespace Ecommerce_WatchShop.Models.ViewModels
     {
         [Required(ErrorMessage = "Tên đăng nhập không được trống")]
         [StringLength(100, MinimumLength = 6, ErrorMessage = "Tên đăng nhập có ít nhất 6 ký tự")]
-        [RegularExpression(@"^[A-Za-z0-9]+$", ErrorMessage = "Tên đăng nhập chỉ chứa chữ cái và số")]
+        [RegularExpression(@"^[A-Za-z0-9]+$", ErrorMessage = "Tên đăng nhập chỉ chứa chữ không dấu và số")]
         public string Username { get; set; }
         [Required(ErrorMessage = "Mật khẩu không được trống")]
         [DataType(DataType.Password)]

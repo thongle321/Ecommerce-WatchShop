@@ -1,19 +1,48 @@
-using Ecommerce_WatchShop.Abstractions;
+﻿using Ecommerce_WatchShop.Abstractions;
 using Ecommerce_WatchShop.Helper;
 using Ecommerce_WatchShop.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DongHoContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie();
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; 
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+{
+    options.LoginPath = "/Home/Login";
+    options.AccessDeniedPath = "/Home/404";
+})
+.AddCookie("Admin", options =>
+ {
+     options.LoginPath = "/Admin/Account/Login";
+     options.AccessDeniedPath = "/Home/404";
+ });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "2").AuthenticationSchemes = new[] {"Admin"});
+});
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true; 
+});
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+
 var app = builder.Build();
 
+app.UseStatusCodePagesWithReExecute("/Home/Error", "?statuscode={0}");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -21,22 +50,27 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapDefaultControllerRoute();
+
 app.MapStaticAssets();
-app.MapAreaControllerRoute(
-    name: "Admin",
-    areaName: "Admin",
-    pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}")
+
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}")
+    .RequireAuthorization("Admin")
     .WithStaticAssets();
 app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+
 app.Run();

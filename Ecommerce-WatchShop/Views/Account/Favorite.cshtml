@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Ecommerce_WatchShop.Models.ViewModels.FavoriteVM>
+@using Ecommerce_WatchShop.Models.ViewModels
+@{
     ViewData["Title"] = "Yêu thích";
 }
     <!-- ...:::: Start Breadcrumb Section:::... -->
@@ -44,29 +46,32 @@
                                 </thead> <!-- End Cart Table Head -->
                                 <tbody>
                                     <!-- Start Wishlist Single Item-->
-                                    <tr>
-
-                                        <td class="product_thumb">
-                                            <a href="product-details-default.html">
-                                                <img src="~/images/Curnon Kashmir.png"
-                                                     alt="">
-                                            </a>
-                                        </td>
-                                        <td class="product_name">
-                                            <a href="product-details-default.html">
-                                                Đồng hồ Curnon Kashmir
-                                            </a>
-                                        </td>
-                                        <td class="product-price">2.159.000₫</td>
-                                        <td class="product_addcart">
-                                            <a href="#" class="btn btn-md btn-golden">
-                                                Thêm vào giỏ
-
-                                            </a>
-                                        </td>
-                                        <td class="product_remove">
-                                            <a href="#"><i class="fa fa-trash-o"></i></a>
-                                        </td>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="product_thumb">
+                                                <a href="#">
+                                                    <img src="~/images/@(item.Image ?? "default-image.png")" alt="@item.Name" />
+                                                </a>
+                                            </td>
+                                            <td class="product_name">
+                                                <a href="#">
+                                                    @item.Name
+                                                </a>
+                                            </td>
+                                            <td class="product-price"> @item.Price?.ToString("C")</td>
+                                            <td class="product_addcart">
+                                                <a href="#" class="btn btn-md btn-golden">
+                                                    Thêm vào giỏ
+                                                </a>
+                                            </td>
+                                            <td class="product_remove">
+                                                <a href="/Account/RemoveFavorite?productId=@item.ProductId">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>

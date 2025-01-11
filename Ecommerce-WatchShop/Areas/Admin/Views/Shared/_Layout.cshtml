@@ -1,14 +1,13 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Admin</title>
 
 	<!-- Meta -->
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	
+	<title>@ViewData["Title"]</title>
 	<link rel="shortcut icon" href="favicon.ico">
 
 	<!-- FontAwesome JS-->
@@ -147,7 +146,7 @@
 									<li><a class="dropdown-item" href="account.html">Account</a></li>
 									<li><a class="dropdown-item" href="settings.html">Settings</a></li>
 									<li><hr class="dropdown-divider"></li>
-									<li><a class="dropdown-item" href="login.html">Log Out</a></li>
+									<li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Đăng xuất</a></li>
 								</ul>
 							</div><!--//app-user-dropdown-->
 						</div><!--//app-utilities-->
@@ -161,7 +160,6 @@
 				<a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
 				<div class="app-branding">
 					<a class="app-logo" href="/Admin/Dashboard/Index"><img class="logo-icon me-2" src="~/assets/images/app-logo.svg" alt="logo"><span class="logo-text">Admin</span></a>
-
 				</div><!--//app-branding-->
 
 				<nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
