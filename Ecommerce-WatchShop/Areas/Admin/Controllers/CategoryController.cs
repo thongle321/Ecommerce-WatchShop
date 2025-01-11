@@ -21,6 +21,7 @@ namespace DongHo_Admin.Areas.Admin.Controllers
             var categories = await _context.Categories.ToListAsync();
             return View(categories);
         }
+        // Thêm danh mục
         [HttpPost]
         public async Task<IActionResult> Create(Category model)
         {
@@ -29,7 +30,7 @@ namespace DongHo_Admin.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                model.Slug = SlugHelper.GenerateSlug(model.CategoryName!).ToString();
+                model.Slug = await SlugHelper.GenerateUniqueSlug(_context, model.CategoryName,SlugHelper.EntityType.Category, model.CategoryId);
                 _context.Categories.Add(model);
 
                 try
@@ -54,6 +55,29 @@ namespace DongHo_Admin.Areas.Admin.Controllers
                 return Json(new { success = false, message = "Dữ liệu không hợp lệ!" });
             }
         }
+        // Cập nhật danh mục
+        [HttpPost]
+        public async Task< IActionResult> Edit( Category model)
+        {
+            if (ModelState.IsValid)
+            {
+                var category = await _context.Categories.FindAsync(model.CategoryId);
+                if (category != null)
+                {
+                    category.CategoryName = model.CategoryName;
+                    category.Slug = await SlugHelper.GenerateUniqueSlug(_context,category.CategoryName!,SlugHelper.EntityType.Category, model.CategoryId);
+                    category.ParentId = model.ParentId;
+
+                    _context.Update(category);
+                   await _context.SaveChangesAsync();
+
+                    return Json(new { success = true, message = "Cập nhật danh mục thành công!" });
+                }
+                return Json(new { success = false, message = "Không tìm thấy danh mục!" });
+            }
+            return Json(new { success = false, message = "Dữ liệu không hợp lệ!" });
+        }
+
         [HttpPost]
         public IActionResult Delete(int id)
         {
