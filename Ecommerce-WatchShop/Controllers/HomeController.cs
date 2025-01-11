@@ -10,6 +10,7 @@ using Ecommerce_WatchShop.Abstractions;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Identity.Client;
 
 
 namespace Ecommerce_WatchShop.Controllers;
@@ -115,7 +116,6 @@ public class HomeController : Controller
         }
 
         var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Username == loginVM.Username);
-
         if (account == null)
         {
             ModelState.AddModelError("Username", "Tài khoản không tồn tại");
@@ -130,13 +130,15 @@ public class HomeController : Controller
 
         if (account.RoleId == 2)
         {
-            ModelState.AddModelError("Username", "Không có quyền truy cập");
+            ModelState.AddModelError("Username", "Không có quyền truy cập");    
             return PartialView("_LoginPartial", loginVM);
         }
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == account.AccountId);
 
         var claims = new List<Claim>
         {
-            new Claim("AccountId", account.AccountId.ToString())
+            new Claim("AccountId", account.AccountId.ToString()),
+            new Claim("CustomerId", customer.CustomerId.ToString()) // Claim cho CustomerId
         };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -149,7 +151,8 @@ public class HomeController : Controller
 
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
-        HttpContext.Session.SetInt32("CustomerId", account.AccountId);
+        HttpContext.Session.SetInt32("AccountId", account.AccountId);
+        //HttpContext.Session.SetInt32("AccountId",account.Customerid);
         TempData["success"] = "Đăng nhập thành công";
         return Json(new { redirectToUrl = Url.Action("Index", "Home") });
     }

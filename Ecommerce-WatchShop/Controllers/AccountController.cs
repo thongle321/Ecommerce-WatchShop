@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System.Security.Claims;
 
 namespace Ecommerce_WatchShop.Controllers;
@@ -97,7 +98,9 @@ public class AccountController : Controller
     }
     public IActionResult Favorite()
     {
-        int? customerId = HttpContext.Session.GetInt32("CustomerId");
+        //int? customerId = HttpContext.Session.GetInt32("CustomerId");
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
+        int customerId = int.Parse(customerIdClaim!.Value);
         var favoriteProducts = _context.Favorites
             .Include(f => f.Product)
             .Where(f => f.CustomerId == customerId)
@@ -114,10 +117,12 @@ public class AccountController : Controller
     [HttpPost]
     public JsonResult AddToWishlist(int productId)
     {
-        // Lấy CustomerId từ session hoặc auth system (nếu đã triển khai)
-        int? customerId = HttpContext.Session.GetInt32("CustomerId");
-
-        // Kiểm tra sản phẩm đã tồn tại trong danh sách yêu thích chưa
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
+        if (customerIdClaim == null)
+        {
+            return Json(new { success = false, message = "Bạn cần đăng nhập để thêm vào danh sách yêu thích." });
+        }
+        int customerId = int.Parse(customerIdClaim.Value);
         var existingWishlist = _context.Favorites
             .FirstOrDefault(w => w.CustomerId == customerId && w.ProductId == productId);
 
@@ -125,7 +130,6 @@ public class AccountController : Controller
         {
             return Json(new { success = false, message = "Sản phẩm đã có trong danh sách yêu thích!" });
         }
-
         // Thêm sản phẩm mới vào danh sách yêu thích
         var wishlist = new Favorite
         {
