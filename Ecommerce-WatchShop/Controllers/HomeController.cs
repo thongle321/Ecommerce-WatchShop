@@ -29,7 +29,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var loginVM = new LoginVM();
+        return View(loginVM);
     }
     public IActionResult Introduction()
     {
@@ -65,18 +66,18 @@ public class HomeController : Controller
         return View("Contact", contactVM);
     }
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterVM registerVM)
     {
-        //var passwordHash = _passwordHasher.Hash(registerVM.Password);
-
         if (!ModelState.IsValid)
         {
             return PartialView("_RegisterPartial", registerVM);
         }
-        var existingUser = _context.Accounts
+
+        var exist = _context.Accounts
             .FirstOrDefault(a => a.Username == registerVM.Username);
 
-        if (existingUser != null)
+        if (exist != null)
         {
             ModelState.AddModelError("Username", "Username đã tồn tại.");
             return PartialView("_RegisterPartial", registerVM);
@@ -100,9 +101,8 @@ public class HomeController : Controller
 
         _context.Customers.Add(customer);
         await _context.SaveChangesAsync();
-
-
-        return RedirectToAction("Index");
+        TempData["success"] = "Đăng ký thành công";
+        return Json(new { redirectToUrl = Url.Action("Index", "Home") });
     }
 
     [HttpPost]
@@ -112,31 +112,28 @@ public class HomeController : Controller
         if (!ModelState.IsValid)
         {
             return PartialView("_LoginPartial", loginVM);
-
         }
+
         var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Username == loginVM.Username);
 
         if (account == null)
         {
             ModelState.AddModelError("Username", "Tài khoản không tồn tại");
             return PartialView("_LoginPartial", loginVM);
-
         }
-
-        //var result = _passwordHasher.Verify(account.Password, loginVM.Password);
 
         if (account.Password != loginVM.Password)
         {
-            ModelState.AddModelError("Username", "Tài khoản hoặc mật khẩu bị sai");
+            ModelState.AddModelError("Password", "Tài khoản hoặc mật khẩu bị sai");
             return PartialView("_LoginPartial", loginVM);
         }
-        if (account.RoleId == 2) 
+
+        if (account.RoleId == 2)
         {
             ModelState.AddModelError("Username", "Không có quyền truy cập");
             return PartialView("_LoginPartial", loginVM);
         }
 
-        //Tạo claim cho người dùng
         var claims = new List<Claim>
         {
             new Claim("AccountId", account.AccountId.ToString())
@@ -146,17 +143,15 @@ public class HomeController : Controller
 
         var authProperties = new AuthenticationProperties
         {
-            IsPersistent = loginVM.RememberMe, //Lưu trữ trạng thái đăng nhập với sesssion cookie
+            IsPersistent = loginVM.RememberMe,
             ExpiresUtc = DateTime.Now.AddDays(5),
-
         };
 
-        // Đăng nhập và lưu cookie
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
         HttpContext.Session.SetInt32("CustomerId", account.AccountId);
-
-        return RedirectToAction("Index", "Home");
+        TempData["success"] = "Đăng nhập thành công";
+        return Json(new { redirectToUrl = Url.Action("Index", "Home") });
     }
 
 
