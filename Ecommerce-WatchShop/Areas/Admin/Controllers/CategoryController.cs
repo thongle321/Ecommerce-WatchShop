@@ -54,8 +54,19 @@ namespace DongHo_Admin.Areas.Admin.Controllers
                 return Json(new { success = false, message = "Dữ liệu không hợp lệ!" });
             }
         }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var category = _context.Categories.Find(id);
+            if (category != null)
+            {
+                _context.Categories.Remove(category);
+                _context.SaveChanges();
 
-
+                return Json(new { success = true, message = "Xóa danh mục thành công!" });
+            }
+            return Json(new { success = false, message = "Không tìm thấy danh mục!" });
+        }
 
 
     }
