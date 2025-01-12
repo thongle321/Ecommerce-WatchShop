@@ -9,14 +9,12 @@
             <div class="page-utilities">
                 <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
                     <div class="col-auto">
-                        <form class="table-search-form row gx-1 align-items-center">
+                        <form id="search-orders" class="table-search-form row gx-1 align-items-center">
                             <div class="col-auto">
                                 <input type="text" id="search-orders" name="searchorders" class="form-control search-orders" placeholder="Tìm kiếm">
                             </div>
-                            <div class="col-auto">
-                                <button type="submit" class="btn app-btn-secondary">Tìm kiếm</button>
-                            </div>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -54,11 +52,10 @@
                                                     @(category.ParentId.HasValue ? Model.FirstOrDefault(c => c.CategoryId == category.ParentId)?.CategoryName : "Không có")
                                                 </td>
                                                 <td class="cell">
-                                                    <a class="btn" href="@Url.Action("Edit", "Category", new { id = category.CategoryId })">
+                                                    <a class="btn" href="#" onclick="editCategory(@category.CategoryId, '@category.CategoryName', '@category.ParentId')">
                                                         <i class="bi bi-pencil-square" style="font-size: 1.2rem"></i>
                                                     </a>
-                                                    <a class="btn" href="@Url.Action("Delete", "Category", new { id = category.CategoryId })"
-                                                       onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này?');">
+                                                    <a class="btn" href="#" onclick="deleteCategory(@category.CategoryId)">
                                                         <i class="bi bi-trash3" style="font-size: 1.2rem"></i>
                                                     </a>
                                                 </td>
@@ -112,7 +109,46 @@
                 </div>
             </div>
         </div>
-        
+
+        <!-- Modal Sửa Danh Mục -->
+        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCategoryModalLabel">Sửa danh mục</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="editCategoryForm">
+                        <input type="hidden" id="EditCategoryId" name="CategoryId">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="EditCategoryName" class="form-label">Tên danh mục</label>
+                                <input type="text" class="form-control" id="EditCategoryName" name="CategoryName" required>
+                            </div>
+                            @* <div class="mb-3">
+                                <label for="EditSlug" class="form-label">Slug</label>
+                                <input type="text" class="form-control" id="EditSlug" name="Slug" required>
+                            </div> *@
+                            <div class="mb-3">
+                                <label for="EditParentId" class="form-label">Danh mục cha</label>
+                                <select class="form-select" id="EditParentId" name="ParentId">
+                                    <option value="">-- Không có --</option>
+                                    @foreach (var category in Model!)
+                                    {
+                                        <option value="@category.CategoryId">@category.CategoryName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <script>
             $(document).ready(function () {
                 // Xử lý sự kiện submit của form
@@ -120,7 +156,7 @@
                     e.preventDefault(); // Ngăn hành động submit mặc định
                     const formData = $(this).serialize(); // Thu thập dữ liệu từ form
                     $.ajax({
-                        url: '/admin/category/create', // Đường dẫn đến API hoặc Action
+                        url: '/admin/category/create', // Đường dẫn đến Action
                         type: 'POST',
                         data: formData,
                         success: function (response) {
@@ -128,6 +164,104 @@
                                 alert('Thêm danh mục thành công!');
                                 $('#addCategoryModal').modal('hide'); // Ẩn modal
                                 location.reload(); // Tải lại trang
+                            } else {
+                                alert('Có lỗi xảy ra: ' + response.message);
+                            }
+                        },
+                        error: function (xhr) {
+                            alert('Lỗi không mong muốn xảy ra: ' + xhr.responseText);
+                        }
+                    });
+                });
+            });
+
+     function deleteCategory(id) {
+                if (confirm('Bạn có chắc chắn muốn xóa danh mục này?')) {
+                    $.ajax({
+                        url: '/admin/category/delete',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.message);
+                                location.reload();
+                            } else {
+                                alert('Có lỗi xảy ra: ' + response.message);
+                            }
+                        },
+                        error: function (xhr) {
+                            alert('Lỗi không mong muốn xảy ra: ' + xhr.responseText);
+                        }
+                    });
+                }
+            }
+
+       function editCategory(id, name, parentId) {
+                  console.log("EditCategoryId:", id);
+                $('#EditCategoryId').val(id);
+                $('#EditCategoryName').val(name);
+                $('#EditParentId').val(parentId || "");
+                $('#editCategoryModal').modal('show');
+            }
+            
+            $('#editCategoryForm').on('submit', function (e) {
+                e.preventDefault();
+                const formData = $(this).serialize();
+                       console.log("Form Data Object:", formData);
+                $.ajax({
+                    url: '/admin/category/edit',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            $('#editCategoryModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('Có lỗi xảy ra: ' + response.message);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('Lỗi không mong muốn xảy ra: ' + xhr.responseText);
+                    }
+                });
+            });
+
+             
+             $(document).ready(function () {
+                // Xử lý sự kiện submit của form tìm kiếm
+                       $('#search-orders').on('keyup', function (e) {
+
+                    const searchQuery = $('#search-orders').val().toLowerCase().trim(); // Lấy giá trị từ ô tìm kiếm
+
+                    $.ajax({
+                        url: '/admin/category/search', // Đường dẫn đến Action tìm kiếm
+                        type: 'GET',
+                        data: { searchQuery: searchQuery },
+                        success: function (response) {
+                            if (response.success) {
+                                   alert(searchQuery);
+
+                                let rows = '';
+                                response.data.forEach(function (category) {
+                                    rows += `<tr>
+                                                <td class="cell">${category.CategoryId}</td>
+                                                <td class="cell">${category.CategoryName}</td>
+                                                <td class="cell">${category.Slug}</td>
+                                                <td class="cell">
+                                                    ${(category.ParentId ? category.ParentName : 'Không có')}
+                                                </td>
+                                                <td class="cell">
+                                                    <a class="btn" href="#" onclick="editCategory(${category.CategoryId}, '${category.CategoryName}', '${category.ParentId}')">
+                                                        <i class="bi bi-pencil-square" style="font-size: 1.2rem"></i>
+                                                    </a>
+                                                    <a class="btn" href="#" onclick="deleteCategory(${category.CategoryId})">
+                                                        <i class="bi bi-trash3" style="font-size: 1.2rem"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>`;
+                                });
+                                $('table tbody').html(rows); // Cập nhật danh sách các danh mục
                             } else {
                                 alert('Có lỗi xảy ra: ' + response.message);
                             }
