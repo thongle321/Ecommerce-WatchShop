@@ -179,6 +179,15 @@ namespace DongHo_Admin.Areas.Admin.Controllers
             return Json(new { success = false, message = "Không tìm thấy danh mục!" });
 
         }
+        [HttpGet]
+        public IActionResult Search(string searchQuery)
+        {
+            var categories = _context.Categories
+                                    .Where(c => c.CategoryName!.ToLower().Contains(searchQuery) || c.Slug!.Contains(searchQuery))
+                                    .ToList();
+
+            return Json(new { success = true, data = categories });
+        }
 
 
 
