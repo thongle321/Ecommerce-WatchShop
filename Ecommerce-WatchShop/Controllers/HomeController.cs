@@ -7,10 +7,6 @@ using System.Security.Claims;
 using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce_WatchShop.Abstractions;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Identity.Client;
 
 
 namespace Ecommerce_WatchShop.Controllers;
@@ -19,13 +15,11 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly DongHoContext _context;
-    private readonly IPasswordHasher _passwordHasher;
 
-    public HomeController(ILogger<HomeController> logger, DongHoContext context, IPasswordHasher passwordHasher)
+    public HomeController(ILogger<HomeController> logger, DongHoContext context)
     {
         _logger = logger;
         _context = context;
-        _passwordHasher = passwordHasher;
     }
 
     public IActionResult Index()
@@ -49,10 +43,10 @@ public class HomeController : Controller
         {
             var contact = new Contact
             {
-                FullName = contactVM.FullName,
-                Email = contactVM.Email,
-                Subject = contactVM.Subject,
-                Note = contactVM.Note
+                FullName = string.IsNullOrEmpty(contactVM.FullName) ? "" : contactVM.FullName,
+                Email = string.IsNullOrEmpty(contactVM.Email) ? "" : contactVM.Email,
+                Subject = string.IsNullOrEmpty(contactVM.Subject) ? "" : contactVM.Subject,
+                Note = string.IsNullOrEmpty(contactVM.Note) ? "" : contactVM.Note
             };
 
           
@@ -137,9 +131,13 @@ public class HomeController : Controller
 
         var claims = new List<Claim>
         {
-            new Claim("AccountId", account.AccountId.ToString()),
-            new Claim("CustomerId", customer.CustomerId.ToString()) // Claim cho CustomerId
+            new Claim("AccountId", account.AccountId.ToString())
         };
+        if(customer != null && customer.CustomerId > 0)
+        {
+            claims.Add(new Claim("CustomerId", customer.CustomerId.ToString())); // Claim cho CustomerId
+
+        }
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
