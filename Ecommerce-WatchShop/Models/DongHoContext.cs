@@ -49,4 +49,6 @@ public partial class DongHoContext : DbContext
     public required virtual DbSet<Footer> Footers { get; set; }
 
     public required virtual DbSet<FooterLink> FooterLinks { get; set; }
+
+    public required virtual DbSet<About> Abouts { get; set; }
 }
