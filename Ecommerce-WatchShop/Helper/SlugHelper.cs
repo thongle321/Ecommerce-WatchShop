@@ -68,21 +68,30 @@ namespace Ecommerce_WatchShop.Helper
 
         private static string ConvertToLatinChars(string text)
         {
+            if (string.IsNullOrEmpty(text)) return text;
 
-            string[] arr1 = new[] { "á", "à", "ả", "ã", "ạ", "â", "ấ", "ầ", "ẩ", "ẫ", "ậ", "ă", "ắ", "ằ", "ẳ", "ẵ", "ặ",
-                            "đ", "é", "è", "ẻ", "ẽ", "ẹ", "ê", "ế", "ề", "ể", "ễ", "ệ", "í", "ì", "ỉ", "ĩ", "ị",
-                            "ó", "ò", "ỏ", "õ", "ọ", "ô", "ố", "ồ", "ổ", "ỗ", "ộ", "ơ", "ớ", "ờ", "ở", "ỡ", "ợ",
-                            "ú", "ù", "ủ", "ũ", "ụ", "ư", "ứ", "ừ", "ử", "ữ", "ự", "ý", "ỳ", "ỷ", "ỹ", "ỵ" };
-            string[] arr2 = new string[] { "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a",
-                                  "d", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "i", "i", "i", "i", "i",
-                                  "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o",
-                                  "u", "u", "u", "u", "u", "u", "u", "u", "u", "u", "u", "y", "y", "y", "y", "y" };
-
-            // Thay thế trực tiếp các ký tự có dấu và chữ hoa
-            for (int i = 0; i < arr1.Length; i++)
+            var characterMap = new Dictionary<string, string>
             {
-                text = text.Replace(arr1[i], arr2[i]).Replace(arr1[i].ToUpper(), arr2[i].ToUpper());
+                { "á", "a" }, { "à", "a" }, { "ả", "a" }, { "ã", "a" }, { "ạ", "a" },
+                { "â", "a" }, { "ấ", "a" }, { "ầ", "a" }, { "ẩ", "a" }, { "ẫ", "a" }, { "ậ", "a" },
+                { "ă", "a" }, { "ắ", "a" }, { "ằ", "a" }, { "ẳ", "a" }, { "ẵ", "a" }, { "ặ", "a" },
+                { "đ", "d" }, { "é", "e" }, { "è", "e" }, { "ẻ", "e" }, { "ẽ", "e" }, { "ẹ", "e" },
+                { "ê", "e" }, { "ế", "e" }, { "ề", "e" }, { "ể", "e" }, { "ễ", "e" }, { "ệ", "e" },
+                { "í", "i" }, { "ì", "i" }, { "ỉ", "i" }, { "ĩ", "i" }, { "ị", "i" },
+                { "ó", "o" }, { "ò", "o" }, { "ỏ", "o" }, { "õ", "o" }, { "ọ", "o" },
+                { "ô", "o" }, { "ố", "o" }, { "ồ", "o" }, { "ổ", "o" }, { "ỗ", "o" }, { "ộ", "o" },
+                { "ơ", "o" }, { "ớ", "o" }, { "ờ", "o" }, { "ở", "o" }, { "ỡ", "o" }, { "ợ", "o" },
+                { "ú", "u" }, { "ù", "u" }, { "ủ", "u" }, { "ũ", "u" }, { "ụ", "u" },
+                { "ư", "u" }, { "ứ", "u" }, { "ừ", "u" }, { "ử", "u" }, { "ữ", "u" }, { "ự", "u" },
+                { "ý", "y" }, { "ỳ", "y" }, { "ỷ", "y" }, { "ỹ", "y" }, { "ỵ", "y" },
+                { "Đ", "D" }
+            };
+
+            foreach (var kvp in characterMap)
+            {
+                text = text.Replace(kvp.Key, kvp.Value);
             }
+
             return text;
         }
 
@@ -91,18 +100,6 @@ namespace Ecommerce_WatchShop.Helper
         {
             Product,
             Category
-
-            if (string.IsNullOrEmpty(text))
-                return string.Empty;
-
-            var result = new StringBuilder(text.Length);
-            foreach (char c in text)
-            {
-                result.Append(CharacterMap.ContainsKey(c) ? CharacterMap[c] : c);
-            }
-            
-            return result.ToString();
-
         }
 
         public static async Task<string> GenerateUniqueSlug(DongHoContext context, string name, EntityType entityType, int? entityId = null)
@@ -134,19 +131,6 @@ namespace Ecommerce_WatchShop.Helper
                 }
             }
             else if (entityType == EntityType.Category)
-
-            if (string.IsNullOrEmpty(name))
-                return string.Empty;
-
-            string slug = GenerateSlug(name);
-            
-            var existingProduct = await context.Products
-                .AsNoTracking()
-                .Where(p => p.Slug == slug && (productId == null || p.ProductId != productId))
-                .FirstOrDefaultAsync();
-
-            if (existingProduct != null)
-
             {
                 var existingCategory = await context.Categories
                     .AsNoTracking() // Chỉ lấy dữ liệu mà không giữ trạng thái theo dõi

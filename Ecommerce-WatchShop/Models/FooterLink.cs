@@ -9,9 +9,9 @@ namespace Ecommerce_WatchShop.Models
         public int Id { get; set; }
 
         [Column(TypeName = "nvarchar(255)")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
         public int GroupId { get; set; } // 1: Thông tin, 2: Tài khoản, 3: Danh mục
 
