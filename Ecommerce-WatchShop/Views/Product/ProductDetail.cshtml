@@ -18,6 +18,15 @@
                 success: function (response) {
                     if (response.success) {
                         alert(response.message); // Thông báo thành công
+
+                        // Cập nhật trạng thái yêu thích (thay đổi màu sắc icon)
+                        var icon = $(this).find('i'); // Lấy icon bên trong button
+
+                        if (response.isFavorite) {
+                            icon.removeClass('fa-heart-o').addClass('fa-heart').css('color', 'red');
+                        } else {
+                            icon.removeClass('fa-heart').addClass('fa-heart-o').css('color', 'gray');
+                        }
                     } else {
                         alert(response.message); // Thông báo lỗi
                     }
@@ -29,6 +38,7 @@
         });
     </script>
 }
+
 <!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
     <div class="breadcrumb-wrapper">
