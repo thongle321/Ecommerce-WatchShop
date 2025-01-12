@@ -1,4 +1,4 @@
-﻿using Ecommerce_WatchShop.Helper;
+using Ecommerce_WatchShop.Helper;
 using Ecommerce_WatchShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
