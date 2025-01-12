@@ -3,20 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce_WatchShop.Models
 {
-    public partial class FooterLink
+    public partial class Slider
     {
         [Key]
         public int Id { get; set; }
-
         [Column(TypeName = "nvarchar(255)")]
         public string? Title { get; set; }
-
-        public string? Url { get; set; }
-
-        public int GroupId { get; set; } // 1: Thông tin, 2: Tài khoản, 3: Danh mục
-
+        [Column(TypeName = "nvarchar(255)")]
+        public string? Description { get; set; }
+        public string? Image { get; set; }
+        public string? Link { get; set; }
         public int DisplayOrder { get; set; }
+        public bool Status { get; set; } = true;
 
-        public bool Status { get; set; }
     }
 }

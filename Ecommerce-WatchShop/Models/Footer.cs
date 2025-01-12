@@ -8,20 +8,20 @@ namespace Ecommerce_WatchShop.Models
         [Key]
         public int Id { get; set; }
 
-        public string Logo { get; set; }
+        public string? Logo { get; set; }
 
         [Column(TypeName = "nvarchar(200)")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Column(TypeName = "nvarchar(200)")]
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [StringLength(15)]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
-        public string FacebookUrl { get; set; }
+        public string? FacebookUrl { get; set; }
 
         public bool Status { get; set; }
 
