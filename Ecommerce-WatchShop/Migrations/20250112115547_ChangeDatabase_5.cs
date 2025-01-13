@@ -5,7 +5,7 @@
 namespace Ecommerce_WatchShop.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangeDatabase_3 : Migration
+    public partial class ChangeDatabase_5 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,10 +16,10 @@ namespace Ecommerce_WatchShop.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(255)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(255)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(255)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(255)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DisplayOrder = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
