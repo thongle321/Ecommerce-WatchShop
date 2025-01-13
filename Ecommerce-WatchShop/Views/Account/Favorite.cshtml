@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Ecommerce_WatchShop.Models.ViewModels.FavoriteVM>
+@using System.Globalization
 @using Ecommerce_WatchShop.Models.ViewModels
 @{
     ViewData["Title"] = "Yêu thích";
@@ -59,7 +60,7 @@
                                                     @item.Name
                                                 </a>
                                             </td>
-                                            <td class="product-price"> @item.Price?.ToString("C")</td>
+                                            <td class="product-price"> @String.Format(new CultureInfo("vi-VN"), "{0:C}",item.Price)</td>
                                             <td class="product_addcart">
                                                 <a href="#" class="btn btn-md btn-golden">
                                                     Thêm vào giỏ
