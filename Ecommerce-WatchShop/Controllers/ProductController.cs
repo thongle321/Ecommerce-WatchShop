@@ -64,15 +64,13 @@ namespace Ecommerce_WatchShop.Controllers
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductComments)
                 .Include(p => p.ProductRatings)
+                .ThenInclude(c => c.Customer)
                 .FirstOrDefault(p => p.ProductId == id);
 
             if (product == null) // Kiểm tra sản phẩm tồn tại
             {
                 return NotFound();
             }
-            var customerName = customerId != null
-    ? _context.Customers.FirstOrDefault(c => c.CustomerId == customerId)?.DisplayName ?? "Guest"
-    : "Guest";
             // Tạo ViewModel
             var viewModel = new ProductDetailVM
             {
@@ -85,7 +83,7 @@ namespace Ecommerce_WatchShop.Controllers
                 Comments = product.ProductComments
                     .Select(c => new ProductCommentVM
                     {
-                        CustomerName = customerName, // Hiển thị tên khách
+                        CustomerName = c.Customer?.DisplayName ?? "Guest", // Hiển thị tên khách
                         Content = c.Contents,
                         CreatedAt = c.CreatedAt,
                         Rating = product.ProductRatings.FirstOrDefault(r => r.CustomerId == c.CustomerId)?.Rating
@@ -100,7 +98,7 @@ namespace Ecommerce_WatchShop.Controllers
         {
             // Lấy customerId
             var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
-            int customerId = int.Parse(customerIdClaim.Value);
+            int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
             // Kiểm tra sản phẩm tồn tại
             var product = _context.Products.Find(id);
             if (product == null)
