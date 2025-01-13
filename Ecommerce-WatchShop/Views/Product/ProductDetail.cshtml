@@ -1,4 +1,5 @@
 ﻿@model Ecommerce_WatchShop.Models.ViewModels.ProductDetailVM
+@using System.Globalization
 @{
     ViewData["Title"] = "Chi tiết sản phẩm";
 }
@@ -126,11 +127,11 @@
                                             {
                                                 <li class="half" style="color: #b19361"><i class="ion-android-star-half"></i></li>
                                             }
-                                            else
-                                            {
-                                                <li class="empty"><i class="ion-android-star"></i></li>
-                                            }
                                         }
+                                    }
+                                    for (int i = (int)Model.ProductRating + (hasHalfStar ? 1 : 0); i < 5; i++)
+                                    {
+                                        <li class="empty"><i class="ion-android-star"></i></li>
                                     }
                                 }
                               
@@ -139,7 +140,7 @@
                             <a href="#" class="customer-review ml-2">(@Model.TotalRating)</a>
                         </div>
                         <div class="price">
-                            @Model.Product.Price VNĐ
+                            @String.Format(new CultureInfo("vi-VN"), "{0:C}", Model.Product.Price)
                         </div>
 
                         <p>@Model.Product.ShortDescription </p>
@@ -252,185 +253,63 @@
                             <div class="tab-pane" id="review">
                                 <div class="single-tab-content-item">
                                     <!-- Start - Review Comment -->
-                                    <ul class="comment">
-                                        <!-- Start - Review Comment list-->
-                                        <li class="comment-list">
-                                            <div class="comment-wrapper">
-                                                <div class="comment-img">
-                                                    <img src="~/assets/images/user/image-1.png" alt="">
-                                                </div>
+                                    <ul class="comment-list">
+                                        @foreach (var comment in Model.Comments)
+                                        {
+                                            <li>
                                                 <div class="comment-content">
-                                                    <div class="comment-content-top">
-                                                        <div class="comment-content-left">
-                                                            <h6 class="comment-name">Kaedyn Fraser</h6>
-                                                            <ul class="review-star">
-                                                                <li class="fill">
-                                                                    <i class="ion-android-star"></i>
-                                                                </li>
-                                                                <li class="fill">
-                                                                    <i class="ion-android-star"></i>
-                                                                </li>
-                                                                <li class="fill">
-                                                                    <i class="ion-android-star"></i>
-                                                                </li>
-                                                                <li class="fill">
-                                                                    <i class="ion-android-star"></i>
-                                                                </li>
-                                                                <li class="empty">
-                                                                    <i class="ion-android-star"></i>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="comment-content-right">
-                                                            <a href="#"><i class="fa fa-reply"></i>Reply</a>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="para-content">
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                            Tempora inventore dolorem a unde modi iste odio amet,
-                                                            fugit fuga aliquam, voluptatem maiores animi dolor nulla
-                                                            magnam ea! Dignissimos aspernatur cumque nam quod sint
-                                                            provident modi alias culpa, inventore deserunt
-                                                            accusantium amet earum soluta consequatur quasi eum eius
-                                                            laboriosam, maiores praesentium explicabo enim dolores
-                                                            quaerat! Voluptas ad ullam quia odio sint sunt. Ipsam
-                                                            officia, saepe repellat.
-                                                        </p>
-                                                    </div>
+                                                    <h6 class="comment-name">@comment.CustomerName</h6>
+                                                    <ul class="review-star">
+                                                        @for (int i = 1; i <= 5; i++)
+                                                        {
+                                                            <li class="@(i <= comment.Rating ? "fill" : "empty")">
+                                                                <i class="@(i <= comment.Rating ? "ion-android-star" : "ion-android-star-outline")"></i>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                    <p>@comment.Content</p>
+                                                    <small>@comment.CreatedAt?.ToString("dd/MM/yyyy")</small>
                                                 </div>
-                                            </div>
-                                            <!-- Start - Review Comment Reply-->
-                                            <ul class="comment-reply">
-                                                <li class="comment-reply-list">
-                                                    <div class="comment-wrapper">
-                                                        <div class="comment-img">
-                                                            <img src="~/assets/images/user/image-2.png" alt="">
-                                                        </div>
-                                                        <div class="comment-content">
-                                                            <div class="comment-content-top">
-                                                                <div class="comment-content-left">
-                                                                    <h6 class="comment-name">Oaklee Odom</h6>
-                                                                </div>
-                                                                <div class="comment-content-right">
-                                                                    <a href="#"><i class="fa fa-reply"></i>Reply</a>
-                                                                </div>
-                                                            </div>
+                                            </li>
+                                            <hr />
+                                        }
+                                    </ul>
 
-                                                            <div class="para-content">
-                                                                <p>
-                                                                    Lorem ipsum dolor sit amet, consectetur
-                                                                    adipisicing elit. Tempora inventore dolorem a
-                                                                    unde modi iste odio amet, fugit fuga aliquam,
-                                                                    voluptatem maiores animi dolor nulla magnam ea!
-                                                                    Dignissimos aspernatur cumque nam quod sint
-                                                                    provident modi alias culpa, inventore deserunt
-                                                                    accusantium amet earum soluta consequatur quasi
-                                                                    eum eius laboriosam, maiores praesentium
-                                                                    explicabo enim dolores quaerat! Voluptas ad
-                                                                    ullam quia odio sint sunt. Ipsam officia, saepe
-                                                                    repellat.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul> <!-- End - Review Comment Reply-->
-                                        </li> <!-- End - Review Comment list-->
-                                        <!-- Start - Review Comment list-->
-                                        <li class="comment-list">
-                                            <div class="comment-wrapper">
-                                                <div class="comment-img">
-                                                    <img src="~/assets/images/user/image-3.png" alt="">
-                                                </div>
-                                                <div class="comment-content">
-                                                    <div class="comment-content-top">
-                                                        <div class="comment-content-left">
-                                                            <h6 class="comment-name">Jaydin Jones</h6>
-                                                            <ul class="review-star">
-                                                                <li class="fill">
-                                                                    <i class="ion-android-star"></i>
-                                                                </li>
-                                                                <li class="fill">
-                                                                    <i class="ion-android-star"></i>
-                                                                </li>
-                                                                <li class="fill">
-                                                                    <i class="ion-android-star"></i>
-                                                                </li>
-                                                                <li class="fill">
-                                                                    <i class="ion-android-star"></i>
-                                                                </li>
-                                                                <li class="empty">
-                                                                    <i class="ion-android-star"></i>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="comment-content-right">
-                                                            <a href="#"><i class="fa fa-reply"></i>Reply</a>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="para-content">
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                            Tempora inventore dolorem a unde modi iste odio amet,
-                                                            fugit fuga aliquam, voluptatem maiores animi dolor nulla
-                                                            magnam ea! Dignissimos aspernatur cumque nam quod sint
-                                                            provident modi alias culpa, inventore deserunt
-                                                            accusantium amet earum soluta consequatur quasi eum eius
-                                                            laboriosam, maiores praesentium explicabo enim dolores
-                                                            quaerat! Voluptas ad ullam quia odio sint sunt. Ipsam
-                                                            officia, saepe repellat.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li> <!-- End - Review Comment list-->
-                                    </ul> <!-- End - Review Comment -->
                                     <div class="review-form">
                                         <div class="review-form-text-top">
                                             <h5>ADD A REVIEW</h5>
-                                            <p>
-                                                Your email address will not be published. Required fields are marked
-                                                *
-                                            </p>
-                                        </div>
-
-                                        <form action="#" method="post">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="default-form-box">
-                                                        <label for="comment-name">Your name <span>*</span></label>
-                                                        <input id="comment-name" type="text"
-                                                               placeholder="Enter your name" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="default-form-box">
-                                                        <label for="comment-email">Your Email <span>*</span></label>
-                                                        <input id="comment-email" type="email"
-                                                               placeholder="Enter your email" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="default-form-box">
-                                                        <label for="comment-review-text">
-                                                            Your review
-                                                            <span>*</span>
-                                                        </label>
-                                                        <textarea id="comment-review-text"
-                                                                  placeholder="Write a review" required></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <button class="btn btn-md btn-black-default-hover"
-                                                            type="submit">
-                                                        Submit
-                                                    </button>
-                                                </div>
+                                        </div> 
+                                        @if (!User.Identity.IsAuthenticated)
+                                        {
+                                            <div class="alert alert-warning">
+                                                Bạn cần đăng nhập để đánh giá sản phẩm
                                             </div>
-                                        </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-action="AddReview" asp-route-id="@Model.Product.ProductId" method="post">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="default-form-box">
+                                                            <label for="comment-rating">Your Rating <span>*</span></label>
+                                                            <input id="comment-rating" name="rating" type="number" min="1" max="5" placeholder="Rating (1-5)" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="default-form-box">
+                                                            <label for="comment-review-text">Your review <span>*</span></label>
+                                                            <textarea id="comment-review-text" name="content" placeholder="Write a review" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <button class="btn btn-md btn-black-default-hover" type="submit">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        }    
+
                                     </div>
                                 </div>
                             </div> <!-- End Product Details Tab Content Singel -->
