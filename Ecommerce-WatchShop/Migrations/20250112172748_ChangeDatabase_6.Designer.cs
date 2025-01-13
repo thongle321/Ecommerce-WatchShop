@@ -4,6 +4,7 @@ using Ecommerce_WatchShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce_WatchShop.Migrations
 {
     [DbContext(typeof(DongHoContext))]
-    partial class DongHoContextModelSnapshot : ModelSnapshot
+    [Migration("20250112172748_ChangeDatabase_6")]
+    partial class ChangeDatabase_6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -460,7 +463,7 @@ namespace Ecommerce_WatchShop.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<int?>("Gender")
                         .HasColumnType("int");
@@ -485,7 +488,7 @@ namespace Ecommerce_WatchShop.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Specification")
-                        .HasColumnType("nvarchar(MAX)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int?>("Status")
                         .HasColumnType("int");

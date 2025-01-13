@@ -1,4 +1,5 @@
-﻿using Ecommerce_WatchShop.Abstractions;
+﻿using Ecommerce_WatchShop;
+using Ecommerce_WatchShop.Abstractions;
 using Ecommerce_WatchShop.Helper;
 using Ecommerce_WatchShop.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -71,5 +72,7 @@ app.MapControllerRoute(
         pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<DongHoContext>();
+await SeedData.SeedingData(context);
 
 app.Run();

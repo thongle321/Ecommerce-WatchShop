@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.Marshalling;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce_WatchShop.Models;
@@ -51,4 +52,8 @@ public partial class DongHoContext : DbContext
     public required virtual DbSet<FooterLink> FooterLinks { get; set; }
 
     public required virtual DbSet<About> Abouts { get; set; }
+
+    public required virtual DbSet<Policy> Policies { get; set; }
+
+    public required virtual DbSet<Slider> Sliders { get; set; }
 }
