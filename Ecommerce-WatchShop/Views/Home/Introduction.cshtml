@@ -4,118 +4,7 @@
 @using Ecommerce_WatchShop.Models.ViewModels
 @model AboutVM
     <!-- ...:::: Start Breadcrumb Section:::... -->
-<div class="breadcrumb-section breadcrumb-bg-color--golden">
-    <div class="breadcrumb-wrapper">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h3 class="breadcrumb-title">GIỚI THIỆU</h3>
-                    <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
-                        <nav aria-label="breadcrumb">
-                            <ul>
-                                <li><a asp-action="Index" asp-controller="Home">Trang Chủ</a></li>
-                                <li class="active" aria-current="page">Giới Thiệu</li>
-                            </ul>   
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> <!-- ...:::: End Breadcrumb Section:::... -->
-<!-- ...::::Start About Us Center Section:::... -->
-<div class="faq-section">
-    <div class="container"> 
-        <div class="row">
-            <div class="col-12">
-                <div class="faq-content" data-aos="fade-up" data-aos-delay="0">
-                    <h5 class="title">
-                        1. Về chúng tôi
-                    </h5>
-                    <p>
-                        ZZZ WATCH không chỉ là nơi để mua sắm, mà còn là một nơi để khám phá, tìm hiểu và đắm mình trong thế giới đồng hồ.
-                        <br />
-                        ZZZ WATCH được xây dựng nhằm cung cấp cho khách hàng những sản phẩm đồng hồ đeo tay cao cấp, chất lượng, 
-                        chính hãng cam kết mang đến cho khách hàng những mẫu đồng hồ hoàn hảo về cả thiết kế lẫn tính năng 
-                        và hoàn thành sứ mệnh “Nơi An Tâm Mua Đồng Hồ Chính Hãng”. Đồng thời chúng tôi cũng hướng đến  những trải nghiệm dễ dàng, 
-                        an toàn và nhanh chóng khi mua sắm trực tuyến thông qua hệ thống hỗ trợ thanh toán và vận hành vững mạnh.
-                    </p>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="faq-content" data-aos="fade-up" data-aos-delay="0">
-                    <h5 class="title">
-                        2. Cửa hàng của chúng tôi
-                    </h5>
-                    <p>
-                        65 Đ. Huỳnh Thúc Kháng, Bến Nghé, Quận 1, Hồ Chí Minh
-                        <br />
-                        Điện thoại: 0306221377
-                        <br />
-                        Email: 0306221377@caothang.edu.vn
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="faq-wrapper">
-            <div class="row">
-                <div class="col-12">
-                    <div class="faq-content" data-aos="fade-up" data-aos-delay="0">
-                        <h5 class="title">
-                            3. Chính sách của chúng tôi
-                        </h5>
-                    </div>
-                    <div class="faq-accordian">
-                        <div class="faq-accordian-single-item" data-aos="fade-up" data-aos-delay="0">
-                            <input id="item-1" name="accordian-item" type="radio" checked="">
-                            <label for="item-1">Giao hàng nhanh</label>
-                            <div class="item-content">
-                                <p>
-                                    Chúng tôi cam kết cung cấp dịch vụ giao hàng nhanh chóng và đáng tin cậy. 
-                                    Đơn hàng của bạn sẽ được xử lý và giao trong vòng 1-2 ngày làm việc, tùy thuộc vào địa chỉ giao hàng. 
-                                    Đặc biệt, đối với các đơn hàng trong khu vực nội thành, chúng tôi sẽ giao trong ngày nếu đơn hàng được đặt trước 12h00. 
-                                    Mọi chi phí giao hàng sẽ được hiển thị rõ ràng khi bạn thanh toán, và miễn phí vận chuyển cho đơn hàng có giá trị từ [số tiền cụ thể] trở lên. 
-                                    Chúng tôi luôn nỗ lực mang đến trải nghiệm giao hàng nhanh chóng, tiện lợi và không gây phiền phức cho khách hàng.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="faq-accordian-single-item" data-aos="fade-up" data-aos-delay="200">
-                            <input id="item-2" name="accordian-item" type="radio">
-                            <label for="item-2">Miễn phí giao hàng</label>
-                            <div class="item-content">
-                                <p>
-                                    Cửa hàng sẽ miễn phí giao hàng cho tất cả các đơn hàng trong phạm vi nội thành.
-                                    Đối với các đơn hàng ở phạm vi ngoài thành phố thì sẽ được tính phí vận chuyển.
-                                    Thời gian nhận hàng sẽ từ 1-5 ngày tùy vào địa điểm nhận hàng.
-                                    Cửa hàng sẽ lựa chọn đối tác vận chuyển uy tín để đảm bảo đồng hồ được giao đến khách hàng một cách an toàn và đúng thời gian.
-                                    Trong quá trình vận chuyển, nếu sản phẩm bị hư hỏng hoặc thất lạc, cửa hàng sẽ chịu trách nhiệm hoàn toàn và có thể gửi lại sản phẩm mới hoặc hoàn tiền cho khách hàng.
-                                    Chính sách miễn phí giao hàng có thể không áp dụng cho các khu vực vùng sâu, vùng xa hoặc quốc tế, và trong trường hợp này, khách hàng sẽ được thông báo rõ ràng về các chi phí phát sinh.
-
-                                </p>
-                            </div>
-                        </div>
-                        <div class="faq-accordian-single-item" data-aos="fade-up" data-aos-delay="400">
-                            <input id="item-3" name="accordian-item" type="radio">
-                            <label for="item-3">Cam kết chính hãng</label>
-                            <div class="item-content">
-                                <p>
-                                    Cửa hàng cam kết tất cả đồng hồ bán ra đều là hàng chính hãng, được nhập khẩu hoặc phân phối trực tiếp từ nhà sản xuất hoặc đại lý ủy quyền.
-                                    Mỗi sản phẩm sẽ đi kèm với các giấy tờ chứng nhận chính hãng, bao gồm sổ bảo hành, hóa đơn mua hàng, và các giấy tờ liên quan khác.
-                                    Đồng hồ mua tại cửa hàng sẽ được bảo hành theo tiêu chuẩn của nhà sản xuất. Thời gian bảo hành và các dịch vụ đi kèm sẽ được thực hiện tại các trung tâm bảo hành ủy quyền.
-                                    Nếu khách hàng chứng minh được sản phẩm là hàng giả, cửa hàng cam kết hoàn trả toàn bộ số tiền đã thanh toán và có thể bồi thường thêm tùy theo chính sách cụ thể.
-                                    Cửa hàng sẽ cung cấp dịch vụ hậu mãi, bao gồm sửa chữa và bảo trì đồng hồ, với cam kết sử dụng linh kiện chính hãng.
-                                    Cửa hàng có thể áp dụng chính sách đổi trả linh hoạt nếu khách hàng phát hiện sản phẩm có lỗi sản xuất hoặc không đúng với mô tả ban đầu.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> <!-- ...::::End  About Us Center Section:::... -->
-    <!-- ...:::: Start Breadcrumb Section:::... -->
-@* <div class="breadcrumb-section breadcrumb-bg-color--golden">
+ <div class="breadcrumb-section breadcrumb-bg-color--golden">
     <div class="breadcrumb-wrapper">
         <div class="container">
             <div class="row">
@@ -189,4 +78,4 @@
             </div>
         </div>
     </div>
-</div> <!-- ...::::End  About Us Center Section:::... --> *@
+</div> <!-- ...::::End  About Us Center Section:::... -->
