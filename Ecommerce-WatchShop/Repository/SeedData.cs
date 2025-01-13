@@ -365,7 +365,7 @@ namespace Ecommerce_WatchShop
                     Address = "65 Đ. Huỳnh Thúc Kháng, Bến Nghé, Quận 1, Hồ Chí Minh",
                     Email = "contact@zzz.com",
                     Phone = "0123456789",
-                    FacebookUrl = "https://www.facebook.com/zzz",
+                    FacebookUrl = "https://www.facebook.com/ZZZWATCHESS/",
                     Status = true
                     }
                 );
