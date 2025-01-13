@@ -253,17 +253,17 @@
                             <div class="tab-pane" id="review">
                                 <div class="single-tab-content-item">
                                     <!-- Start - Review Comment -->
-                                    <ul class="comment">
+                                    <ul class="comment-list">
                                         @foreach (var comment in Model.Comments)
                                         {
-                                            <li class="comment-list">
+                                            <li>
                                                 <div class="comment-content">
                                                     <h6 class="comment-name">@comment.CustomerName</h6>
                                                     <ul class="review-star">
                                                         @for (int i = 1; i <= 5; i++)
                                                         {
                                                             <li class="@(i <= comment.Rating ? "fill" : "empty")">
-                                                                <i class="ion-android-star"></i>
+                                                                <i class="@(i <= comment.Rating ? "ion-android-star" : "ion-android-star-outline")"></i>
                                                             </li>
                                                         }
                                                     </ul>
@@ -274,6 +274,7 @@
                                             <hr />
                                         }
                                     </ul>
+
                                     <div class="review-form">
                                         <div class="review-form-text-top">
                                             <h5>ADD A REVIEW</h5>
