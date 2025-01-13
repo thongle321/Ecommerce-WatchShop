@@ -23,7 +23,6 @@ namespace Ecommerce_WatchShop.Areas.Admin.Controllers
         {
             return View();
         }
-        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM loginVM, string? returnUrl = null)

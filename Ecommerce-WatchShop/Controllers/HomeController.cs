@@ -24,12 +24,16 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var loginVM = new LoginVM();
-        return View(loginVM);
-    }
-    public IActionResult Introduction()
-    {
         return View();
+    }
+    public async Task<IActionResult> Introduction()
+    {
+        var aboutVM = new AboutVM
+        {
+            About = await _context.Abouts.FirstOrDefaultAsync(),
+            Policies = await _context.Policies.ToListAsync()
+        };
+        return View(aboutVM);
     }
     [HttpGet]
     public IActionResult Contact()

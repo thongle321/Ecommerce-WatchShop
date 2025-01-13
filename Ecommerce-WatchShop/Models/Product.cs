@@ -26,9 +26,9 @@ public partial class Product
     public double? Price { get; set; }
     [Column(TypeName = "nvarchar(200)")]
     public string? ShortDescription { get; set; }
-    [Column(TypeName = "nvarchar(300)")]
-    public string? Description { get; set; }
     [Column(TypeName = "nvarchar(500)")]
+    public string? Description { get; set; }
+    [Column(TypeName = "nvarchar(MAX)")]
     public string? Specification { get; set; }
 
     public int? Quantity { get; set; }

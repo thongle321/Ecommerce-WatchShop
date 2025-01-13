@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/assets/css/vendor/vendor.min.css">
     <link rel="stylesheet" href="~/assets/css/plugins/plugins.min.css">
     <link rel="stylesheet" href="~/assets/css/style.min.css">
-    <link href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.min.css " rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -364,119 +364,7 @@
 
     @RenderBody()
     @await Component.InvokeAsync("Footer")
-@*     <!-- Start Footer Section -->
-    <footer class="footer-section footer-bg section-top-gap-100">
-        <div class="footer-wrapper">
-            <!-- Start Footer Top -->
-            <div class="footer-top">
-                <div class="container">
-                    <div class="row mb-n6">
-                        <div class="col-lg-3 col-sm-6 mb-6">
-                            <!-- Start Footer Logo Item -->
-                            <div class="footer-logo" data-aos="fade-up" data-aos-delay="0">
-                                <a href="#">
-                                    <img src="~/images/Logo.png" alt="ZZZ Logo" style="max-width: 200px;">
-                                </a>
-                            </div>
-                            <!-- End Footer Logo Item -->
-                        </div>
-                        <div class="col-lg-2 col-sm-6 mb-6">
-                            <!-- Start Footer Single Item -->
-                            <div class="footer-widget-single-item footer-widget-color--pink" data-aos="fade-up"
-                                 data-aos-delay="0">
-                                <h5 class="title">Thông Tin</h5>
-                                <ul class="footer-nav">
-                                    <li><a asp-action="Introduction">Giới Thiệu</a></li>
-                                    <li><a asp-action="Contact">Liên Hệ</a></li>
-                                </ul>
-                            </div>
-                            <!-- End Footer Single Item -->
-                        </div>
-                        <div class="col-lg-2 col-sm-6 mb-6">
-                            <!-- Start Footer Single Item -->
-                            <div class="footer-widget-single-item footer-widget-color--pink" data-aos="fade-up"
-                                 data-aos-delay="200">
-                                <h5 class="title">Tài Khoản Của Tôi</h5>
-                                <ul class="footer-nav">
-                                    <li><a href="my-account.html">Tài Khoản Của Tôi</a></li>
-                                    <li><a asp-controller="Home" asp-action="Favorite">Yêu Thích</a></li>
-                                    <li><a href="#">Lịch Sử Đơn Hàng</a></li>
-                                </ul>
-                            </div>
-                            <!-- End Footer Single Item -->
-                        </div>
-                        <div class="col-lg-2 col-sm-6 mb-6">
-                            <!-- Start Footer Single Item -->
-                            <div class="footer-widget-single-item footer-widget-color--pink" data-aos="fade-up"
-                                 data-aos-delay="400">
-                                <h5 class="title">Danh Mục</h5>
-                                <ul class="footer-nav">
-                                    <li><a href="#">Đồng Hồ Nam</a></li>
-                                    <li><a href="#">Đồng Hồ Nữ</a></li>
-                                    <li><a href="#">Đồng Hồ Cơ</a></li>
-                                    <li><a href="#">Đồng Hồ Pin</a></li>
-                                    <li><a href="#">Đồng hồ Điện Tử</a></li>
-                                </ul>
-                            </div>
-                            <!-- End Footer Single Item -->
-                        </div>
-                        <div class="col-lg-3 col-sm-6 mb-6">
-                            <!-- Start Footer Single Item -->
-                            <div class="footer-widget-single-item footer-widget-color--pink" data-aos="fade-up"
-                                 data-aos-delay="600">
-                                <h5 class="title">Về Chúng Tôi</h5>
-                                <div class="footer-about">
-                                    <p>
-                                        ZZZ không chỉ là nơi để mua sắm, mà còn là một nơi để khám phá, tìm hiểu và đắm mình trong thế giới đồng hồ.
-                                    </p>
-
-                                    <address>
-                                        <span>Địa Chỉ: 65 Đ. Huỳnh Thúc Kháng, Bến Nghé, Quận 1, Hồ Chí Minh</span>
-                                    </address>
-                                </div>
-                            </div>
-                            <!-- End Footer Single Item -->
-                        </div>
-                        <div class="col-lg-3 col-sm-6 mb-6">
-                            <!-- Start Footer Single Item -->
-                            <div class="footer-widget-single-item footer-widget-color--pink" data-aos="fade-up"
-                                 data-aos-delay="600">
-                                <h5 class="title">Theo Dõi Chúng Tôi</h5>
-                                <div class="footer-about">
-                                    <ul class="footer-social-link">
-                                        <li><a href="https://www.facebook.com/profile.php?id=61571429382369"><i class="fa fa-facebook"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- End Footer Single Item -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Footer Top -->
-            <!-- Start Footer Center -->
-            <!-- Start Footer Center -->
-            <!-- Start Footer Bottom -->
-            <hr />
-            <div class="footer-bottom">
-                <div class="container">
-                    <div class="row justify-content-center align-items-center align-items-center flex-column flex-md-row mb-n6">
-                        <div class="col-auto mb-6">
-                            <div class="footer-copyright">
-                                <p class="copyright-text">
-                                    &copy; 2024 <a asp-action="Index">ZZZ</a>. Bản quyền thuộc về ZZZ
-                                </p>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Start Footer Bottom -->
-        </div>
-    </footer>
-    <!-- End Footer Section --> *@
-    <!-- material-scrolltop button -->
+    
     <button class="material-scrolltop" type="button"></button>
 
 
@@ -544,7 +432,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
-    <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js"></script>
     <script>
         $(function () {
             var successMessage = '@Html.Raw(TempData["success"])';
