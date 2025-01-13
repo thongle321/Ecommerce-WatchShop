@@ -71,7 +71,7 @@ namespace Ecommerce_WatchShop.Controllers
                 return NotFound();
             }
             var customerName = customerId != null
-    ? _context.Customers.FirstOrDefault(c => c.CustomerId == customerId)?.FullName ?? "Guest"
+    ? _context.Customers.FirstOrDefault(c => c.CustomerId == customerId)?.DisplayName ?? "Guest"
     : "Guest";
             // Tạo ViewModel
             var viewModel = new ProductDetailVM
