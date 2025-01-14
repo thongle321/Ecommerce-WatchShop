@@ -8,18 +8,18 @@ namespace Ecommerce_WatchShop
         public static async Task SeedingData(DongHoContext _context)
         {
             await _context.Database.MigrateAsync();
-            if(!_context.Brands.Any()) 
+            if (!_context.Brands.Any())
             {
                 Brand citizen = new Brand { Name = "Citizen", Contents = null, Slug = "citizen" };
                 Brand doxa = new Brand { Name = "Doxa", Contents = null, Slug = "doxa" };
                 Brand curnon = new Brand { Name = "Curnon", Contents = null, Slug = "curnon" };
-                Brand seiko = new Brand { Name = "Seiko", Contents = null, Slug = "seiko"};
+                Brand seiko = new Brand { Name = "Seiko", Contents = null, Slug = "seiko" };
 
                 await _context.Brands.AddRangeAsync(citizen, doxa, curnon, seiko);
-                await _context.SaveChangesAsync(); 
+                await _context.SaveChangesAsync();
 
             }
-            if(!_context.Categories.Any())
+            if (!_context.Categories.Any())
             {
 
                 Category donghoco = new Category { CategoryName = "Đồng hồ cơ", ParentId = null, Slug = "dong-ho-co" };
@@ -29,12 +29,12 @@ namespace Ecommerce_WatchShop
                 await _context.Categories.AddRangeAsync(donghoco, donghopin, donghonangluong);
                 await _context.SaveChangesAsync();
             }
-            if(!_context.Suppliers.Any())
+            if (!_context.Suppliers.Any())
             {
-                Supplier citizen_supplier = new Supplier { Name = "Công ty Citizen Watch", Phone = "(800) 321-1023" ,Information = "CÔNG TY CITIZEN WATCH là một nhà sản xuất thực sự với một quy trình sản xuất toàn diện", Address = "6-1-12, Tanashi-cho, Nishi-Tokyo-shi, Tokyo 188-8511, Japan"};
+                Supplier citizen_supplier = new Supplier { Name = "Công ty Citizen Watch", Phone = "(800) 321-1023", Information = "CÔNG TY CITIZEN WATCH là một nhà sản xuất thực sự với một quy trình sản xuất toàn diện", Address = "6-1-12, Tanashi-cho, Nishi-Tokyo-shi, Tokyo 188-8511, Japan" };
                 Supplier doxa_supplier = new Supplier { Name = "Công ty Doxa", Phone = "1-520-369 -872", Information = "Thương hiệu đồng hồ Doxa nổi tiếng của Thuỵ Sĩ được ra mắt với công chúng vào năm 1889 bởi một nghệ nhân chế tác đồng hồ trẻ tuổi", Address = "Rue de Zurich 23A, 2500 Biel/Bienne, Switzerland" };
                 Supplier curnon_supplier = new Supplier { Name = "Công ty Curnon", Phone = "0868889103", Information = "Với những sản phẩm được thiết kế bằng nhiệt huyết, khát khao và khối óc đầy sáng tạo của đội ngũ chính những người trẻ Việt Nam.", Address = "25 Nguyễn Trãi, P.Bến Thành, Quận 1." };
-                Supplier seiko_supplier = new Supplier { Name = "Công ty Seiko", Phone = "81-3-3563-2111", Information = "Công ty Nhật Bản thành lập vào năm 1881; nổi tiếng trong lĩnh vực sản xuất và mua bán đồng hồ, thiết bị điện tử", Address = "1-8 Nakase, Mihama-ku, Chiba-shi, Chiba 261-8507, Japan"};
+                Supplier seiko_supplier = new Supplier { Name = "Công ty Seiko", Phone = "81-3-3563-2111", Information = "Công ty Nhật Bản thành lập vào năm 1881; nổi tiếng trong lĩnh vực sản xuất và mua bán đồng hồ, thiết bị điện tử", Address = "1-8 Nakase, Mihama-ku, Chiba-shi, Chiba 261-8507, Japan" };
 
                 await _context.Suppliers.AddRangeAsync(citizen_supplier, doxa_supplier, curnon_supplier, seiko_supplier);
                 await _context.SaveChangesAsync();
@@ -56,23 +56,24 @@ namespace Ecommerce_WatchShop
                 var seiko_supplier = _context.Suppliers.FirstOrDefault(s => s.Name == "Công ty Seiko");
 
                 await _context.Products.AddRangeAsync(
-                    new Product { 
-                        Image = "Curnon Kashmir.png", 
-                        ProductName = "Curnon Kashmir", 
-                        CategoryId = donghoco.CategoryId, 
+                    new Product
+                    {
+                        Image = "Curnon Kashmir.png",
+                        ProductName = "Curnon Kashmir",
+                        CategoryId = donghoco.CategoryId,
                         BrandId = curnon.BrandId,
-                        SupplierId = curnon_supplier.SupplierId, 
-                        Gender = 1, 
-                        Price = 2279000, 
-                        ShortDescription = "Đồng hồ sang trọng dành cho nam", 
-                        Description = "Đồng hồ nam Curnon Kashmir Classic có thiết kế tối giản, mang phong cách trẻ trung; Dây da, có kim rốn, Mặt kính Sapphire chống trầy xước, Chống nước 3ATM…", 
-                        Specification = "Kích thước mặt: 40mm<br> Độ dày: 7mm<br> Màu mặt: White<br> Loại máy: MIYOTA QUARTZ<br> Kích cỡ dây: 20mm<br>Chống nước: 3ATM<br> Mặt kính: Sapphire<br> Chất liệu dây: Dây Da Genuine", 
-                        Quantity = 10, 
-                        Status = 1, 
-                        CreatedAt = DateTime.Now, 
-                        UpdatedAt = null, 
-                        Deleted = null, 
-                        Slug = "curnon-kashmir" 
+                        SupplierId = curnon_supplier.SupplierId,
+                        Gender = 1,
+                        Price = 2279000,
+                        ShortDescription = "Đồng hồ sang trọng dành cho nam",
+                        Description = "Đồng hồ nam Curnon Kashmir Classic có thiết kế tối giản, mang phong cách trẻ trung; Dây da, có kim rốn, Mặt kính Sapphire chống trầy xước, Chống nước 3ATM…",
+                        Specification = "Kích thước mặt: 40mm<br> Độ dày: 7mm<br> Màu mặt: White<br> Loại máy: MIYOTA QUARTZ<br> Kích cỡ dây: 20mm<br>Chống nước: 3ATM<br> Mặt kính: Sapphire<br> Chất liệu dây: Dây Da Genuine",
+                        Quantity = 10,
+                        Status = 1,
+                        CreatedAt = DateTime.Now,
+                        UpdatedAt = null,
+                        Deleted = null,
+                        Slug = "curnon-kashmir"
                     },
                     new Product
                     {
@@ -293,7 +294,7 @@ namespace Ecommerce_WatchShop
                 );
                 await _context.SaveChangesAsync();
             }
-            if(!_context.Blogs.Any())
+            if (!_context.Blogs.Any())
             {
                 await _context.Blogs.AddRangeAsync(
                 new Blog
@@ -335,7 +336,7 @@ namespace Ecommerce_WatchShop
                 );
                 await _context.SaveChangesAsync();
             }
-            if(!_context.BlogImages.Any())
+            if (!_context.BlogImages.Any())
             {
                 await _context.BlogImages.AddRangeAsync
                 (
@@ -354,24 +355,24 @@ namespace Ecommerce_WatchShop
                 );
                 await _context.SaveChangesAsync();
             }
-            
-            if(!_context.Footers.Any())
+
+            if (!_context.Footers.Any())
             {
                 await _context.Footers.AddRangeAsync(
                     new Footer
                     {
-                    Logo = "Logo.png",
-                    Description = "ZZZ không chỉ là nơi để mua sắm, mà còn là một nơi để khám phá, tìm hiểu và đắm mình trong thế giới đồng hồ.",
-                    Address = "65 Đ. Huỳnh Thúc Kháng, Bến Nghé, Quận 1, Hồ Chí Minh",
-                    Email = "contact@zzz.com",
-                    Phone = "0123456789",
-                    FacebookUrl = "https://www.facebook.com/ZZZWATCHESS/",
-                    Status = true
+                        Logo = "Logo.png",
+                        Description = "ZZZ không chỉ là nơi để mua sắm, mà còn là một nơi để khám phá, tìm hiểu và đắm mình trong thế giới đồng hồ.",
+                        Address = "65 Đ. Huỳnh Thúc Kháng, Bến Nghé, Quận 1, Hồ Chí Minh",
+                        Email = "contact@zzz.com",
+                        Phone = "0123456789",
+                        FacebookUrl = "https://www.facebook.com/ZZZWATCHESS/",
+                        Status = true
                     }
                 );
                 await _context.SaveChangesAsync();
             }
-            if(!_context.FooterLinks.Any())
+            if (!_context.FooterLinks.Any())
             {
                 await _context.FooterLinks.AddRangeAsync(
                     new FooterLink { Title = "Giới Thiệu", Url = "/Home/Introduction", GroupId = 1, DisplayOrder = 1, Status = true },
@@ -390,7 +391,7 @@ namespace Ecommerce_WatchShop
                 await _context.SaveChangesAsync();
             }
 
-            if(!_context.Sliders.Any())
+            if (!_context.Sliders.Any())
             {
                 await _context.Sliders.AddRangeAsync
                 (
@@ -401,11 +402,12 @@ namespace Ecommerce_WatchShop
                 await _context.SaveChangesAsync();
             }
 
-            if(!_context.Abouts.Any())
+            if (!_context.Abouts.Any())
             {
                 await _context.Abouts.AddRangeAsync
                 (
-                    new About { 
+                    new About
+                    {
                         Content = @"
                         ZZZ WATCH không chỉ là nơi để mua sắm, mà còn là một nơi để khám phá, tìm hiểu và đắm mình trong thế giới đồng hồ.
                         <br />
@@ -417,37 +419,46 @@ namespace Ecommerce_WatchShop
                         Address = "65 Đ. Huỳnh Thúc Kháng, Bến Nghé, Quận 1, Hồ Chí Minh",
                         Phone = "0306221377",
                         Email = "0306221377@caothang.edu.vn"
-                    }  
+                    }
                 );
                 await _context.SaveChangesAsync();
             }
-            if(!_context.Policies.Any())
+            if (!_context.Policies.Any())
             {
                 await _context.Policies.AddRangeAsync
                 (
-                    new Policy { Title = "Giao hàng nhanh", 
-                    Content = @"Chúng tôi cam kết cung cấp dịch vụ giao hàng nhanh chóng và đáng tin cậy. Đơn hàng của bạn sẽ được xử lý và giao trong vòng 1-2 ngày làm việc, tùy thuộc vào địa chỉ giao hàng. 
+                    new Policy
+                    {
+                        Title = "Giao hàng nhanh",
+                        Content = @"Chúng tôi cam kết cung cấp dịch vụ giao hàng nhanh chóng và đáng tin cậy. Đơn hàng của bạn sẽ được xử lý và giao trong vòng 1-2 ngày làm việc, tùy thuộc vào địa chỉ giao hàng. 
                                 Đặc biệt, đối với các đơn hàng trong khu vực nội thành, chúng tôi sẽ giao trong ngày nếu đơn hàng được đặt trước 12h00. 
                                 Mọi chi phí giao hàng sẽ được hiển thị rõ ràng khi bạn thanh toán, và miễn phí vận chuyển cho đơn hàng có giá trị từ [số tiền cụ thể] trở lên. 
-                                Chúng tôi luôn nỗ lực mang đến trải nghiệm giao hàng nhanh chóng, tiện lợi và không gây phiền phức cho khách hàng." },
-                    new Policy { Title = "Miễn phí giao hàng", 
-                    Content = @"Cửa hàng sẽ miễn phí giao hàng cho tất cả các đơn hàng trong phạm vi nội thành.
+                                Chúng tôi luôn nỗ lực mang đến trải nghiệm giao hàng nhanh chóng, tiện lợi và không gây phiền phức cho khách hàng."
+                    },
+                    new Policy
+                    {
+                        Title = "Miễn phí giao hàng",
+                        Content = @"Cửa hàng sẽ miễn phí giao hàng cho tất cả các đơn hàng trong phạm vi nội thành.
                                 Đối với các đơn hàng ở phạm vi ngoài thành phố thì sẽ được tính phí vận chuyển.
                                 Thời gian nhận hàng sẽ từ 1-5 ngày tùy vào địa điểm nhận hàng.
                                 Cửa hàng sẽ lựa chọn đối tác vận chuyển uy tín để đảm bảo đồng hồ được giao đến khách hàng một cách an toàn và đúng thời gian.
                                 Trong quá trình vận chuyển, nếu sản phẩm bị hư hỏng hoặc thất lạc, cửa hàng sẽ chịu trách nhiệm hoàn toàn và có thể gửi lại sản phẩm mới hoặc hoàn tiền cho khách hàng.
-                                Chính sách miễn phí giao hàng có thể không áp dụng cho các khu vực vùng sâu, vùng xa hoặc quốc tế, và trong trường hợp này, khách hàng sẽ được thông báo rõ ràng về các chi phí phát sinh." },
-                    new Policy { Title = "Cam kết chính hãng", 
-                    Content = @"Cửa hàng cam kết tất cả đồng hồ bán ra đều là hàng chính hãng, được nhập khẩu hoặc phân phối trực tiếp từ nhà sản xuất hoặc đại lý ủy quyền.
+                                Chính sách miễn phí giao hàng có thể không áp dụng cho các khu vực vùng sâu, vùng xa hoặc quốc tế, và trong trường hợp này, khách hàng sẽ được thông báo rõ ràng về các chi phí phát sinh."
+                    },
+                    new Policy
+                    {
+                        Title = "Cam kết chính hãng",
+                        Content = @"Cửa hàng cam kết tất cả đồng hồ bán ra đều là hàng chính hãng, được nhập khẩu hoặc phân phối trực tiếp từ nhà sản xuất hoặc đại lý ủy quyền.
                                 Mỗi sản phẩm sẽ đi kèm với các giấy tờ chứng nhận chính hãng, bao gồm sổ bảo hành, hóa đơn mua hàng, và các giấy tờ liên quan khác.
                                 Đồng hồ mua tại cửa hàng sẽ được bảo hành theo tiêu chuẩn của nhà sản xuất. Thời gian bảo hành và các dịch vụ đi kèm sẽ được thực hiện tại các trung tâm bảo hành ủy quyền.
                                 Nếu khách hàng chứng minh được sản phẩm là hàng giả, cửa hàng cam kết hoàn trả toàn bộ số tiền đã thanh toán và có thể bồi thường thêm tùy theo chính sách cụ thể.
                                 Cửa hàng sẽ cung cấp dịch vụ hậu mãi, bao gồm sửa chữa và bảo trì đồng hồ, với cam kết sử dụng linh kiện chính hãng.
-                                Cửa hàng có thể áp dụng chính sách đổi trả linh hoạt nếu khách hàng phát hiện sản phẩm có lỗi sản xuất hoặc không đúng với mô tả ban đầu." }
+                                Cửa hàng có thể áp dụng chính sách đổi trả linh hoạt nếu khách hàng phát hiện sản phẩm có lỗi sản xuất hoặc không đúng với mô tả ban đầu."
+                    }
                 );
                 await _context.SaveChangesAsync();
             }
-            if(!_context.Roles.Any())
+            if (!_context.Roles.Any())
             {
                 await _context.Roles.AddRangeAsync
                 (

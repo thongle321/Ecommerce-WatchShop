@@ -2,11 +2,8 @@ using Ecommerce_WatchShop.Models;
 using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using System.Security.Claims;
 
 namespace Ecommerce_WatchShop.Controllers;
 
@@ -146,5 +143,5 @@ public class AccountController : Controller
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction("Index", "Home");
     }
-   
+
 }

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce_WatchShop.Models.ViewModels
 {
@@ -16,7 +15,7 @@ namespace Ecommerce_WatchShop.Models.ViewModels
         public string? Subject { get; set; }
 
         [Required(ErrorMessage = "Nội dung là bắt buộc.")]
-        [StringLength(500, ErrorMessage ="Nội dung nhập giới hạn trong 500 ký tự")]
+        [StringLength(500, ErrorMessage = "Nội dung nhập giới hạn trong 500 ký tự")]
         public string? Note { get; set; }
     }
 }

@@ -1,7 +1,6 @@
-using System.Text.RegularExpressions;
-using System.Text;
 using Ecommerce_WatchShop.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace Ecommerce_WatchShop.Helper
 {
@@ -47,22 +46,22 @@ namespace Ecommerce_WatchShop.Helper
 
             // Convert Vietnamese characters to Latin
             string str = ConvertToLatinChars(phrase);
-            
+
             // Convert to lowercase
             str = str.ToLower();
-            
+
             // Remove invalid chars
             str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
-            
+
             // Remove multiple spaces
             str = Regex.Replace(str, @"\s+", " ").Trim();
-            
+
             // Cut and trim
             str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
-            
+
             // Replace spaces with hyphens
             str = Regex.Replace(str, @"\s", "-");
-            
+
             return str;
         }
 
@@ -151,7 +150,7 @@ namespace Ecommerce_WatchShop.Helper
                     }
                 }
             }
-            
+
             return slug;
         }
 

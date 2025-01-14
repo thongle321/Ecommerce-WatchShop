@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Ecommerce_WatchShop.Models;
-using System.Linq;
+﻿using Ecommerce_WatchShop.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce_WatchShop.Controllers
 {
@@ -15,7 +14,7 @@ namespace Ecommerce_WatchShop.Controllers
 
         public IActionResult Index()
         {
-            var blogs = _context.Blogs.ToList();    
+            var blogs = _context.Blogs.ToList();
             return View(blogs);
         }
     }

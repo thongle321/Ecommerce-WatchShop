@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Ecommerce_WatchShop.Models;
+﻿using Ecommerce_WatchShop.Models;
+using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
-using Ecommerce_WatchShop.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Ecommerce_WatchShop.Abstractions;
+using System.Diagnostics;
+using System.Security.Claims;
 
 
 namespace Ecommerce_WatchShop.Controllers;
@@ -55,15 +54,15 @@ public class HomeController : Controller
                 Note = string.IsNullOrEmpty(contactVM.Note) ? "" : contactVM.Note
             };
 
-          
+
             _context.Contacts.Add(contact);
             await _context.SaveChangesAsync();
 
-           
+
             return RedirectToAction("Index");
         }
 
-        
+
         return View("Contact", contactVM);
     }
     [HttpPost]
@@ -130,7 +129,7 @@ public class HomeController : Controller
 
         if (account.RoleId == 2)
         {
-            ModelState.AddModelError("Username", "Không có quyền truy cập");    
+            ModelState.AddModelError("Username", "Không có quyền truy cập");
             return PartialView("_LoginPartial", loginVM);
         }
         var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == account.AccountId);
@@ -139,7 +138,7 @@ public class HomeController : Controller
         {
             new Claim("AccountId", account.AccountId.ToString())
         };
-        if(customer != null && customer.CustomerId > 0)
+        if (customer != null && customer.CustomerId > 0)
         {
             claims.Add(new Claim("CustomerId", customer.CustomerId.ToString())); // Claim cho CustomerId
 

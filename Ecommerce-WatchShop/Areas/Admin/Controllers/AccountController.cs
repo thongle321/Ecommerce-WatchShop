@@ -1,11 +1,10 @@
 using Ecommerce_WatchShop.Models;
 using Ecommerce_WatchShop.Models.ViewModels;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce_WatchShop.Areas.Admin.Controllers
 {
@@ -47,11 +46,11 @@ namespace Ecommerce_WatchShop.Areas.Admin.Controllers
 
             var claims = new List<Claim>();
 
-            if(!string.IsNullOrEmpty(loginVM.Username))
+            if (!string.IsNullOrEmpty(loginVM.Username))
             {
                 claims.Add(new Claim(ClaimTypes.Name, loginVM.Username));
             }
-            if(account.RoleId > 0)
+            if (account.RoleId > 0)
             {
                 var roleValue = account.RoleId.ToString();
                 if (!string.IsNullOrEmpty(roleValue))

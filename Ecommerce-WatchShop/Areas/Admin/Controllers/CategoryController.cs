@@ -61,7 +61,7 @@ namespace DongHo_Admin.Areas.Admin.Controllers
 
             {
 
-                model.Slug = await SlugHelper.GenerateUniqueSlug(_context, model.CategoryName!,SlugHelper.EntityType.Category, model.CategoryId);
+                model.Slug = await SlugHelper.GenerateUniqueSlug(_context, model.CategoryName!, SlugHelper.EntityType.Category, model.CategoryId);
 
                 _context.Categories.Add(model);
                 try
@@ -112,7 +112,7 @@ namespace DongHo_Admin.Areas.Admin.Controllers
 
         [HttpPost]
 
-        public async Task< IActionResult> Edit( Category model)
+        public async Task<IActionResult> Edit(Category model)
 
         {
 
@@ -128,7 +128,7 @@ namespace DongHo_Admin.Areas.Admin.Controllers
 
                     category.CategoryName = model.CategoryName;
 
-                    category.Slug = await SlugHelper.GenerateUniqueSlug(_context,category.CategoryName!,SlugHelper.EntityType.Category, model.CategoryId);
+                    category.Slug = await SlugHelper.GenerateUniqueSlug(_context, category.CategoryName!, SlugHelper.EntityType.Category, model.CategoryId);
 
                     category.ParentId = model.ParentId;
 
@@ -136,7 +136,7 @@ namespace DongHo_Admin.Areas.Admin.Controllers
 
                     _context.Update(category);
 
-                   await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
 
 
 
