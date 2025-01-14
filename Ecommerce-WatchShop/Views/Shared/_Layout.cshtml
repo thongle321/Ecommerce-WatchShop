@@ -411,7 +411,7 @@
                 </div>
             </div>
         </div>
-    </div>x
+    </div>
 
     @* @await Html.PartialAsync("_LoginPartial", new Ecommerce_WatchShop.Models.ViewModels.LoginVM()) *@
     @* @await Html.PartialAsync("_RegisterPartial", new Ecommerce_WatchShop.Models.ViewModels.RegisterVM()) *@
@@ -497,6 +497,6 @@
             });
         });
     </script>
-    @RenderSectionAsync("Scripts", required: false);
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
