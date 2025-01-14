@@ -101,7 +101,7 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">Mô tả</label>
-                                    <textarea asp-for="Footer.Description" class="form-control"></textarea>
+                                    <textarea id="editor" asp-for="Footer.Description" class="form-control"></textarea>
                                     <span asp-validation-for="Footer.Description" class="text-danger"></span>
                                 </div>
 
@@ -274,15 +274,36 @@
         </div>
     </div>
 </div>
-@* @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-} *@
-
-@* 
 
 <script>
+    const {
+        ClassicEditor,
+        Essentials,
+        Paragraph,
+        Bold,
+        Italic,
+        Font
+    } = CKEDITOR;
+    // Create a free account and get <YOUR_LICENSE_KEY>
+    // https://portal.ckeditor.com/checkout?plan=free
+    ClassicEditor
+        .create( document.querySelector( '#editor' ), {
+            licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3Njg0MzUxOTksImp0aSI6ImE0NWUwZDk0LWJjZDktNDEzMS1iNzBmLTViYWI1M2UwMzVmYSIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiXSwiZmVhdHVyZXMiOlsiRFJVUCJdLCJ2YyI6IjEyNTExOWVjIn0.q2MNAJj_p-CfaOn-Y68mVdMVe0BsopFvOIj8dP9GvQD3CuTDGajAAdFI6IT6YAqsf-WyVvkWRv_BjSXT7SPqzw',
+            plugins: [ Essentials, Paragraph, Bold, Italic, Font ],
+            toolbar: [
+                'undo', 'redo', '|', 'bold', 'italic', '|',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+            ]
+        } )
+        .then( editor => {
+            window.editor = editor;
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
+
+@* <script>
 	var ctx = document.getElementById('canvas-barchart').getContext('2d');
 	var barChart = new Chart(ctx, {
 		type: 'bar',
@@ -330,4 +351,4 @@
 	});
 </script>
 }
- *@
+  *@
