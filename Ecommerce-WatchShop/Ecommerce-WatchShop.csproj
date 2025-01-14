@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Ecommerce_WatchShop</RootNamespace>
         <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     </PropertyGroup>
 
     <ItemGroup>
