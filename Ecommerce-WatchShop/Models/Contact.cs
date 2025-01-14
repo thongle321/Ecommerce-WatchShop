@@ -17,4 +17,6 @@ public partial class Contact
     public string Subject { get; set; } = null!;
     [Column(TypeName = "nvarchar(500)")]
     public string Note { get; set; } = null!;
+
+    public int Status { get; set; } = 0;
 }
