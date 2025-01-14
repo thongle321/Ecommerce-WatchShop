@@ -22,10 +22,12 @@ public class HomeController : Controller
         _context = context;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var sliders = await _context.Sliders.Where(s => s.Status).OrderBy(s => s.DisplayOrder).ToListAsync();
+        return View(sliders);
     }
+
     public async Task<IActionResult> Introduction()
     {
         var aboutVM = new AboutVM

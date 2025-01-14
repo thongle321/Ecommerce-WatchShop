@@ -16,5 +16,6 @@ namespace Ecommerce_WatchShop.Models
         public int DisplayOrder { get; set; }
         public bool Status { get; set; } = true;
 
+     
     }
 }

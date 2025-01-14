@@ -1,88 +1,89 @@
 ﻿@{
     ViewData["Title"] = "Trang chủ";
 }
-@model Ecommerce_WatchShop.Models.ViewModels.LoginVM
+@model List<Slider>
 <!-- Start Hero Slider Section-->
-<div class="hero-slider-section">
-    <!-- Slider main container -->
-    <div class="hero-slider-active swiper-container">
-        <!-- Additional required wrapper -->
-        <div class="swiper-wrapper">
-            <!-- Start Hero Single Slider Item -->
-            <div class="hero-single-slider-item swiper-slide">
-                <!-- Hero Slider Image -->
-                <div class="hero-slider-bg">
-                    <img src="~/images/ricky-kharawala-Yka2yhGJwjc-unsplash 1.png" alt="" style="object-fit: cover">
-                </div>
-                <!-- Hero Slider Content -->
-                <div class="hero-slider-wrapper">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-auto">
-                                <div class="hero-slider-content">
-                                    <h4 class="subtitle text-white">Sản Phẩm Nổi Bật</h4>
-                                    <h1 class="title text-white">
-                                        Đồng Hồ Hublot
-                                        <br>
-                                    </h1>
-                                    <a asp-controller="Product" asp-action="ProductDetail" class="btn btn-lg btn-pink">Mua Ngay</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- End Hero Single Slider Item -->
-            <!-- Start Hero Single Slider Item -->
-            <div class="hero-single-slider-item swiper-slide">
-                <!-- Hero Slider Image -->
-                <div class="hero-slider-bg">
-                    <img src="~/images/Artboard-1.jpg" alt="">
-                </div>
-                <!-- Hero Slider Content -->
-                <div class="hero-slider-wrapper">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-auto">
-                                <div class="hero-slider-content" style="margin-top: 9rem">
-                                    <h4 class="text-white">Giảm giá đến 15%</h4>
-                                    <h1 class="title text-white">Curnon Alter</h1>
-                                    <a asp-controller="Product" asp-action="ProductDetail" class="btn btn-lg btn-pink">Mua Ngay</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- End Hero Single Slider Item -->
-            <div class="hero-single-slider-item swiper-slide">
-                <!-- Hero Slider Image -->
-                <div class="hero-slider-bg">
-                    <img src="~/images/default-large.jpg" alt="">
-                </div>
-                <!-- Hero Slider Content -->
-                <div class="hero-slider-wrapper">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-auto">
-                                <div class="hero-slider-content">
-                                    <h4 class="text-white">Biểu tượng của đẳng cấp và phong cách</h4>
-                                    <h1 class="title text-white">Rolex DateJust</h1>
-                                    <a asp-controller="Product" asp-action="ProductDetail" class="btn btn-lg btn-pink">Mua Ngay</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- End Hero Single Slider Item -->
-        </div>
+@* <div class="hero-slider-section"> *@
+@*     <!-- Slider main container --> *@
+@*     <div class="hero-slider-active swiper-container"> *@
+@*         <!-- Additional required wrapper --> *@
+@*         <div class="swiper-wrapper"> *@
+@*             <!-- Start Hero Single Slider Item --> *@
+@*             <div class="hero-single-slider-item swiper-slide"> *@
+@*                 <!-- Hero Slider Image --> *@
+@*                 <div class="hero-slider-bg"> *@
+@*                     <img src="~/images/ricky-kharawala-Yka2yhGJwjc-unsplash 1.png" alt="" style="object-fit: cover"> *@
+@*                 </div> *@
+@*                 <!-- Hero Slider Content --> *@
+@*                 <div class="hero-slider-wrapper"> *@
+@*                     <div class="container"> *@
+@*                         <div class="row"> *@
+@*                             <div class="col-auto"> *@
+@*                                 <div class="hero-slider-content"> *@
+@*                                     <h4 class="subtitle text-white">Sản Phẩm Nổi Bật</h4> *@
+@*                                     <h1 class="title text-white"> *@
+@*                                         Đồng Hồ Hublot *@
+@*                                         <br> *@
+@*                                     </h1> *@
+@*                                     <a asp-controller="Product" asp-action="ProductDetail" class="btn btn-lg btn-pink">Mua Ngay</a> *@
+@*                                 </div> *@
+@*                             </div> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> <!-- End Hero Single Slider Item --> *@
+@*             <!-- Start Hero Single Slider Item --> *@
+@*             <div class="hero-single-slider-item swiper-slide"> *@
+@*                 <!-- Hero Slider Image --> *@
+@*                 <div class="hero-slider-bg"> *@
+@*                     <img src="~/images/Artboard-1.jpg" alt=""> *@
+@*                 </div> *@
+@*                 <!-- Hero Slider Content --> *@
+@*                 <div class="hero-slider-wrapper"> *@
+@*                     <div class="container"> *@
+@*                         <div class="row"> *@
+@*                             <div class="col-auto"> *@
+@*                                 <div class="hero-slider-content" style="margin-top: 9rem"> *@
+@*                                     <h4 class="text-white">Giảm giá đến 15%</h4> *@
+@*                                     <h1 class="title text-white">Curnon Alter</h1> *@
+@*                                     <a asp-controller="Product" asp-action="ProductDetail" class="btn btn-lg btn-pink">Mua Ngay</a> *@
+@*                                 </div> *@
+@*                             </div> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> <!-- End Hero Single Slider Item --> *@
+@*             <div class="hero-single-slider-item swiper-slide"> *@
+@*                 <!-- Hero Slider Image --> *@
+@*                 <div class="hero-slider-bg"> *@
+@*                     <img src="~/images/default-large.jpg" alt=""> *@
+@*                 </div> *@
+@*                 <!-- Hero Slider Content --> *@
+@*                 <div class="hero-slider-wrapper"> *@
+@*                     <div class="container"> *@
+@*                         <div class="row"> *@
+@*                             <div class="col-auto"> *@
+@*                                 <div class="hero-slider-content"> *@
+@*                                     <h4 class="text-white">Biểu tượng của đẳng cấp và phong cách</h4> *@
+@*                                     <h1 class="title text-white">Rolex DateJust</h1> *@
+@*                                     <a asp-controller="Product" asp-action="ProductDetail" class="btn btn-lg btn-pink">Mua Ngay</a> *@
+@*                                 </div> *@
+@*                             </div> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> <!-- End Hero Single Slider Item --> *@
+@*         </div> *@
 
-        <!-- If we need pagination -->
-        <div class="swiper-pagination active-color-pink"></div>
+@*         <!-- If we need pagination --> *@
+@*         <div class="swiper-pagination active-color-pink"></div> *@
 
-        <!-- If we need navigation buttons -->
-        <div class="swiper-button-prev d-none d-lg-block"></div>
-        <div class="swiper-button-next d-none d-lg-block"></div>
-    </div>
-</div>
+@*         <!-- If we need navigation buttons --> *@
+@*         <div class="swiper-button-prev d-none d-lg-block"></div> *@
+@*         <div class="swiper-button-next d-none d-lg-block"></div> *@
+@*     </div> *@
+@* </div> *@
+@await Html.PartialAsync("_HeroSlider", Model)
 <!-- End Hero Slider Section-->
 <!-- Start Product Default Slider Section -->
 <div class="product-default-slider-section section-top-gap-100 section-fluid">

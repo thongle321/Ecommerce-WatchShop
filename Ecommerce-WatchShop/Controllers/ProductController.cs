@@ -20,8 +20,13 @@ namespace Ecommerce_WatchShop.Controllers
 
         public IActionResult Product()
         {
-            return View();
+            var products = _context.Products
+                .Include(p => p.ProductImages)
+                .ToList();
+
+            return View(products);
         }
+
         //[Route("ProductDetail/{id}")]
         //public IActionResult ProductDetail(int id)
         //{
