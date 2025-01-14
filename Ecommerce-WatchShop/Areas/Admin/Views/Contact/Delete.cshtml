@@ -1,0 +1,22 @@
+﻿@model Ecommerce_WatchShop.Models.Contact
+
+@{
+    ViewData["Title"] = "Xóa liên hệ";
+}
+
+<h2>Xóa liên hệ</h2>
+
+<p>Bạn có chắc chắn muốn xóa liên hệ này không?</p>
+
+<div>
+    <strong>Họ và tên:</strong> @Model.FullName <br />
+    <strong>Email:</strong> @Model.Email <br />
+    <strong>Tiêu đề:</strong> @Model.Subject <br />
+    <strong>Ghi chú:</strong> @Model.Note <br />
+</div>
+
+<form method="post">
+    <input type="hidden" name="id" value="@Model.ContactId" />
+    <button type="submit" class="btn btn-danger">Xóa</button>
+    <a href="@Url.Action("Index", "Contact", new { area = "Admin" })" class="btn btn-secondary">Hủy</a>
+</form>
