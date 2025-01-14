@@ -3,7 +3,6 @@ using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace DongHo_Admin.Areas.Admin.Controllers
 {
@@ -39,12 +38,12 @@ namespace DongHo_Admin.Areas.Admin.Controllers
                 string uploadsFolder = Path.Combine(_webhostEnvironment.WebRootPath, "Images");
                 string uniqueFileName = Guid.NewGuid().ToString() + "_" + logoFile.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                
+
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     logoFile.CopyTo(fileStream);
                 }
-                
+
                 footer.Logo = uniqueFileName;
             }
 

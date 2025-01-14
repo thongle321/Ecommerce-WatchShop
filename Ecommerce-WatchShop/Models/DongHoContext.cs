@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.Marshalling;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce_WatchShop.Models;
 
@@ -13,9 +10,9 @@ public partial class DongHoContext : DbContext
 
     public required virtual DbSet<Account> Accounts { get; set; }
 
-    public required virtual DbSet<Bill> Bills { get; set; } 
+    public required virtual DbSet<Bill> Bills { get; set; }
 
-    public required virtual DbSet<Blog> Blogs { get; set; } 
+    public required virtual DbSet<Blog> Blogs { get; set; }
 
     public required virtual DbSet<BlogImage> BlogImages { get; set; }
 

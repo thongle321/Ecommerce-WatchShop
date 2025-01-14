@@ -3,7 +3,6 @@ using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ecommerce_WatchShop.Controllers
 {

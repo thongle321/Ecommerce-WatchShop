@@ -6,5 +6,5 @@
         public double ProductRating { get; set; }
         public int TotalRating { get; set; }
         public List<ProductCommentVM> Comments { get; set; } = new List<ProductCommentVM>();
-    } 
+    }
 }
