@@ -274,17 +274,17 @@
 		</div>
 	</div>
 </div>
-@section Scripts {
-	@{
-		await Html.RenderPartialAsync("_ValidationScriptsPartial");
-	}
-
 <script src="https://cdn.ckeditor.com/4.25.0-lts/standard/ckeditor.js"></script>
 <script>
 	CKEDITOR.replace('Footer.Description');
 </script>
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+}
+@* 
 <script>
 	var ctx = document.getElementById('canvas-barchart').getContext('2d');
 	var barChart = new Chart(ctx, {
@@ -333,4 +333,4 @@
 	});
 </script>
 }
-
+ *@
