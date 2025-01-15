@@ -67,8 +67,10 @@ public class HomeController : Controller
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterVM registerVM)
+    public async Task<IActionResult> Register(RegisterVM registerVM, string? ReturnUrl = null)
     {
+        ViewData["ReturnUrl"] = ReturnUrl;
+
         if (!ModelState.IsValid)
         {
             return PartialView("_RegisterPartial", registerVM);
@@ -102,13 +104,21 @@ public class HomeController : Controller
         _context.Customers.Add(customer);
         await _context.SaveChangesAsync();
         TempData["success"] = "Đăng ký thành công";
-        return Json(new { redirectToUrl = Url.Action("Index", "Home") });
+        if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+        {
+            return Json(new { redirectToUrl = ReturnUrl });
+        }
+        else
+        {
+            return Json(new { redirectToUrl = Url.Action("Index", "Home") });
+        }
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginVM loginVM)
+    public async Task<IActionResult> Login(LoginVM loginVM, string? ReturnUrl = null)
     {
+        ViewData["ReturnUrl"] = ReturnUrl;
         if (!ModelState.IsValid)
         {
             return PartialView("_LoginPartial", loginVM);
@@ -136,7 +146,7 @@ public class HomeController : Controller
 
         var claims = new List<Claim>
         {
-            new Claim("AccountId", account.AccountId.ToString())
+            new Claim("AccountId", account.AccountId.ToString()) // Claim cho AccountId
         };
         if (customer != null && customer.CustomerId > 0)
         {
@@ -154,10 +164,18 @@ public class HomeController : Controller
 
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
-        HttpContext.Session.SetInt32("AccountId", account.AccountId);
+        //HttpContext.Session.SetInt32("AccountId", account.AccountId);
         //HttpContext.Session.SetInt32("AccountId",account.Customerid);
         TempData["success"] = "Đăng nhập thành công";
-        return Json(new { redirectToUrl = Url.Action("Index", "Home") });
+        if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+        {
+            return Json(new { redirectToUrl = ReturnUrl });
+        }
+        else
+        {
+            return Json(new { redirectToUrl = Url.Action("Index", "Home") });
+        }
+
     }
 
 
