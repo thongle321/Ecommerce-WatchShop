@@ -22,47 +22,86 @@ namespace DongHo_Admin.Areas.Admin.Controllers
             var footerVM = new FooterVM
             {
                 Footer = await _context.Footers.FirstOrDefaultAsync(),
-                InformationLinks = await _context.FooterLinks.Where(f => f.GroupId == 1).ToListAsync(),
-                AccountLinks = await _context.FooterLinks.Where(f => f.GroupId == 2).ToListAsync(),
-                CategoryLinks = await _context.FooterLinks.Where(f => f.GroupId == 3).ToListAsync()
             };
+            ViewBag.customerCount =  await _context.Customers.CountAsync();
+            ViewBag.productCount = await _context.Products.CountAsync();
+            ViewBag.orderCount = await _context.Bills.CountAsync();
             return View(footerVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Footer footer, IFormFile logoFile)
+        public IActionResult Update(FooterVM model)
         {
-            if (logoFile != null)
+            if (!ModelState.IsValid)
             {
-                string uploadsFolder = Path.Combine(_webhostEnvironment.WebRootPath, "Images");
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + logoFile.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    logoFile.CopyTo(fileStream);
-                }
-
-                footer.Logo = uniqueFileName;
+                TempData["error"] = "File không hợp lệ. Chỉ cho phép ảnh có đuôi là jpg, png, jpeg, gif và bmp";
+                return RedirectToAction("Index");
             }
 
-            if (footer.Id == 0)
-                _context.Footers.Add(footer);
-            else
+            try
             {
-                var existingFooter = _context.Footers.Find(footer.Id);
-                if (existingFooter != null)
+                if (model.LogoFile != null)
                 {
-                    existingFooter.Description = footer.Description;
-                    existingFooter.Address = footer.Address;
-                    existingFooter.FacebookUrl = footer.FacebookUrl;
-                    if (!string.IsNullOrEmpty(footer.Logo))
-                        existingFooter.Logo = footer.Logo;
+                    // Kiểm tra lại extension một lần nữa để đảm bảo an toàn
+                    var extension = Path.GetExtension(model.LogoFile.FileName).ToLower();
+                    string[] allowedExtensions = { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
+
+                    if (!allowedExtensions.Contains(extension))
+                    {
+                        TempData["error"] = "File không hợp lệ. Chỉ cho phép ảnh có đuôi là jpg, png, jpeg, gif và bmp";
+                        return RedirectToAction("Index");
+                    }
+
+                    // Kiểm tra MIME type
+                    if (!model.LogoFile.ContentType.StartsWith("image/"))
+                    {
+                        TempData["error"] = "File không hợp lệ. Vui lòng chọn file ảnh.";
+                        return RedirectToAction("Index");
+                    }
+
+                    string uploadsFolder = Path.Combine(_webhostEnvironment.WebRootPath, "Images");
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.LogoFile.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    // Đảm bảo thư mục tồn tại
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        model.LogoFile.CopyTo(fileStream);
+                    }
+                    model.Footer.Logo = uniqueFileName;
                 }
+
+                if (model.Footer.Id == 0)
+                    _context.Footers.Add(model.Footer);
+                else
+                {
+                    var existingFooter = _context.Footers.Find(model.Footer.Id);
+                    if (existingFooter != null)
+                    {
+                        existingFooter.Description = model.Footer.Description;
+                        existingFooter.Address = model.Footer.Address;
+                        existingFooter.Phone = model.Footer.Phone;
+                        existingFooter.Email = model.Footer.Email;
+                        existingFooter.FacebookUrl = model.Footer.FacebookUrl;
+                        if (!string.IsNullOrEmpty(model.Footer.Logo))
+                            existingFooter.Logo = model.Footer.Logo;
+                    }
+                }
+
+                _context.SaveChanges();
+                TempData["success"] = "Cập nhật thông tin web thành công!";
             }
-            _context.SaveChanges();
-            TempData["success"] = "Cập nhật thông tin web thành công!";
+            catch (Exception ex)
+            {
+                TempData["error"] = "Có lỗi xảy ra khi cập nhật thông tin: " + ex.Message;
+            }
+
             return RedirectToAction("Index");
         }
     }

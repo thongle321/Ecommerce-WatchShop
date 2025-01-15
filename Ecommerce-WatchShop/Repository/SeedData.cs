@@ -467,6 +467,14 @@ namespace Ecommerce_WatchShop
                 );
                 await _context.SaveChangesAsync();
             }
+            if (!_context.Accounts.Any())
+            {
+                await _context.Accounts.AddRangeAsync
+                (
+                    new Account { Username = "admin", Password = "admin", RoleId = 2, },
+                    new Account { Username = "user1", Password = "user1", RoleId = 1}
+                );
+            }
         }
     }
 }

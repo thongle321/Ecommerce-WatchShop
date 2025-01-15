@@ -13,8 +13,6 @@ public partial class Account
     public string? Password { get; set; }
 
     public int? RoleId { get; set; }
-    [Column(TypeName = "varchar(200)")]
-    public string? Email { get; set; }
 
     public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
 
