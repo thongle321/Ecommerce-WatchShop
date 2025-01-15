@@ -13,7 +13,7 @@ public partial class Customer
     public string? Phone { get; set; }
     [Column(TypeName = "nvarchar(255)")]
     public string? Address { get; set; }
-    [Column(TypeName = "varchar(100)")]
+    [Column(TypeName = "varchar(255)")]
     public string? Email { get; set; }
     [Column(TypeName = "varchar(200)")]
     public string? DisplayName { get; set; }
