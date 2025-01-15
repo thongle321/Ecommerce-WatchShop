@@ -3,44 +3,6 @@
 @{
     ViewData["Title"] = "Chi tiết sản phẩm";
 }
-@await Html.PartialAsync("_HeroSlider", Model.Product)
-
-@section scripts
-{
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script> 
-        $(document).on('click', '.add-to-wishlist', function (e) {
-            e.preventDefault();
-
-            var productId = $(this).data('id'); // Lấy ID sản phẩm
-
-            $.ajax({
-                url: '/Account/AddToWishlist', // Đường dẫn tới action
-                type: 'POST',
-                data: { productId: productId },
-                success: function (response) {
-                    if (response.success) {
-                        alert(response.message); // Thông báo thành công
-
-                        // Cập nhật trạng thái yêu thích (thay đổi màu sắc icon)
-                        var icon = $(this).find('i'); // Lấy icon bên trong button
-
-                        if (response.isFavorite) {
-                            icon.removeClass('fa-heart-o').addClass('fa-heart').css('color', 'red');
-                        } else {
-                            icon.removeClass('fa-heart').addClass('fa-heart-o').css('color', 'gray');
-                        }
-                    } else {
-                        alert(response.message); // Thông báo lỗi
-                    }
-                },
-                error: function () {
-                    alert('Đã xảy ra lỗi khi thêm vào danh sách yêu thích.');
-                }
-            });
-        });
-    </script>
-}
 
 <!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
@@ -279,7 +241,7 @@
 
                                     <div class="review-form">
                                         <div class="review-form-text-top">
-                                            <h5>ADD A REVIEW</h5>
+                                            <h5>Thêm bình luận</h5>
                                         </div> 
                                         @if (!User.Identity.IsAuthenticated)
                                         {
@@ -293,19 +255,19 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="default-form-box">
-                                                            <label for="comment-rating">Your Rating <span>*</span></label>
-                                                            <input id="comment-rating" name="rating" type="number" min="1" max="5" placeholder="Rating (1-5)" required>
+                                                            <label for="comment-rating">Đánh giá của bạn <span>*</span></label>
+                                                            <input id="comment-rating" name="rating" type="number" min="1" max="5" placeholder="Đánh giá (1-5)" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="default-form-box">
-                                                            <label for="comment-review-text">Your review <span>*</span></label>
-                                                            <textarea id="comment-review-text" name="content" placeholder="Write a review" required></textarea>
+                                                            <label for="comment-review-text">Bình luận của bạn<span>*</span></label>
+                                                            <textarea id="comment-review-text" name="content" placeholder="Ghi đánh giá" required></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <button class="btn btn-md btn-black-default-hover" type="submit">
-                                                            Submit
+                                                            Gửi
                                                         </button>
                                                     </div>
                                                 </div>
@@ -432,3 +394,40 @@
     </div>
 </div>
 <!-- End Product Default Slider Section -->
+@section scripts
+{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $(document).on('click', '.add-to-wishlist', function (e) {
+            e.preventDefault();
+
+            var productId = $(this).data('id'); // Lấy ID sản phẩm
+
+            $.ajax({
+                url: '/Account/AddToWishlist', // Đường dẫn tới action
+                type: 'POST',
+                data: { productId: productId },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message); // Thông báo thành công
+
+                        // Cập nhật trạng thái yêu thích (thay đổi màu sắc icon)
+                        var icon = $(this).find('i'); // Lấy icon bên trong button
+
+                        if (response.isFavorite) {
+                            icon.removeClass('fa-heart-o').addClass('fa-heart').css('color', 'red');
+                        } else {
+                            icon.removeClass('fa-heart').addClass('fa-heart-o').css('color', 'gray');
+                        }
+                    } else {
+                        alert(response.message); // Thông báo lỗi
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi thêm vào danh sách yêu thích.');
+                }
+            });
+        });
+    </script>
+}
