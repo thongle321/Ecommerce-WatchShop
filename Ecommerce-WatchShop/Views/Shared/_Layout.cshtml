@@ -144,7 +144,7 @@
                                         <i class="icon-magnifier"></i>
                                     </a>
                                 </li>
-                                @if(User.Identity?.IsAuthenticated ?? false)
+                                @if (User.Identity?.IsAuthenticated ?? false)
                                 {
                                     <li>
                                         <a asp-controller="Account" asp-action="Index">
@@ -153,7 +153,8 @@
                                         </a>
                                     </li>
                                 }
-                                else {
+                                else
+                                {
                                     <li>
                                         <a data-bs-toggle="modal" data-bs-target="#loginModal">
 
@@ -364,7 +365,7 @@
 
     @RenderBody()
     @await Component.InvokeAsync("Footer")
-    
+
     <button class="material-scrolltop" type="button"></button>
 
 
@@ -459,6 +460,10 @@
     </script>
     <script>
         $(document).ready(function () {
+            $('#loginModal').on('show.bs.modal', function () {
+                const currentUrl = window.location.pathname + window.location.search; 
+                $('#loginForm').append(`<input type="hidden" name="ReturnUrl" value="${currentUrl}">`);
+            });
             $('#loginForm').on('submit', function (e) {
                 e.preventDefault();
                 $.ajax({
@@ -473,11 +478,19 @@
                         }
                     },
                     error: function () {
-                        alert('Đã xảy lỗi ra lỗi');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.',
+                        });
                     }
                 });
             });
         $('#registerForm').on('submit', function (e) {
+                $('#registerModal').on('show.bs.modal', function () {
+                    const currentUrl = window.location.pathname + window.location.search;
+                    $('#loginForm').append(`<input type="hidden" name="ReturnUrl" value="${currentUrl}">`);
+                });
                 e.preventDefault();
                 $.ajax({
                     url: '@Url.Action("Register", "Home")',

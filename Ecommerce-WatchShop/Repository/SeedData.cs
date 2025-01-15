@@ -474,6 +474,7 @@ namespace Ecommerce_WatchShop
                     new Account { Username = "admin", Password = "admin", RoleId = 2, },
                     new Account { Username = "user1", Password = "user1", RoleId = 1}
                 );
+                await _context.SaveChangesAsync();
             }
         }
     }
