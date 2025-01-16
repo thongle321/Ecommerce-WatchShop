@@ -34,7 +34,7 @@
                                         <li>
                                             <a asp-controller="Home" asp-action="Index">TRANG CHỦ</a>
                                         </li>
-                                        <li class="has-dropdown has-megaitem">
+@*                                         <li class="has-dropdown">
                                             <a href="#">
                                                 DANH MỤC <i class="fa fa-angle-down"></i>
                                             </a>
@@ -46,81 +46,89 @@
                                                         <a href="#" class="mega-menu-item-title">Thương hiệu</a>
                                                         <ul class="mega-menu-sub">
                                                             <li>
-                                                                <a href="shop-grid-sidebar-left.html">
-                                                                    Rolex
+                                                                <a asp-controller="Product" asp-action="ProductList" asp-route-brands="citizen">
+                                                                    Citizen
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="shop-grid-sidebar-right.html">
-                                                                    Hublot
+                                                                <a asp-controller="Product" asp-action="ProductList" asp-route-brands="doxa">
+                                                                    Doxa
                                                                 </a>
                                                             </li>
 
                                                             <li>
-                                                                <a href="shop-list-sidebar-left.html">
-                                                                    Omega
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="shop-list-sidebar-right.html">
+                                                                <a asp-controller="Product" asp-action="ProductList" asp-route-brands="curnon">
                                                                     Curnon
                                                                 </a>
                                                             </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="mega-menu-item">
-                                                        <a href="#" class="mega-menu-item-title">Đồng hồ nam</a>
-                                                        <ul class="mega-menu-sub">
                                                             <li>
-                                                                <a href="#">
-                                                                    Đồng hồ nam Rolex
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    Đồng hồ nam Hublot
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="shop-list-sidebar-left.html">
-                                                                    Đồng hồ nam Omega
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="shop-list-sidebar-right.html">
-                                                                    Đồng hồ nam Curnon
+                                                                <a asp-controller="Product" asp-action="ProductList" asp-route-brands="seiko">
+                                                                    Seiko
                                                                 </a>
                                                             </li>
                                                         </ul>
                                                     </li>
                                                     <li class="mega-menu-item">
-                                                        <a href="#" class="mega-menu-item-title">Đồng hồ nữ</a>
+                                                        <a href="#" class="mega-menu-item-title">Thương hiệu</a>
                                                         <ul class="mega-menu-sub">
                                                             <li>
-                                                                <a href="shop-grid-sidebar-left.html">
-                                                                    Đồng hồ nữ Rolex
+                                                                <a asp-controller="Product" asp-action="ProductList" asp-route-brands="citizen">
+                                                                    Citizen
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="shop-grid-sidebar-right.html">
-                                                                    Đồng hồ nữ Hublot
+                                                                <a asp-controller="Product" asp-action="ProductList" asp-route-brands="doxa">
+                                                                    Doxa
                                                                 </a>
                                                             </li>
 
                                                             <li>
-                                                                <a href="shop-list-sidebar-left.html">
-                                                                    Đồng hồ nữ Omega
+                                                                <a asp-controller="Product" asp-action="ProductList" asp-route-brands="curnon">
+                                                                    Curnon
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a href="shop-list-sidebar-right.html">
-                                                                    Đồng hồ nữ Curnon
+                                                                <a asp-controller="Product" asp-action="ProductList" asp-route-brands="seiko">
+                                                                    Seiko
                                                                 </a>
                                                             </li>
                                                         </ul>
                                                     </li>
+
                                                 </ul>
                                             </div>
+                                        </li> *@
+                                        <li class="has-dropdown">
+                                            <a class="active main-menu-link" href="index.html">DANH MỤC <i class="fa fa-angle-down"></i></a>
+                                            <!-- Sub Menu -->
+                                            <ul class="sub-menu">
+                                                <li class="mega-menu-item">
+                                                    <a class="mega-menu-item-title"><b>Thương Hiệu</b></a>
+                                                    <ul class="mega-menu-sub">
+                                                        <li>
+                                                            <a asp-controller="Product" asp-action="ProductList" asp-route-brands="citizen">
+                                                                Citizen
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a asp-controller="Product" asp-action="ProductList" asp-route-brands="curnon">
+                                                                Curnon
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a asp-controller="Product" asp-action="ProductList" asp-route-brands="doxa">
+                                                                Doxa
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a asp-controller="Product" asp-action="ProductList" asp-route-brands="seiko">
+                                                                Seiko
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+
+                                            </ul>
                                         </li>
                                         <li>
                                             <a asp-controller="Product" asp-action="ProductList">Sản Phẩm</a>
@@ -415,7 +423,7 @@
         </div>
     </div>
 
-    @* @await Html.PartialAsync("_LoginPartial", new Ecommerce_WatchShop.Models.ViewModels.LoginVM()) *@
+    @* @await Html.PartialAsync("_LoginPartial", new Ecommerce_WatchShop.Models.ViewModels.LoginVM())
     @* @await Html.PartialAsync("_RegisterPartial", new Ecommerce_WatchShop.Models.ViewModels.RegisterVM()) *@
 
     <button type="button" class="btn btn-success position-fixed right-0 text-white rounded-circle" style="bottom: 100px; margin-right: 23px; width: 56px; height: 56px">
@@ -462,7 +470,7 @@
     <script>
         $(document).ready(function () {
             $('#loginModal').on('show.bs.modal', function () {
-                const currentUrl = window.location.pathname + window.location.search; 
+                const currentUrl = window.location.pathname + window.location.search;
                 $('#loginForm').append(`<input type="hidden" name="ReturnUrl" value="${currentUrl}">`);
             });
             $('#loginForm').on('submit', function (e) {
