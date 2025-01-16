@@ -22,6 +22,7 @@ namespace Ecommerce_WatchShop.Controllers
             var pageSize = 5;  // Số sản phẩm mỗi trang
             var products = _context.Products.AsQueryable();
 
+            //Tìm kiếm theo tên
             if (!string.IsNullOrEmpty(search))
             {
                 search = search.ToLower().Trim();
@@ -62,7 +63,6 @@ namespace Ecommerce_WatchShop.Controllers
 
             // Lấy các sản phẩm cho trang hiện tại
             var result = await products
-                .Include(p => p.ProductImages)
                 .Include(p => p.ProductRatings)
                 .Skip((page - 1) * pageSize) // Bỏ qua các sản phẩm của các trang trước
                 .Take(pageSize) // Lấy sản phẩm cho trang hiện tại
@@ -70,12 +70,13 @@ namespace Ecommerce_WatchShop.Controllers
                 {
                     ProductId = p.ProductId,
                     ProductName = p.ProductName,
-                    Image = p.ProductImages.FirstOrDefault().Image ?? "",
+                    Image = p.Image ?? "",
                     Price = p.Price,
                     ShortDescription = p.ShortDescription,
                     ProductRating = p.ProductRatings.Any()
                         ? p.ProductRatings.Average(r => (double)r.Rating!) : 0,
-                    TotalRating = p.ProductRatings.Count
+                    TotalRating = p.ProductRatings.Count,
+                    Slug = p.Slug
                 })
                 .ToListAsync();
 
@@ -92,8 +93,10 @@ namespace Ecommerce_WatchShop.Controllers
             return View(viewModel);
         }
         
-        public async Task<IActionResult> SearchProduct(string? search = "")
+        public async Task<IActionResult> SearchProduct(string? search = "", int page = 1)
         {
+            var pageSize = 5;  // Số sản phẩm mỗi trang
+
             var products = _context.Products.AsQueryable();
 
             // Kiểm tra và áp dụng điều kiện tìm kiếm
@@ -104,15 +107,15 @@ namespace Ecommerce_WatchShop.Controllers
                     p.ProductName.ToLower().Contains(search) ||
                     p.ShortDescription.ToLower().Contains(search));
             }
-
+            var totalProducts = await products.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
             var result = await products
-                .Include(p => p.ProductImages)
                 .Include(p => p.ProductRatings)
                 .Select(p => new ProductVM
                 {
                     ProductId = p.ProductId,
                     ProductName = p.ProductName,
-                    Image = p.ProductImages.FirstOrDefault().Image ?? "",
+                    Image = p.Image ?? "",
                     Price = p.Price,
                     ShortDescription = p.ShortDescription,
                     ProductRating = p.ProductRatings.Any()
@@ -152,9 +155,13 @@ namespace Ecommerce_WatchShop.Controllers
         //    };
         //    return View("ProductDetail", result);
         //}
-        [Route("ProductDetail/{id}")]
-        public IActionResult ProductDetail(int id)
+        [Route("ProductDetail/{slug}")]
+        public async Task<IActionResult> ProductDetail(string? slug)
         {
+            if(string.IsNullOrEmpty(slug))
+            {
+                return NotFound();
+            }    
             var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
             int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
             // Lấy sản phẩm, đánh giá, và bình luận từ cơ sở dữ liệu
@@ -166,7 +173,7 @@ namespace Ecommerce_WatchShop.Controllers
                 .Include(p => p.ProductComments)
                 .Include(p => p.ProductRatings)
                 .ThenInclude(c => c.Customer)
-                .FirstOrDefault(p => p.ProductId == id);
+                .FirstOrDefault(p => p.Slug == slug);
 
             if (product == null) // Kiểm tra sản phẩm tồn tại
             {

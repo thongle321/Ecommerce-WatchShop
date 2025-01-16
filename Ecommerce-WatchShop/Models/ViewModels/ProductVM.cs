@@ -19,5 +19,7 @@ namespace Ecommerce_WatchShop.Models.ViewModels
 
         public int TotalRating { get; set; }
 
+        public string? Slug { get; set; }
+
     }
 }

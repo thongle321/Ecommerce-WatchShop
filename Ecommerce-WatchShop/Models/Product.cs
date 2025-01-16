@@ -30,6 +30,8 @@ public partial class Product
 
     public int? Quantity { get; set; }
 
+    public int Views { get; set; }
+
     public int? Status { get; set; }
 
     public DateTime? CreatedAt { get; set; }
