@@ -356,8 +356,8 @@
     <div id="search" class="search-modal">
         <button type="button" class="close">×</button>
         <form>
-            <input type="search" placeholder="Ghi từ khoá ở đây" />
-            <button type="submit" class="btn btn-lg btn-pink">Tìm kiếm</button>
+            <input type="search" id="searchText" placeholder="Ghi từ khoá ở đây" />
+            <button type="submit" id="searchButton" class="btn btn-lg btn-pink">Tìm kiếm</button>
         </form>
     </div>
     <!-- End Offcanvas Search Bar Section -->
@@ -510,6 +510,21 @@
                 });
             });
         });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#searchButton').click(function (e) {
+                e.preventDefault(); // Ngăn form submit mặc định
+                const searchText = $('#searchText').val().trim();
+                if (searchText) {
+                    const url = `/Product/SearchProduct?search=${encodeURIComponent(searchText)}`;
+                    window.location.href = url; // Điều hướng đến URL
+                } else {
+                    alert("Vui lòng nhập từ khóa tìm kiếm."); // Nhắc nhở nếu không nhập từ khóa
+                }
+            });
+        });
+
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
