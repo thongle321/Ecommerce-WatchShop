@@ -1,4 +1,4 @@
-﻿using Ecommerce_WatchShop.Models;
+using Ecommerce_WatchShop.Models;
 using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -62,15 +62,24 @@ namespace Ecommerce_WatchShop.Controllers
             var pageSize = 5;  // Số sản phẩm mỗi trang
             var products = _context.Products.AsQueryable();
 
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower().Trim();
+                products = products.Where(p =>
+                    p.ProductName.ToLower().Contains(search) ||
+                    p.ShortDescription.ToLower().Contains(search));
+            }
+
             // Lọc theo category
             if (!string.IsNullOrEmpty(categories))
             {
                 var category = await _context.Categories.Where(c => c.Slug == categories).FirstOrDefaultAsync();
-                if (category == null)
+                if (category != null)
                 {
-                    return RedirectToAction("Index", "Home");
+                    products = products.Where(p => p.CategoryId == category.CategoryId);
+
                 }
-                products = products.Where(p => p.CategoryId == category.CategoryId);
+                return RedirectToAction("ProductList", "Product");
             }
 
             // Lọc theo brand
@@ -121,6 +130,37 @@ namespace Ecommerce_WatchShop.Controllers
 
             // Trả về view với ViewModel
             return View(viewModel);
+        }
+        
+        public async Task<IActionResult> SearchProduct(string? search = "")
+        {
+            var products = _context.Products.AsQueryable();
+
+            // Kiểm tra và áp dụng điều kiện tìm kiếm
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower().Trim();
+                products = products.Where(p =>
+                    p.ProductName.ToLower().Contains(search) ||
+                    p.ShortDescription.ToLower().Contains(search));
+            }
+
+            var result = await products
+                .Include(p => p.ProductImages)
+                .Include(p => p.ProductRatings)
+                .Select(p => new ProductVM
+                {
+                    ProductId = p.ProductId,
+                    ProductName = p.ProductName,
+                    Image = p.ProductImages.FirstOrDefault().Image ?? "",
+                    Price = p.Price,
+                    ShortDescription = p.ShortDescription,
+                    ProductRating = p.ProductRatings.Any()
+                        ? p.ProductRatings.Average(r => (double)r.Rating!) : 0,
+                    TotalRating = p.ProductRatings.Count,
+                }).ToListAsync();
+
+            return View(result);
         }
 
         //[Route("ProductDetail/{id}")]
@@ -232,7 +272,6 @@ namespace Ecommerce_WatchShop.Controllers
 
             return RedirectToAction("ProductDetail", new { id }); // Quay lại trang chi tiết sản phẩm
         }
-
 
     }
 }
