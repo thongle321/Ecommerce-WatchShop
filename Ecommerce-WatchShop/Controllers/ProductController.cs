@@ -111,6 +111,8 @@ namespace Ecommerce_WatchShop.Controllers
             var totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
             var result = await products
                 .Include(p => p.ProductRatings)
+                .Skip((page - 1) * pageSize) // Bỏ qua các sản phẩm của các trang trước
+                .Take(pageSize) // Lấy sản phẩm cho trang hiện tại
                 .Select(p => new ProductVM
                 {
                     ProductId = p.ProductId,
@@ -123,7 +125,14 @@ namespace Ecommerce_WatchShop.Controllers
                     TotalRating = p.ProductRatings.Count,
                 }).ToListAsync();
 
-            return View(result);
+            var viewModel = new PagedProductListVM
+            {
+                Products = result,  // Danh sách sản phẩm cho trang hiện tại
+                CurrentPage = page,
+                TotalPages = totalPages,
+                PageSize = pageSize
+            };
+            return View(viewModel);
         }
 
         //[Route("ProductDetail/{id}")]
