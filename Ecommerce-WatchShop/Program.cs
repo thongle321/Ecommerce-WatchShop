@@ -3,6 +3,7 @@ using Ecommerce_WatchShop.Abstractions;
 using Ecommerce_WatchShop.Helper;
 using Ecommerce_WatchShop.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 var builder = WebApplication.CreateBuilder(args);
@@ -69,6 +70,12 @@ app.MapControllerRoute(
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}")
     .RequireAuthorization("Admin")
     .WithStaticAssets();
+
+app.MapControllerRoute(
+    name: "ProductList",
+    pattern: "danh-sach-san-pham/{action=ProductList}",
+    defaults: new { controller = "Product" }
+);
 app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")

@@ -60,9 +60,9 @@ namespace Ecommerce_WatchShop
                     {
                         Image = "Curnon Kashmir.png",
                         ProductName = "Curnon Kashmir",
-                        CategoryId = donghoco.CategoryId,
-                        BrandId = curnon.BrandId,
-                        SupplierId = curnon_supplier.SupplierId,
+                        CategoryId = donghoco?.CategoryId,
+                        BrandId = curnon?.BrandId,
+                        SupplierId = curnon_supplier?.SupplierId,
                         Gender = 1,
                         Price = 2279000,
                         ShortDescription = "Đồng hồ sang trọng dành cho nam",
@@ -79,9 +79,9 @@ namespace Ecommerce_WatchShop
                     {
                         Image = "Citizen-BI5104-57e.png",
                         ProductName = "Citizen BI5104 57e",
-                        CategoryId = donghopin.CategoryId,
-                        BrandId = citizen.BrandId,
-                        SupplierId = citizen_supplier.SupplierId,
+                        CategoryId = donghopin?.CategoryId,
+                        BrandId = citizen?.BrandId,
+                        SupplierId = citizen_supplier?.SupplierId,
                         Gender = 1,
                         Price = 5280000,
                         ShortDescription = "Citizen BI5104-57E – Nam – Quartz (Pin) – Mặt Số 41mm, Kính Cứng, Chống Nước 5ATM",
@@ -98,9 +98,9 @@ namespace Ecommerce_WatchShop
                     {
                         Image = "Citizen-Tsuyosa.png",
                         ProductName = "Citizen Tsuyosa",
-                        CategoryId = donghoco.CategoryId,
-                        BrandId = citizen.BrandId,
-                        SupplierId = citizen_supplier.SupplierId,
+                        CategoryId = donghoco?.CategoryId,
+                        BrandId = citizen?.BrandId,
+                        SupplierId = citizen_supplier?.SupplierId,
                         Gender = 1,
                         Price = 12485000,
                         ShortDescription = "Citizen Tsuyosa NJ0151-88M – Nam – Kính Sapphire – Mặt Số 40mm",
@@ -117,9 +117,9 @@ namespace Ecommerce_WatchShop
                     {
                         Image = "Citizen-NH9130-84L.png",
                         ProductName = "Citizen NH9130 84L",
-                        CategoryId = donghoco.CategoryId,
-                        BrandId = citizen.BrandId,
-                        SupplierId = citizen_supplier.SupplierId,
+                        CategoryId = donghoco?.CategoryId,
+                        BrandId = citizen?.BrandId,
+                        SupplierId = citizen_supplier?.SupplierId,
                         Gender = 1,
                         Price = 10085000,
                         ShortDescription = "Citizen NH9130-84L – Nam – Kính Sapphire – Automatic – Trữ Cót 40 Giờ, Họa Tiết Guilloche, Open Heart",
@@ -136,9 +136,9 @@ namespace Ecommerce_WatchShop
                     {
                         Image = "Citizen-Eco-Drive.png",
                         ProductName = "Citizen Eco Drive",
-                        CategoryId = donghopin.CategoryId,
-                        BrandId = citizen.BrandId,
-                        SupplierId = citizen_supplier.SupplierId,
+                        CategoryId = donghopin?.CategoryId,
+                        BrandId = citizen?.BrandId,
+                        SupplierId = citizen_supplier?.SupplierId,
                         Gender = 0,
                         Price = 7585000,
                         ShortDescription = "Citizen Eco-Drive EM0506-77A – Nữ – Kính Cứng – Eco-Drive (Năng Lượng Ánh Sáng) – Mặt Số 32mm",
@@ -155,9 +155,9 @@ namespace Ecommerce_WatchShop
                     {
                         Image = "Citizen-EM0863-53D.png",
                         ProductName = "Citizen EM0863-53D",
-                        CategoryId = donghonangluong.CategoryId,
-                        BrandId = citizen.BrandId,
-                        SupplierId = citizen_supplier.SupplierId,
+                        CategoryId = donghonangluong?.CategoryId,
+                        BrandId = citizen?.BrandId,
+                        SupplierId = citizen_supplier?.SupplierId,
                         Gender = 0,
                         Price = 12685000,
                         ShortDescription = "Citizen EM0863-53D – Nữ – Eco-Drive (Năng Lượng Ánh Sáng) – Mặt Số 25mm, Kính Cứng, Chống Nước 5ATM",
@@ -174,9 +174,9 @@ namespace Ecommerce_WatchShop
                     {
                         Image = "Doxa-Executive-Slim.png",
                         ProductName = "Doxa Executive Slim",
-                        CategoryId = donghopin.CategoryId,
-                        BrandId = doxa.BrandId,
-                        SupplierId = doxa_supplier.SupplierId,
+                        CategoryId = donghopin?.CategoryId,
+                        BrandId = doxa?.BrandId,
+                        SupplierId = doxa_supplier?.SupplierId,
                         Gender = 1,
                         Price = 23250000,
                         ShortDescription = "Doxa Executive Slim D201RSV – Nam – Kính Sapphire – Quartz (Pin) – Mặt Số 40mm, Swiss Made, Chống Nước 5ATM",
@@ -193,9 +193,9 @@ namespace Ecommerce_WatchShop
                     {
                         Image = "Doxa-x-Dorian-Ho-Earlymoon.png",
                         ProductName = "Doxa x Dorian Ho Earlymoon",
-                        CategoryId = donghopin.CategoryId,
-                        BrandId = doxa.BrandId,
-                        SupplierId = doxa_supplier.SupplierId,
+                        CategoryId = donghopin?.CategoryId,
+                        BrandId = doxa?.BrandId,
+                        SupplierId = doxa_supplier?.SupplierId,
                         Gender = 1,
                         Price = 2290000,
                         ShortDescription = "Doxa x Dorian Ho Earlymoon D226RGY – Nam – Kính Sapphire – Quartz (Pin) – Mặt số trẻ trung cùng giờ thế giới tiện dụng – Dây vải Nato bền bỉ mạnh mẽ",
@@ -212,9 +212,9 @@ namespace Ecommerce_WatchShop
                     {
                         Image = "Doxa-Noble.png",
                         ProductName = "Doxa Noble",
-                        CategoryId = donghopin.CategoryId,
-                        BrandId = doxa.BrandId,
-                        SupplierId = doxa_supplier.SupplierId,
+                        CategoryId = donghopin?.CategoryId,
+                        BrandId = doxa?.BrandId,
+                        SupplierId = doxa_supplier?.SupplierId,
                         Gender = 0,
                         Price = 25030000,
                         ShortDescription = "Doxa Noble D132TWH – Nữ – Kính Sapphire – Quartz (Pin) – Mặt số Rococo cùng 8 viên kim cương tự nhiên – Họa tiết Guilloche phong cách Byzantine",
@@ -231,9 +231,9 @@ namespace Ecommerce_WatchShop
                     {
                         Image = "Seiko-SSC943P1.png",
                         ProductName = "Seiko Prospex Speedtimer SSC943P1",
-                        CategoryId = donghonangluong.CategoryId,
-                        BrandId = seiko.BrandId,
-                        SupplierId = seiko_supplier.SupplierId,
+                        CategoryId = donghonangluong?.CategoryId,
+                        BrandId = seiko?.BrandId,
+                        SupplierId = seiko_supplier?.SupplierId,
                         Gender = 1,
                         Price = 23600000,
                         ShortDescription = "Seiko Prospex Speedtimer SSC943P1 là mẫu đồng hồ thể thao sang trọng với chức năng: Chronograph – Tachymeter – Lịch ngày – Kim xăng báo năng lượng còn lại.",
@@ -482,7 +482,9 @@ namespace Ecommerce_WatchShop
                 (
                     new Customer { FullName = "Nguyễn Văn Linh", Phone = "0306221377", Address = "TPHCM", Email = "0306221349@caothang.edu.vn", Dob = DateOnly.ParseExact("1975-04-30", "yyyy-mm-dd"), Gender = true, AccountId = 2, DisplayName = "user1" }
                 );
-            }    
+                await _context.SaveChangesAsync();
+
+            }
         }
     }
 }
