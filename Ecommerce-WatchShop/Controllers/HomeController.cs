@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Ecommerce_WatchShop.Models;
+﻿using Ecommerce_WatchShop.Models;
+using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
-using Ecommerce_WatchShop.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Ecommerce_WatchShop.Abstractions;
+using System.Diagnostics;
+using System.Security.Claims;
 
 
 namespace Ecommerce_WatchShop.Controllers;
@@ -22,10 +21,12 @@ public class HomeController : Controller
         _context = context;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var sliders = await _context.Sliders.Where(s => s.Status).OrderBy(s => s.DisplayOrder).ToListAsync();
+        return View(sliders);
     }
+
     public async Task<IActionResult> Introduction()
     {
         var aboutVM = new AboutVM
@@ -53,21 +54,23 @@ public class HomeController : Controller
                 Note = string.IsNullOrEmpty(contactVM.Note) ? "" : contactVM.Note
             };
 
-          
+
             _context.Contacts.Add(contact);
             await _context.SaveChangesAsync();
 
-           
+
             return RedirectToAction("Index");
         }
 
-        
+
         return View("Contact", contactVM);
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterVM registerVM)
+    public async Task<IActionResult> Register(RegisterVM registerVM, string? ReturnUrl = null)
     {
+        ViewData["ReturnUrl"] = ReturnUrl;
+
         if (!ModelState.IsValid)
         {
             return PartialView("_RegisterPartial", registerVM);
@@ -101,13 +104,21 @@ public class HomeController : Controller
         _context.Customers.Add(customer);
         await _context.SaveChangesAsync();
         TempData["success"] = "Đăng ký thành công";
-        return Json(new { redirectToUrl = Url.Action("Index", "Home") });
+        if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+        {
+            return Json(new { redirectToUrl = ReturnUrl });
+        }
+        else
+        {
+            return Json(new { redirectToUrl = Url.Action("Index", "Home") });
+        }
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginVM loginVM)
+    public async Task<IActionResult> Login(LoginVM loginVM, string? ReturnUrl = null)
     {
+        ViewData["ReturnUrl"] = ReturnUrl;
         if (!ModelState.IsValid)
         {
             return PartialView("_LoginPartial", loginVM);
@@ -128,16 +139,16 @@ public class HomeController : Controller
 
         if (account.RoleId == 2)
         {
-            ModelState.AddModelError("Username", "Không có quyền truy cập");    
+            ModelState.AddModelError("Username", "Không có quyền truy cập");
             return PartialView("_LoginPartial", loginVM);
         }
         var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == account.AccountId);
 
         var claims = new List<Claim>
         {
-            new Claim("AccountId", account.AccountId.ToString())
+            new Claim("AccountId", account.AccountId.ToString()) // Claim cho AccountId
         };
-        if(customer != null && customer.CustomerId > 0)
+        if (customer != null && customer.CustomerId > 0)
         {
             claims.Add(new Claim("CustomerId", customer.CustomerId.ToString())); // Claim cho CustomerId
 
@@ -153,10 +164,18 @@ public class HomeController : Controller
 
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
-        HttpContext.Session.SetInt32("AccountId", account.AccountId);
+        //HttpContext.Session.SetInt32("AccountId", account.AccountId);
         //HttpContext.Session.SetInt32("AccountId",account.Customerid);
         TempData["success"] = "Đăng nhập thành công";
-        return Json(new { redirectToUrl = Url.Action("Index", "Home") });
+        if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+        {
+            return Json(new { redirectToUrl = ReturnUrl });
+        }
+        else
+        {
+            return Json(new { redirectToUrl = Url.Action("Index", "Home") });
+        }
+
     }
 
 

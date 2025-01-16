@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce_WatchShop.Models;
@@ -20,5 +18,4 @@ public partial class Supplier
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 
-    public virtual ICollection<WarehouseReceipt> WarehouseReceipts { get; set; } = new List<WarehouseReceipt>();
 }

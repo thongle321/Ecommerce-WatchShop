@@ -1,7 +1,7 @@
 ﻿using Ecommerce_WatchShop.Models;
+using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Ecommerce_WatchShop.Models.ViewModels;
 
 namespace YourProject.Components
 {

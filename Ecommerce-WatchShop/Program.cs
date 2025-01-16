@@ -14,7 +14,7 @@ builder.Services.AddDbContext<DongHoContext>(options => options.UseSqlServer(bui
 //    .AddCookie();
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme; 
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 })
@@ -30,17 +30,19 @@ builder.Services.AddAuthentication(options =>
  });
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "2").AuthenticationSchemes = new[] {"Admin"});
+    options.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "2").AuthenticationSchemes = new[] { "Admin" });
 });
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true; 
-    options.Cookie.IsEssential = true; 
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 var app = builder.Build();
+
 
 app.UseStatusCodePagesWithReExecute("/Home/Error", "?statuscode={0}");
 // Configure the HTTP request pipeline.
@@ -71,6 +73,7 @@ app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
 
 var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<DongHoContext>();
 await SeedData.SeedingData(context);

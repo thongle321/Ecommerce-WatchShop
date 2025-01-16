@@ -4,6 +4,7 @@ using Ecommerce_WatchShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce_WatchShop.Migrations
 {
     [DbContext(typeof(DongHoContext))]
-    partial class DongHoContextModelSnapshot : ModelSnapshot
+    [Migration("20250113115234_UpdateDatabaseModel")]
+    partial class UpdateDatabaseModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,6 +58,9 @@ namespace Ecommerce_WatchShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountId"));
 
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(200)");
+
                     b.Property<string>("Password")
                         .HasColumnType("varchar(100)");
 
@@ -79,19 +85,10 @@ namespace Ecommerce_WatchShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BillId"));
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<string>("District")
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("FullName")
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime>("OrderDate")
@@ -100,13 +97,10 @@ namespace Ecommerce_WatchShop.Migrations
                     b.Property<string>("PaymentMethod")
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("varchar(15)");
-
                     b.Property<string>("Province")
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("Status")
+                    b.Property<int?>("Status")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Total")
@@ -261,9 +255,6 @@ namespace Ecommerce_WatchShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
                     b.Property<string>("Subject")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
@@ -294,7 +285,7 @@ namespace Ecommerce_WatchShop.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Email")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(200)");
@@ -631,6 +622,9 @@ namespace Ecommerce_WatchShop.Migrations
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
@@ -669,6 +663,36 @@ namespace Ecommerce_WatchShop.Migrations
                     b.ToTable("Suppliers");
                 });
 
+            modelBuilder.Entity("Ecommerce_WatchShop.Models.WarehouseReceipt", b =>
+                {
+                    b.Property<int>("ReceiptId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReceiptId"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,0)");
+
+                    b.Property<string>("Voucher")
+                        .HasColumnType("varchar(200)");
+
+                    b.HasKey("ReceiptId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("WarehouseReceipts");
+                });
+
             modelBuilder.Entity("Ecommerce_WatchShop.Models.Account", b =>
                 {
                     b.HasOne("Ecommerce_WatchShop.Models.Role", "Role")
@@ -682,9 +706,7 @@ namespace Ecommerce_WatchShop.Migrations
                 {
                     b.HasOne("Ecommerce_WatchShop.Models.Customer", "Customer")
                         .WithMany("Bills")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.Navigation("Customer");
                 });
@@ -824,6 +846,17 @@ namespace Ecommerce_WatchShop.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Ecommerce_WatchShop.Models.WarehouseReceipt", b =>
+                {
+                    b.HasOne("Ecommerce_WatchShop.Models.Supplier", "Supplier")
+                        .WithMany("WarehouseReceipts")
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Supplier");
+                });
+
             modelBuilder.Entity("Ecommerce_WatchShop.Models.Account", b =>
                 {
                     b.Navigation("Customers");
@@ -885,6 +918,8 @@ namespace Ecommerce_WatchShop.Migrations
             modelBuilder.Entity("Ecommerce_WatchShop.Models.Supplier", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("WarehouseReceipts");
                 });
 #pragma warning restore 612, 618
         }
