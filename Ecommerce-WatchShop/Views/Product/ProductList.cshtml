@@ -126,8 +126,7 @@
                                                     <!-- Start Product Defautlt Single -->
                                                     <div class="product-list-single product-color--golden"
                                                          data-aos="fade-up" data-aos-delay="0">
-                                                        <a asp-controller="product" asp-action="productdetail"
-                                                           class="product-list-img-link">
+                                                        <a asp-controller="Product" asp-action="ProductDetail" asp-route-slug="@item.Slug" class="product-list-img-link">
                                                             <img class="img-fluid" src="@Url.Content("~/Images/" + item.Image)"
                                                                  alt="" style="width: 400px; height: 300px; object-fit: cover">
                                                         </a>

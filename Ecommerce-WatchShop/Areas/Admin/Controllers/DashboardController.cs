@@ -43,22 +43,7 @@ namespace DongHo_Admin.Areas.Admin.Controllers
             {
                 if (model.LogoFile != null)
                 {
-                    // Kiểm tra lại extension một lần nữa để đảm bảo an toàn
-                    var extension = Path.GetExtension(model.LogoFile.FileName).ToLower();
-                    string[] allowedExtensions = { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
 
-                    if (!allowedExtensions.Contains(extension))
-                    {
-                        TempData["error"] = "File không hợp lệ. Chỉ cho phép ảnh có đuôi là jpg, png, jpeg, gif và bmp";
-                        return RedirectToAction("Index");
-                    }
-
-                    // Kiểm tra MIME type
-                    if (!model.LogoFile.ContentType.StartsWith("image/"))
-                    {
-                        TempData["error"] = "File không hợp lệ. Vui lòng chọn file ảnh.";
-                        return RedirectToAction("Index");
-                    }
 
                     string uploadsFolder = Path.Combine(_webhostEnvironment.WebRootPath, "Images");
                     string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.LogoFile.FileName;
