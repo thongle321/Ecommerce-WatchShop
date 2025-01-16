@@ -23,6 +23,16 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
+                <!-- Start Search Form -->
+                <form method="get" action="@Url.Action("Index", "Blog")" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" name="searchString" class="form-control" placeholder="Tìm kiếm bài viết..." value="@ViewData["CurrentFilter"]">
+                        <div class="input-group-append">
+                            <button class="btn btn-golden" type="submit">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- End Search Form -->
                 <div class="blog-wrapper">
                     <div class="row mb-n6">
                         @foreach (var blog in Model)
@@ -60,10 +70,18 @@
                 <!-- Start Pagination -->
                 <div class="page-pagination text-center" data-aos="fade-up" data-aos-delay="0">
                     <ul>
-                        <li><a class="active" href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#"><i class="ion-ios-skipforward"></i></a></li>
+                        @if (Model.HasPreviousPage)
+                        {
+                            <li><a href="@Url.Action("Index", new { pageNumber = Model.PageIndex - 1 })">Trước</a></li>
+                        }
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                        <li><a class="@(i == Model.PageIndex ? "active" : "")" href="@Url.Action("Index", new { pageNumber = i })">@i</a></li>
+                        }
+                        @if (Model.HasNextPage)
+                        {
+                            <li><a href="@Url.Action("Index", new { pageNumber = Model.PageIndex + 1 })">Tiếp</a></li>
+                        }
                     </ul>
                 </div> <!-- End Pagination -->
             </div>
