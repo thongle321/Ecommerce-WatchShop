@@ -71,11 +71,13 @@ app.MapControllerRoute(
     .RequireAuthorization("Admin")
     .WithStaticAssets();
 
+
 app.MapControllerRoute(
-    name: "ProductList",
-    pattern: "danh-sach-san-pham/{action=ProductList}",
-    defaults: new { controller = "Product" }
+    name: "ProductBrand",
+    pattern: "product-category/brand/{brands}",
+    defaults: new { controller = "Product", action = "ProductList" }
 );
+
 app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")
