@@ -17,7 +17,7 @@ namespace Ecommerce_WatchShop.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> ProductList(string? search,string? categories = "", string? brands = "", double? minPrice = null, double? maxPrice = null, int page = 1)
+        public async Task<IActionResult> ProductList(string? search, string? categories = "", string? brands = "", double? minPrice = null, double? maxPrice = null, int page = 1)
         {
             var pageSize = 5;  // Số sản phẩm mỗi trang
             var products = _context.Products.AsQueryable();
@@ -34,13 +34,7 @@ namespace Ecommerce_WatchShop.Controllers
             // Lọc theo category
             if (!string.IsNullOrEmpty(categories))
             {
-                var category = await _context.Categories.Where(c => c.Slug == categories).FirstOrDefaultAsync();
-                if (category != null)
-                {
-                    products = products.Where(p => p.CategoryId == category.CategoryId);
-
-                }
-                return RedirectToAction("ProductList", "Product");
+                products = products.Where(p => p.Category.Slug == categories);
             }
 
             // Lọc theo brand
@@ -92,48 +86,7 @@ namespace Ecommerce_WatchShop.Controllers
             // Trả về view với ViewModel
             return View(viewModel);
         }
-        
-        public async Task<IActionResult> SearchProduct(string? search = "", int page = 1)
-        {
-            var pageSize = 5;  // Số sản phẩm mỗi trang
 
-            var products = _context.Products.AsQueryable();
-
-            // Kiểm tra và áp dụng điều kiện tìm kiếm
-            if (!string.IsNullOrEmpty(search))
-            {
-                search = search.ToLower().Trim();
-                products = products.Where(p =>
-                    p.ProductName.ToLower().Contains(search) ||
-                    p.ShortDescription.ToLower().Contains(search));
-            }
-            var totalProducts = await products.CountAsync();
-            var totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
-            var result = await products
-                .Include(p => p.ProductRatings)
-                .Skip((page - 1) * pageSize) // Bỏ qua các sản phẩm của các trang trước
-                .Take(pageSize) // Lấy sản phẩm cho trang hiện tại
-                .Select(p => new ProductVM
-                {
-                    ProductId = p.ProductId,
-                    ProductName = p.ProductName,
-                    Image = p.Image ?? "",
-                    Price = p.Price,
-                    ShortDescription = p.ShortDescription,
-                    ProductRating = p.ProductRatings.Any()
-                        ? p.ProductRatings.Average(r => (double)r.Rating!) : 0,
-                    TotalRating = p.ProductRatings.Count,
-                }).ToListAsync();
-
-            var viewModel = new PagedProductListVM
-            {
-                Products = result,  // Danh sách sản phẩm cho trang hiện tại
-                CurrentPage = page,
-                TotalPages = totalPages,
-                PageSize = pageSize
-            };
-            return View(viewModel);
-        }
 
         //[Route("ProductDetail/{id}")]
         //public IActionResult ProductDetail(int id)

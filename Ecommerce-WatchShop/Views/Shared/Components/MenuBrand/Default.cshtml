@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Ecommerce_WatchShop.Models.ViewModels.MenuBrandVM>
-@* <!-- Start Single Sidebar Widget -->
+<!-- Start Single Sidebar Widget -->
 <div class="sidebar-single-widget">
     <h6 class="sidebar-title">THƯƠNG HIỆU</h6>
     <div class="sidebar-content">
@@ -7,7 +7,7 @@
             @foreach (var item in Model)
             {
                 <li>
-                    <a asp-controller="Product" asp-action="ProductList" asp-route-brands="@item.Slug">
+                    <a asp-controller="Product" asp-action="ProductsByBrand" asp-route-brandSlug="@item.Slug">
                         @item.Name
                     </a>
                 </li>
@@ -15,8 +15,8 @@
             }
         </ul>
     </div>
-</div> <!-- End Single Sidebar Widget --> *@
-<div class="sidebar-single-widget">
+</div> <!-- End Single Sidebar Widget -->
+@* <div class="sidebar-single-widget">
     <h6 class="sidebar-title">Thương hiệu</h6>
     <div class="nice-select country_option wide" tabindex="0">
         <span class="current">Tất cả thương hiệu</span>
@@ -41,4 +41,4 @@
             document.querySelector('.current').textContent = this.textContent; // Cập nhật tiêu đề
         });
     });
-</script>
+</script> *@
