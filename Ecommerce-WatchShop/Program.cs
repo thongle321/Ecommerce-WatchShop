@@ -72,11 +72,11 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 
-app.MapControllerRoute(
-    name: "ProductBrand",
-    pattern: "product-category/brand/{brands}",
-    defaults: new { controller = "Product", action = "ProductList" }
-);
+//app.MapControllerRoute(
+//    name: "ProductBrand",
+//    pattern: "product-category/brand/{brands}",
+//    defaults: new { controller = "Product", action = "ProductList" }
+//);
 
 app.MapControllerRoute(
         name: "default",

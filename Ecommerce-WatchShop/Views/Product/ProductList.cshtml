@@ -32,35 +32,35 @@
                     <div class="sidebar-single-widget">
                         <h6 class="sidebar-title">Tìm kiếm</h6>
                         <div class="default-search-style d-flex">
-                             @* <form method="get" asp-controller="Product" asp-action="ProductList">  *@
-                                <input class="default-search-style-input-box" type="search" placeholder="Tìm kiếm..." name="search">
-                                <button class="default-search-style-input-btn" type="submit"><i class="fa fa-search"></i></button>
-                             @* </form>  *@
+                            @* <form method="get" asp-controller="Product" asp-action="ProductList">  *@
+                            <input class="default-search-style-input-box" type="search" placeholder="Tìm kiếm..." name="search">
+                            <button class="default-search-style-input-btn" type="submit"><i class="fa fa-search"></i></button>
+                            @* </form>  *@
 
-                        </div>
-                    </div>
-                    @await Component.InvokeAsync("MenuCategory")
-
-                    <div class="sidebar-single-widget">
-                        <h6 class="sidebar-title">LỌC THEO GIÁ</h6>
-                        <div class="sidebar-content">
-                            <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
-                                <div class="ui-slider-range ui-corner-all ui-widget-header" style="left: 15%; width: 45%;">
-                                </div>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 15%;">
-                                </span><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 60%;"></span>
-                            </div>
-                            <div class="filter-type-price">
-                                <label for="amount">Phạm vi:</label>
-                                <input type="text" id="amount">
-                            </div>
                         </div>
                     </div>
                     @await Component.InvokeAsync("MenuBrand")
 
-                    <div>
+
+                    <div class="sidebar-single-widget">
+                        <h6 class="sidebar-title">FILTER BY PRICE</h6>
+                        <div class="sidebar-content">
+                            <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><div class="ui-slider-range ui-corner-all ui-widget-header" style="left: 15%; width: 45%;"></div><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 15%;"></span><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 60%;"></span></div>
+                            <div class="filter-type-price">
+                                <label for="amount">Price range:</label>
+                                <div>
+                                    <input type="text" id="amount" readonly>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-md btn-golden mt-3">Lọc</button>
+                    <button type="submit" id="filter-button" class="btn btn-md btn-golden mt-3">Lọc theo giá</button>
+
+                    @await Component.InvokeAsync("MenuCategory")
+
+                    <div>
+                        <button type="submit" class="btn btn-md btn-golden mt-3">Lọc</button>
+                    </div>
 
                 </form>
 
@@ -229,72 +229,82 @@
     </div>
 </div>
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
-        // Cấu hình slider mặc định
-        const sliderConfig = {
-            min: 0,
-            max: 100000000,
-            step: 1000, // Bước giá trị (1,000 VND)
-            defaultValues: [0, 100000000]
-        };
 
-        // Đợi trang load xong
-        window.addEventListener('load', function () {
-            if (typeof $.ui !== 'undefined') {
-                initializeSlider();
-            } else {
-                console.error("jQuery UI không được tải thành công.");
-            }
+        $(function() {
+
+            var minPrice = 2000000;
+
+            var maxPrice = 10000000;
+
+
+            $("#slider-range").slider({
+
+                range: true,
+
+                min: minPrice,
+
+                max: maxPrice,
+
+                values: [minPrice, maxPrice],
+
+                slide: function(event, ui) {
+
+                    $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+
+                }
+
+            });
+
+
+            $("#amount").val($("#slider-range").slider("values", 0) + " - " + $("#slider-range").slider("values", 1));
+
+        $("#filter-button").on("click", function() {
+
+            var values = $("#amount").val().split(" - ");
+
+            var minVal = parseInt(values[0]);
+
+            var maxVal = parseInt(values[1]);
+
+
+            console.log("Min Price: ", minVal); // Kiểm tra giá trị min
+
+            console.log("Max Price: ", maxVal); // Kiểm tra giá trị max
+
+
+            // Tạo các trường ẩn để gửi giá trị minPrice và maxPrice
+
+            $('<input>').attr({
+
+                type: 'hidden',
+
+                name: 'minPrice',
+
+                value: minVal
+
+            }).appendTo('form');
+
+
+            $('<input>').attr({
+
+                type: 'hidden',
+
+                name: 'maxPrice',
+
+                value: maxVal
+
+            }).appendTo('form');
+
+
+            // Gửi form
+
+            $('form').submit();
+
         });
 
-        // Khởi tạo slider
-        function initializeSlider() {
-            try {
-                $("#slider-range").slider({
-                    range: true,
-                    min: sliderConfig.min,
-                    max: sliderConfig.max,
-                    step: sliderConfig.step,
-                    values: sliderConfig.defaultValues,
-                    slide: function (event, ui) {
-                        updateAmountDisplay(ui.values[0], ui.values[1]);
-                    },
-                    stop: function (event, ui) {
-                        updateProductList(ui.values[0], ui.values[1]);
-                    }
-                });
+        });
 
-                // Hiển thị giá trị khởi tạo
-                const values = $("#slider-range").slider("values");
-                updateAmountDisplay(values[0], values[1]);
-            } catch (error) {
-                console.error("Lỗi khi khởi tạo slider:", error);
-            }
-        }
-
-        // Cập nhật giá trị hiển thị
-        function updateAmountDisplay(minPrice, maxPrice) {
-            $("#amount").val(formatCurrency(minPrice) + " - " + formatCurrency(maxPrice));
-        }
-
-        // Cập nhật danh sách sản phẩm theo URL mới
-        function updateProductList(minPrice, maxPrice) {
-            const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get('categories') || '';
-            const brand = urlParams.get('brand') || '';
-
-            const newUrl = `/Product/ProductList?categories=${encodeURIComponent(category)}&brand=${encodeURIComponent(brand)}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
-            window.location.href = newUrl;
-        }
-
-        // Định dạng giá trị thành tiền tệ
-        function formatCurrency(value) {
-            return new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            }).format(value);
-        }
     </script>
 }

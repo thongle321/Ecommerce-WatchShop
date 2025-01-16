@@ -43,7 +43,7 @@ namespace Ecommerce_WatchShop
             {
                 var donghopin = _context.Categories.FirstOrDefault(c => c.CategoryName == "Đồng hồ pin");
                 var donghoco = _context.Categories.FirstOrDefault(c => c.CategoryName == "Đồng hồ cơ");
-                var donghonangluong = _context.Categories.FirstOrDefault(c => c.CategoryName == "Đồng hồ nâng lượng mặt trời");
+                var donghonangluong = _context.Categories.FirstOrDefault(c => c.CategoryName == "Đồng hồ năng lượng mặt trời");
 
                 var citizen = _context.Brands.FirstOrDefault(b => b.Name == "Citizen");
                 var doxa = _context.Brands.FirstOrDefault(b => b.Name == "Doxa");
