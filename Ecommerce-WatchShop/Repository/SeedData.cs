@@ -24,7 +24,7 @@ namespace Ecommerce_WatchShop
 
                 Category donghoco = new Category { CategoryName = "Đồng hồ cơ", ParentId = null, Slug = "dong-ho-co" };
                 Category donghopin = new Category { CategoryName = "Đồng hồ pin", ParentId = null, Slug = "dong-ho-pin" };
-                Category donghonangluong = new Category { CategoryName = "Đồng hồ nâng lượng mặt trời", ParentId = null, Slug = "dong-ho-nang-luong-mat-troi" };
+                Category donghonangluong = new Category { CategoryName = "Đồng hồ năng lượng mặt trời", ParentId = null, Slug = "dong-ho-nang-luong-mat-troi" };
 
                 await _context.Categories.AddRangeAsync(donghoco, donghopin, donghonangluong);
                 await _context.SaveChangesAsync();
@@ -476,6 +476,13 @@ namespace Ecommerce_WatchShop
                 );
                 await _context.SaveChangesAsync();
             }
+            if (!_context.Customers.Any())
+            {
+                await _context.Customers.AddRangeAsync
+                (
+                    new Customer { FullName = "Nguyễn Văn Linh", Phone = "0306221377", Address = "TPHCM", Email = "0306221349@caothang.edu.vn", Dob = DateOnly.ParseExact("1975-04-30", "yyyy-mm-dd"), Gender = true, AccountId = 2, DisplayName = "user1" }
+                );
+            }    
         }
     }
 }
