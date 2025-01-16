@@ -57,8 +57,9 @@ namespace Ecommerce_WatchShop.Controllers
         //    }).ToListAsync();
         //    return View(result);
         //}
-        public async Task<IActionResult> ProductList(string? categories = "", string? brands = "", double? minPrice = null, double? maxPrice = null)
+        public async Task<IActionResult> ProductList(string? categories = "", string? brands = "", double? minPrice = null, double? maxPrice = null, int page = 1)
         {
+            var pageSize = 5;  // Số sản phẩm mỗi trang
             var products = _context.Products.AsQueryable();
 
             // Lọc theo category
@@ -86,9 +87,16 @@ namespace Ecommerce_WatchShop.Controllers
                 products = products.Where(p => p.Price <= maxPrice.Value);
             }
 
+            // Lấy tổng số sản phẩm sau khi áp dụng các bộ lọc
+            var totalProducts = await products.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
+
+            // Lấy các sản phẩm cho trang hiện tại
             var result = await products
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductRatings)
+                .Skip((page - 1) * pageSize) // Bỏ qua các sản phẩm của các trang trước
+                .Take(pageSize) // Lấy sản phẩm cho trang hiện tại
                 .Select(p => new ProductVM
                 {
                     ProductId = p.ProductId,
@@ -98,11 +106,23 @@ namespace Ecommerce_WatchShop.Controllers
                     ShortDescription = p.ShortDescription,
                     ProductRating = p.ProductRatings.Any()
                         ? p.ProductRatings.Average(r => (double)r.Rating!) : 0,
-                    TotalRating = p.ProductRatings.Count,
-                }).ToListAsync();
+                    TotalRating = p.ProductRatings.Count
+                })
+                .ToListAsync();
 
-            return View(result);
+            // Tạo ViewModel cho phân trang
+            var viewModel = new PagedProductListVM
+            {
+                Products = result,  // Danh sách sản phẩm cho trang hiện tại
+                CurrentPage = page,
+                TotalPages = totalPages,
+                PageSize = pageSize
+            };
+
+            // Trả về view với ViewModel
+            return View(viewModel);
         }
+
         //[Route("ProductDetail/{id}")]
         //public IActionResult ProductDetail(int id)
         //{
