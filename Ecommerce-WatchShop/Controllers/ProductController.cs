@@ -17,47 +17,7 @@ namespace Ecommerce_WatchShop.Controllers
             _context = context;
         }
 
-        //public async Task<IActionResult> ProductList(string? categories = "", string? brands = "")
-        //{
-        //    var products = _context.Products.AsQueryable();
-        //    if (string.IsNullOrEmpty(categories))
-        //    {
-        //        return View(await products.Select(p => new ProductVM
-        //        {
-        //            ProductId = p.ProductId,
-        //            ProductName = p.ProductName,
-        //            Image = p.ProductImages.FirstOrDefault().Image ?? "",
-        //            Price = p.Price,
-        //            ShortDescription = p.ShortDescription,
-        //            ProductRating = p.ProductRatings.Any() ? p.ProductRatings.Average(r => (double)r.Rating!) : 0,
-        //            TotalRating = p.ProductRatings.Count()
-        //        }).ToListAsync());
-        //    }
-
-        //    var category = await _context.Categories.Where(c => c.Slug == categories).FirstOrDefaultAsync();
-        //    if (category == null)
-        //    {
-        //        return RedirectToAction("Index", "Home");
-        //    }
-
-        //    var result = await products
-        //    .Where(p => p.CategoryId == category.CategoryId)
-        //    .Include(p => p.ProductImages)
-        //    .Include(p => p.ProductRatings)
-        //    .Select(p => new ProductVM
-        //    {
-        //        ProductId = p.ProductId,
-        //        ProductName = p.ProductName,
-        //        Image = p.ProductImages.FirstOrDefault().Image ?? "",
-        //        Price = p.Price,
-        //        ShortDescription = p.ShortDescription,
-        //        ProductRating = p.ProductRatings.Any()
-        //            ? p.ProductRatings.Average(r => (double)r.Rating!) : 0,
-        //        TotalRating = p.ProductRatings.Count,
-        //    }).ToListAsync();
-        //    return View(result);
-        //}
-        public async Task<IActionResult> ProductList(string? categories = "", string? brands = "", double? minPrice = null, double? maxPrice = null, int page = 1)
+        public async Task<IActionResult> ProductList(string? search,string? categories = "", string? brands = "", double? minPrice = null, double? maxPrice = null, int page = 1)
         {
             var pageSize = 5;  // Số sản phẩm mỗi trang
             var products = _context.Products.AsQueryable();
