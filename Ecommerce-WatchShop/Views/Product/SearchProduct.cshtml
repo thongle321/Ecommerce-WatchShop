@@ -28,21 +28,20 @@
     <div class="container">
         <div class="row flex-column-reverse flex-lg-row">
             <div class="col-lg-3">
-                <form method="get" asp-controller="Product" asp-action="ProductList">
-                    <div class="sidebar-single-widget">
-                        <h6 class="sidebar-title">Tìm kiếm</h6>
-                        <div class="default-search-style d-flex">
-                             @* <form method="get" asp-controller="Product" asp-action="ProductList">  *@
-                                <input class="default-search-style-input-box" type="search" placeholder="Tìm kiếm..." name="search">
-                                <button class="default-search-style-input-btn" type="submit"><i class="fa fa-search"></i></button>
-                             @* </form>  *@
+                <div class="sidebar-single-widget">
+                    <h6 class="sidebar-title">Tìm kiếm</h6>
+                    <div class="default-search-style d-flex">
+                        <form>
+                            <input class="default-search-style-input-box" type="search" placeholder="Tìm kiếm..." name="search">
+                            <button class="default-search-style-input-btn" asp-controller="Product" asp-action="SearchProduct" type="submit"><i class="fa fa-search"></i></button>
+                        </form>
 
-                        </div>
                     </div>
-                    @await Component.InvokeAsync("MenuCategory")
+                </div>
+                @await Component.InvokeAsync("MenuCategory")
 
-                    <!-- Start Sidebar Area -->
-                    @*                 <div class="siderbar-section" data-aos="fade-up" data-aos-delay="0">
+                <!-- Start Sidebar Area -->
+                @*                 <div class="siderbar-section" data-aos="fade-up" data-aos-delay="0">
 
                     <!-- Start Single Sidebar Widget -->
                     <div class="sidebar-single-widget">
@@ -57,8 +56,8 @@
                             </ul>
                         </div>
                     </div> <!-- End Single Sidebar Widget --> *@
-                    <!-- Start Single Sidebar Widget -->
-                    @*                 <div class="sidebar-single-widget">
+                <!-- Start Single Sidebar Widget -->
+                @*                 <div class="sidebar-single-widget">
                     <h6 class="sidebar-title">Giá</h6>
                     <div class="sidebar-content">
                         <div class="filter-type-select">
@@ -103,29 +102,22 @@
                         </div>
                     </div>
                 </div> <!-- End Single Sidebar Widget --> *@
-                    <div class="sidebar-single-widget">
-                        <h6 class="sidebar-title">LỌC THEO GIÁ</h6>
-                        <div class="sidebar-content">
-                            <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
-                                <div class="ui-slider-range ui-corner-all ui-widget-header" style="left: 15%; width: 45%;">
-                                </div>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 15%;">
-                                </span><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 60%;"></span>
+                <div class="sidebar-single-widget">
+                    <h6 class="sidebar-title">LỌC THEO GIÁ</h6>
+                    <div class="sidebar-content">
+                        <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
+                            <div class="ui-slider-range ui-corner-all ui-widget-header" style="left: 15%; width: 45%;">
                             </div>
-                            <div class="filter-type-price">
-                                <label for="amount">Phạm vi:</label>
-                                <input type="text" id="amount">
-                            </div>
+                            <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 15%;">
+                            </span><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 60%;"></span>
+                        </div>
+                        <div class="filter-type-price">
+                            <label for="amount">Phạm vi:</label>
+                            <input type="text" id="amount">
                         </div>
                     </div>
-                    @await Component.InvokeAsync("MenuBrand")
-
-                    <div>
-                    </div>
-                    <button type="submit" class="btn btn-md btn-golden mt-3">Lọc</button>
-
-                </form>
-
+                </div>
+                @await Component.InvokeAsync("MenuBrand")
                 @*                 <div class="sidebar-single-widget">
                     <h6 class="sidebar-title">Thương Hiệu</h6>
                     <div class="sidebar-content">
@@ -161,6 +153,7 @@
                 </div> <!-- End Single Sidebar Widget --> *@
             </div> <!-- End Sidebar Area -->
             <div class="col-lg-9">
+                <h5>Có @Model.Count() sản phẩm tìm kiếm</h5>
                 <!-- Start Shop Product Sorting Section -->
                 <div class="shop-sort-section">
                     <div class="container">
