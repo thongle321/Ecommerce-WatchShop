@@ -120,22 +120,21 @@ public class AccountController : Controller
         {
             return NotFound();
         }
-        // Giả sử trạng thái 2 là "Đã thanh toán"
+
         if (bill.Status == 2)
         {
-            TempData["ErrorMessage"] = "Đơn hàng đã thanh toán, không thể hủy.";
+            TempData["error"] = "Đơn hàng đã thanh toán, không thể hủy.";
             return RedirectToAction("Order");
         }
 
-        // Giả sử trạng thái 3 là "Đã hủy"
         bill.Status = 3;
 
         // Cập nhật trạng thái đơn hàng
         _context.Bills.Update(bill);
         await _context.SaveChangesAsync();
 
-        // Có thể thêm một thông báo để hiển thị cho người dùng
-        TempData["SuccessMessage"] = "Đơn hàng đã được hủy thành công.";
+
+        TempData["success"] = "Đơn hàng đã được hủy thành công.";
 
         return RedirectToAction("Order");
     }

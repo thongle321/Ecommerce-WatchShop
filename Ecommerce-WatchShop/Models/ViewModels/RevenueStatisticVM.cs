@@ -3,6 +3,6 @@
     public class RevenueStatisticVM
     {
         public DateTime Date { get; set; }
-        public decimal Revenue { get; set; }// tổng giá bán
+        public decimal Revenue { get; set; }
     }
 }

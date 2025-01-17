@@ -27,34 +27,11 @@
                 <div class="container">
                     <!-- Row for Chart -->
                     <div class="row mb-4">
-
-                        <div class="col-md-4">
-
-                            <p>Lọc theo khoảng thời gian</p>
-
-                            <form id="filterForm">
-
-                                <label for="startDate">Từ ngày:</label>
-
-                                <input type="date" class="form-control" id="startDate" placeholder="YYYY-MM-DD">
-
-                                <label for="endDate">Đến ngày:</label>
-
-                                <input type="date" class="form-control" id="endDate" placeholder="YYYY-MM-DD">
-
-                                <button type="button" class="btn btn-warning btn-filter-date">Lọc</button>
-
-                            </form>
-
-                        </div>
-
-                    </div>
-                    <div class="row mb-4">
                         <div class="col-lg-12">
                             <div class="app-card app-card-chart h-100 shadow-sm">
                                 <div class="app-card-body p-3">
                                     <div class="chart-container">
-                                        <div id="myfirstchart" style="height: 400px;"></div>
+                                         <div id="myfirstchart" style="height: 400px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -95,11 +72,12 @@
                     <div class="app-card app-card-chart h-100 shadow-sm">
                         <div class="app-card-body p-3">
                             <div class="chart-container">
+                                <div id="purchasechart" style="height: 400px;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Table Section -->
+@*                 <!-- Table Section -->
                 <div class="col-lg-4">
                     <div class="app-card app-card-table shadow-sm">
                         <div class="app-card-body">
@@ -131,7 +109,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
+                </div> *@
             </div>
         </div>
     </div>
@@ -143,12 +121,14 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
         $(document).ready(function () {
             var chartData = [];
+            var purchaseData = []
             var chart = new Morris.Bar({
-                element: 'myfirstchart',
+                element: 'myfirstchart',    
                 parseTime: false,
                 data: chartData,
                 xkey: 'date',
@@ -157,52 +137,57 @@
 
                 labels: ['Doanh thu']
             });
-            //filter all data chart
+            var purchaseChart = new Morris.Line({
+                element: 'purchasechart',
+                parseTime: false,
+                data: purchaseData,
+                xkey: 'date',
+                ykeys: ['TotalPurchases'],
+                labels: ['Lượt mua']
+
+            });
+
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("GetRevenue", "Statistical")",
                 success: function (data) {
-                    console.log(data);
                     chart.setData(data);
                 }
             });
-            //submit filter date in chart
-            $(".filter-date").change(function () {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetPurchase", "Statistical")",
+                success: function (data) {
+                    purchaseChart.setData(data);
+                }
+            });
+            $(".filter-select").change(function () {
                 var filterdate = $(this).val();
-               // alert(filterdate);
+               alert(filterdate);
 
                 $.ajax({
                     type: "POST",
                         url: "@Url.Action("SelectFilterDate", "Statistical")",
                     data: { filterdate: filterdate },
                     success: function (data) {
+                        console.log(data);
+                        chart.setData(data);
+                    }
+                });
+            });
+
+            $(".btn-filter-date").click(function () {
+                var filterdate = $("#datepicker").val();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SubmitFilterDate", "Statistical")",
+                    data: { filterdate: filterdate },
+                    success: function (data) {
                         chart.setData(data);
                     }
                 });
             })
-
-         $(".btn-filter-date").click(function () {
-            var startDate = $("#startDate").val();
-            var endDate = $("#endDate").val();
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("GetRevenue", "Statistical")",
-                data: { startDate: startDate, endDate: endDate },
-                success: function (data) {
-                    console.log(data); // Kiểm tra dữ liệu trả về
-                    if (data.length > 0) {
-                        chart.setData(data); // Cập nhật dữ liệu cho biểu đồ
-                    } else {
-                        console.warn("Không có dữ liệu để hiển thị.");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Lỗi:", error);
-                }
-            });
         });
-    });
     </script>
     <script>
         $(function () {

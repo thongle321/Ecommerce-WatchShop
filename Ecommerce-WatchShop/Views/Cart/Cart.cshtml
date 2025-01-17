@@ -58,7 +58,7 @@
                                                     @item.Product.ProductName
                                                 </a>
                                             </td>
-                                            <td class="product-price"> @String.Format(new CultureInfo("vi-VN"), "{0:C}", item.Product.Price)</td>
+                                            <td class="product-price">@String.Format(new CultureInfo("vi-VN"), "{0:C}", item.Price)</td>
                                             <td class="product_quantity">
                                                 <input type="number" value="@item.Quantity" min="1" max="100" />
                                             </td>

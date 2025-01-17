@@ -17,7 +17,7 @@ namespace Ecommerce_WatchShop.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> ProductList(string? search, string? categories = "", string? brands = "", double? minPrice = null, double? maxPrice = null, int page = 1)
+        public async Task<IActionResult> Index(string? search, string? categories = "", string? brands = "", double? minPrice = null, double? maxPrice = null, int page = 1)
         {
             var pageSize = 5;  // Số sản phẩm mỗi trang
             var products = _context.Products.AsQueryable();
