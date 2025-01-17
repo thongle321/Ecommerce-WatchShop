@@ -60,7 +60,7 @@
                                             </td>
                                             <td class="product-price">@String.Format(new CultureInfo("vi-VN"), "{0:C}", item.Price)</td>
                                             <td class="product_quantity">
-                                                <input type="number" value="@item.Quantity" min="1" max="100" />
+                                                <input type="number" class="update-quantity" value="@item.Quantity" min="1" max="100" />
                                             </td>
                                             <td class="product_total">
                                                 @(@item.Product.Price * item.Quantity).ToString("C0")
@@ -141,3 +141,36 @@
     </div>
     <!-- End Coupon Start -->
 </div> <!-- ...:::: End Cart Section:::... -->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+        $(document).ready(function () {
+        $('.product_quantity input').on('change', function () {
+            var newQuantity = $(this).val();
+            var productId = $(this).closest('tr').data('product-id');
+
+            $.ajax({
+                url: '@Url.Action("UpdateCart", "Cart")',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    ProductId: productId,
+                    Quantity: parseInt(newQuantity)
+                }),
+                success: function (response) {
+                    alert(response.message);
+                    location.reload(); // Reload để cập nhật lại tổng tiền
+                },
+                error: function (xhr) {
+                    var errorMessage = "Đã có lỗi xảy ra.";
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    alert(errorMessage); // Hiển thị thông báo lỗi
+                }
+            });
+        });
+    });
+
+</script>
