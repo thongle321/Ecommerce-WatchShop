@@ -160,6 +160,24 @@ public class CartController : Controller
 
         return Ok(new { message = "Số lượng sản phẩm trong giỏ hàng đã được cập nhật!" });
     }
+    // Xóa hết giỏ hàng
+    public IActionResult ClearCart()
+    {
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
+        int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
+
+        if (customerId == null || !User.Identity.IsAuthenticated)
+        {
+            return Json(new { success = false, message = "Bạn cần đăng nhập để xóa giỏ hàng." });
+        }
+
+        // Xóa tất cả các sản phẩm trong giỏ hàng của khách hàng
+        var cartItems = _context.Carts.Where(c => c.CustomerId == customerId).ToList();
+        _context.Carts.RemoveRange(cartItems);
+        _context.SaveChanges();
+
+        return Json(new { success = true, message = "Giỏ hàng đã được xóa thành công." });
+    }
 
 
     public IActionResult Checkout()

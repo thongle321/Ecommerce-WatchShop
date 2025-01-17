@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div class="cart_submit">
-                            <button class="btn btn-md btn-golden" type="submit">Xoá giỏ hàng</button>
+                            <button class="btn btn-md btn-golden" id="clear-cart-btn" type="button">Xóa giỏ hàng</button>
                         </div>
                     </div>
                 </div>
@@ -173,4 +173,25 @@
         });
     });
 
+</script>
+<script>
+    $(document).ready(function () {
+        $('#clear-cart-btn').on('click', function () {
+            if (confirm('Bạn có chắc chắn muốn xóa toàn bộ giỏ hàng?')) {
+                $.ajax({
+                    url: '@Url.Action("ClearCart", "Cart")',
+                    method: 'POST',
+                    success: function (response) {
+                        alert(response.message);
+                        if (response.success) {
+                            location.reload(); // Tải lại trang để cập nhật giỏ hàng
+                        }
+                    },
+                    error: function () {
+                        alert("Đã xảy ra lỗi khi xóa giỏ hàng.");
+                    }
+                });
+            }
+        });
+    });
 </script>
