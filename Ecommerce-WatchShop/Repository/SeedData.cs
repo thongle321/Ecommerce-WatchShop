@@ -70,6 +70,7 @@ namespace Ecommerce_WatchShop
                         Specification = "Kích thước mặt: 40mm<br> Độ dày: 7mm<br> Màu mặt: White<br> Loại máy: MIYOTA QUARTZ<br> Kích cỡ dây: 20mm<br>Chống nước: 3ATM<br> Mặt kính: Sapphire<br> Chất liệu dây: Dây Da Genuine",
                         Quantity = 10,
                         Status = 1,
+                        Views = 1000,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
                         Deleted = null,
@@ -89,6 +90,7 @@ namespace Ecommerce_WatchShop
                         Specification = "<b>Đường kính mặt số: </b>41 mm<br><b>Bề dày mặt số: </b>11 mm<br>Niềng: Thép không gỉ<br>Dây đeo: Thép dáng Oyster",
                         Quantity = 12,
                         Status = 1,
+                        Views = 50,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
                         Deleted = null,
@@ -108,6 +110,7 @@ namespace Ecommerce_WatchShop
                         Specification = "Thương hiệu: Citizen, Bộ sưu tập: Citizen Tsuyosa, Xuất xứ: Nhật Bản, Kính: Sapphire (Kính chống trầy), Máy: Caliber 8210 Automatic (Cơ tự động), Đường kính mặt số: 40 mm, Bề dày mặt số: 11.7 mm, Niềng: Thép không gỉ, Dây đeo: Thép không gỉ, Chống nước: 5 ATM.",
                         Quantity = 6,
                         Status = 1,
+                        Views = 100,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
                         Deleted = null,
@@ -127,6 +130,7 @@ namespace Ecommerce_WatchShop
                         Specification = "Kính: Sapphire (Kính chống trầy), Máy: Automatic (Miyota 8229 trữ cót 40 giờ), Đường kính mặt số: 40 mm, Bề dày mặt số: 10.7 mm, Niềng: Thép không gỉ, Dây Đeo: Thép không gỉ, Chống nước: 5 ATM,Màu mặt số: Xanh dương.",
                         Quantity = 8,
                         Status = 1,
+                        Views = 2000,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
                         Deleted = null,
@@ -146,6 +150,7 @@ namespace Ecommerce_WatchShop
                         Specification = "Kính: Mineral Crystal (Kính cứng), Máy: Eco-Drive (Năng lượng ánh sáng), Đường Kính Mặt Số: 32 mm, Bề Dày Mặt Số: 7.6 mm, Niềng: Thép không gỉ, Dây Đeo: Thép không gỉ, Chống Nước: 5 ATM.",
                         Quantity = 11,
                         Status = 1,
+                        Views = 500,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
                         Deleted = null,
@@ -165,6 +170,7 @@ namespace Ecommerce_WatchShop
                         Specification = "Kính: Mineral Crystal (Kính cứng), Máy: Eco-Drive (Năng lượng ánh sáng), Đường kính mặt số: 25 mm, Bề dày mặt số: 7.3 mm, Niềng: Thép không gỉ, Dây đeo: Thép không gỉ, Màu mặt số: Trắng xà cừ, Chống nước: 5 ATM.",
                         Quantity = 17,
                         Status = 1,
+                        Views = 250,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
                         Deleted = null,
@@ -184,6 +190,7 @@ namespace Ecommerce_WatchShop
                         Specification = "Kính: Sapphire (Kính chống trầy),Máy: Quartz (Pin), Đường kính mặt số: 40 mm, Bề dày mặt số: 6.7 mm, Niềng: Thép không gỉ, Dây đeo: Thép không gỉ, Màu mặt số: Trắng, Chống nước: 5 ATM.",
                         Quantity = 20,
                         Status = 1,
+                        Views = 5000,
                         CreatedAt = null,
                         UpdatedAt = null,
                         Deleted = null,
@@ -203,6 +210,7 @@ namespace Ecommerce_WatchShop
                         Specification = "Kính: Sapphire (Kính Chống Trầy),Máy: Quartz (Pin), Đường Kính Mặt Số: 42 mm, Bề Dày Mặt Số: 12 mm",
                         Quantity = 9,
                         Status = 1,
+                        Views = 4000,
                         CreatedAt = null,
                         UpdatedAt = null,
                         Deleted = null,
@@ -222,6 +230,7 @@ namespace Ecommerce_WatchShop
                         Specification = "Kính: Sapphire (Kính chống trầy), Máy: Quartz (Pin), Đường kính mặt số: 29 mm, Niềng: Thép không gỉ, Dây đeo: Thép không gỉ, Màu mặt số: Trắng, Chống nước: 5 ATM",
                         Quantity = 22,
                         Status = 1,
+                        Views = 150,
                         CreatedAt = null,
                         UpdatedAt = null,
                         Deleted = null,
@@ -257,6 +266,7 @@ namespace Ecommerce_WatchShop
                         ",
                         Quantity = 10,
                         Status = 1,
+                        Views = 999,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
                         Deleted = null,
@@ -472,7 +482,16 @@ namespace Ecommerce_WatchShop
                 await _context.Accounts.AddRangeAsync
                 (
                     new Account { Username = "admin", Password = "admin", RoleId = 2, },
-                    new Account { Username = "user1", Password = "user1", RoleId = 1}
+                    new Account { Username = "user1", Password = "user1", RoleId = 1 },
+                    new Account { Username = "user2", Password = "user2", RoleId = 1, },
+                    new Account { Username = "user3", Password = "user3", RoleId = 1, },
+                    new Account { Username = "user4", Password = "user4", RoleId = 1 },
+                    new Account { Username = "user5", Password = "user5", RoleId = 1, },
+                    new Account { Username = "user6", Password = "user6", RoleId = 1 },
+                    new Account { Username = "user7", Password = "user7", RoleId = 1, },
+                    new Account { Username = "user8", Password = "user8", RoleId = 1 },
+                    new Account { Username = "user9", Password = "user9", RoleId = 1, },
+                    new Account { Username = "user10", Password = "user10", RoleId = 1 }
                 );
                 await _context.SaveChangesAsync();
             }
@@ -480,11 +499,29 @@ namespace Ecommerce_WatchShop
             {
                 await _context.Customers.AddRangeAsync
                 (
-                    new Customer { FullName = "Nguyễn Văn Linh", Phone = "0306221377", Address = "TPHCM", Email = "0306221349@caothang.edu.vn", Dob = DateOnly.ParseExact("1975-04-30", "yyyy-mm-dd"), Gender = true, AccountId = 2, DisplayName = "user1" }
+                    new Customer { FullName = "Nguyễn Văn A", Phone = "0123456789", Address = "123 Đường ABC, Quận 1", Email = "vana@gmail.com", Dob = DateOnly.ParseExact("1990-01-01", "yyyy-MM-dd"), Gender = true, AccountId = 2, DisplayName = "user1" },
+
+                    new Customer { FullName = "Trần Thị B", Phone = "0987654321", Address = "456 Đường DEF, Quận 2", Email = "btran@gmail.com",  Dob = DateOnly.ParseExact("1992-02-02", "yyyy-MM-dd"), Gender = false, AccountId = 3, DisplayName = "user2" },
+
+                    new Customer { FullName = "Lê Văn C", Phone = "0123456780", Address = "789 Đường GHI, Quận 3", Email = "cle@gmail.com", Dob = DateOnly.ParseExact("1988-03-03", "yyyy-MM-dd"), Gender = true, AccountId = 4, DisplayName = "user3" },
+
+                    new Customer { FullName = "Phạm Thị D", Phone = "0987654310", Address = "321 Đường JKL, Quận 4", Email = "dpham@gmail.com",  Dob = DateOnly.ParseExact("1985-04-04", "yyyy-MM-dd"), Gender = false, AccountId = 5, DisplayName = "user4" },
+
+                    new Customer { FullName = "Nguyễn Văn E", Phone = "0123456790", Address = "654 Đường MNO, Quận 5", Email = "evan@gmail.com", Dob = DateOnly.ParseExact("1995-05-05", "yyyy-MM-dd"), Gender = true, AccountId = 6, DisplayName = "user5" },
+
+                    new Customer { FullName = "Trần Thị F", Phone = "0987654322", Address = "987 Đường PQR, Quận 6", Email = "ftran@gmail.com", Dob = DateOnly.ParseExact("1990-06-06", "yyyy-MM-dd"), Gender = false, AccountId = 7, DisplayName = "user6" },
+
+                    new Customer { FullName = "Lê Văn G", Phone = "0123456781", Address = "135 Đường STU, Quận 7", Email = "gle@gmail.com", Dob = DateOnly.ParseExact("1982-07-07", "yyyy-MM-dd"), Gender = true, AccountId = 8, DisplayName = "user7" },
+                    
+                    new Customer { FullName = "Phạm Thị H", Phone = "0987654311", Address = "246 Đường VWX, Quận 8", Email = "hpham@gmail.com", Dob = DateOnly.ParseExact("2000-07-07", "yyyy-MM-dd"), Gender = true, AccountId = 9, DisplayName = "user8" },
+
+                    new Customer { FullName = "Nguyễn Văn I", Phone = "0123456791", Address = "357 Đường YZ, Quận 9", Email = "ivan@gmail.com", Dob = DateOnly.ParseExact("2002-08-30", "yyyy-MM-dd"), Gender = true, AccountId = 10, DisplayName = "user9" },
+
+                    new Customer { FullName = "Trần Thị J", Phone = "0987654323", Address = "468 Đường ABCD, Quận 10", Email = "jtran@gmail.com", Dob = DateOnly.ParseExact("1996-01-11", "yyyy-MM-dd"), Gender = true, AccountId = 11, DisplayName = "user10" }
                 );
                 await _context.SaveChangesAsync();
-
             }
         }
+
     }
 }
