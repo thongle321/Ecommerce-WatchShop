@@ -230,7 +230,6 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
     <script>
-
         $(function() {
 
             var minPrice = 2000000;
@@ -306,35 +305,69 @@
         });
     </script>
     <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[data-product-id]').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-product-id');
 
-            $(document).ready(function () {
-            // Bắt sự kiện click cho nút "Thêm vào giỏ"
-            $('#addToCartButton').click(function (e) {
-                e.preventDefault();  // Ngăn chặn hành động mặc định của thẻ <a>
+                    // Gọi API thêm vào giỏ
+                    fetch('/Cart/AddToCart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // Thêm anti-forgery token nếu cần
+                        },
+                        body: JSON.stringify({
+                            productId: productId,
+                            quantity: 1
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success === false) {
+                            // Nếu chưa đăng nhập hoặc có lỗi
+                            Swal.fire({
+                                title: 'Thông báo',
+                                text: data.message,
+                                icon: 'warning',
+                                confirmButtonText: 'OK'
+                            });
+                            if (data.message.includes("đăng nhập")) {
+                                Swal.fire({
+                                    title: 'Lỗi',
+                                    text: 'Bạn cần đăng nhập để thêm vào giỏ',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        } else {
+                            // Thêm thành công
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: 'Đã thêm sản phẩm vào giỏ hàng',
+                                icon: 'success',
+                                showCancelButton: true,
+                                confirmButtonText: 'Đến giỏ hàng',
+                                cancelButtonText: 'Tiếp tục mua'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/Cart/Cart';
+                                }
+                            });
 
-                var productId = $(this).data('product-id'); // Lấy productId từ thuộc tính data
-                var quantity = $('#Quantity').val(); // Lấy giá trị số lượng từ input
 
-                // Kiểm tra giá trị quantity hợp lệ
-                if (quantity <= 0 || isNaN(quantity)) {
-                    $('#message').html('<div class="alert alert-danger">Số lượng không hợp lệ.</div>');
-                    return;
-                }
-
-                // Thực hiện Ajax để thêm sản phẩm vào giỏ hàng
-                $.ajax({
-                    url: '/Cart/AddToCart', // Đường dẫn đến controller action
-                    type: 'POST', // Phương thức gửi dữ liệu
-                    contentType: 'application/json', // Loại dữ liệu gửi đi là JSON
-                    data: JSON.stringify({ productId: productId, quantity: parseInt(quantity) }), // Dữ liệu gửi đi
-                    success: function (response) {
-                       alert(response.message);
-                    },
-                    error: function (xhr) {
-                        // Hiển thị thông báo lỗi nếu có
-                        var errorMessage = xhr.responseJSON?.message || "Có lỗi xảy ra!";
-                        alert(errorMessage);
-                    }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Lỗi',
+                            text: 'Có lỗi xảy ra khi thêm vào giỏ hàng',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    });
                 });
             });
         });
