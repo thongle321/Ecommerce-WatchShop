@@ -110,6 +110,29 @@ public class AccountController : Controller
 
         return View(bills);
     }
+    [HttpPost]
+    public async Task<IActionResult> Order(int id)
+    {
+        var bill = await _context.Bills.FirstOrDefaultAsync(b => b.BillId == id);
+
+        if (bill == null)
+        {
+            return NotFound();
+        }
+
+        // Giả sử trạng thái 3 là "Đã hủy"
+        bill.Status = 3;
+
+        // Cập nhật trạng thái đơn hàng
+        _context.Bills.Update(bill);
+        await _context.SaveChangesAsync();
+
+        // Có thể thêm một thông báo để hiển thị cho người dùng
+        TempData["SuccessMessage"] = "Đơn hàng đã được hủy thành công.";
+
+        return RedirectToAction("Order");
+    }
+
 
     public IActionResult Favorite()
     {
