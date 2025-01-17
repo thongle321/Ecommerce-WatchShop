@@ -1,6 +1,7 @@
 @{
     ViewData["Title"] = "Thống kê";
 }
+
 <div class="app-content pt-3 p-md-3 p-lg-4">
     <div class="container-xl">
         <h1 class="app-page-title">Thống kê</h1>
@@ -23,97 +24,111 @@
         <div class="tab-content">
             <!-- Revenue Chart and Table -->
             <div class="tab-pane fade show active" id="tab-revenue" role="tabpanel" aria-labelledby="nav-revenue-tab">
-                <div class="row">
-                    <!-- Chart Section -->
-                    <div class="col-lg-8">
-                        <div class="app-card app-card-chart h-100 shadow-sm">
-                            <div class="app-card-body p-3">
-                                <div class="chart-container">
-                                    <canvas id="chart-revenue"></canvas>
+                <div class="container">
+                    <!-- Row for Chart -->
+                    <div class="row mb-4">
+
+                        <div class="col-md-4">
+
+                            <p>Lọc theo khoảng thời gian</p>
+
+                            <form id="filterForm">
+
+                                <label for="startDate">Từ ngày:</label>
+
+                                <input type="date" class="form-control" id="startDate" placeholder="YYYY-MM-DD">
+
+                                <label for="endDate">Đến ngày:</label>
+
+                                <input type="date" class="form-control" id="endDate" placeholder="YYYY-MM-DD">
+
+                                <button type="button" class="btn btn-warning btn-filter-date">Lọc</button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-12">
+                            <div class="app-card app-card-chart h-100 shadow-sm">
+                                <div class="app-card-body p-3">
+                                    <div class="chart-container">
+                                        <div id="myfirstchart" style="height: 400px;"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Table Section -->
-                    <div class="col-lg-4">
-                        <div class="app-card app-card-table shadow-sm">
-                            <div class="app-card-body">
-                                <table class="table app-table-hover mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Tháng</th>
-                                            <th>Doanh thu (VNĐ)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tháng 1</td>
-                                            <td>500,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tháng 2</td>
-                                            <td>1,000,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tháng 3</td>
-                                            <td>1,500,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tháng 4</td>
-                                            <td>2,000,000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+
+                    @*                     <!-- Row for Table -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="app-card app-card-table shadow-sm">
+                                <div class="app-card-body">
+                                    <table class="table app-table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Ngày</th>
+                                                <th>Doanh thu (VNĐ)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="load_data">
+                                            <!-- Dữ liệu sẽ được thêm vào đây bằng JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div> *@
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Sales Chart and Table -->
+        <div class="tab-pane fade" id="tab-sales" role="tabpanel" aria-labelledby="nav-sales-tab">
+            <div class="row">
+                <!-- Chart Section -->
+                <div class="col-lg-8">
+                    <div class="app-card app-card-chart h-100 shadow-sm">
+                        <div class="app-card-body p-3">
+                            <div class="chart-container">
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Sales Chart and Table -->
-            <div class="tab-pane fade" id="tab-sales" role="tabpanel" aria-labelledby="nav-sales-tab">
-                <div class="row">
-                    <!-- Chart Section -->
-                    <div class="col-lg-8">
-                        <div class="app-card app-card-chart h-100 shadow-sm">
-                            <div class="app-card-body p-3">
-                                <div class="chart-container">
-                                    <canvas id="chart-sales"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Table Section -->
-                    <div class="col-lg-4">
-                        <div class="app-card app-card-table shadow-sm">
-                            <div class="app-card-body">
-                                <table class="table app-table-hover mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Tháng</th>
-                                            <th>Lượt mua</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Tháng 1</td>
-                                            <td>50</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tháng 2</td>
-                                            <td>70</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tháng 3</td>
-                                            <td>100</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tháng 4</td>
-                                            <td>150</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                <!-- Table Section -->
+                <div class="col-lg-4">
+                    <div class="app-card app-card-table shadow-sm">
+                        <div class="app-card-body">
+                            <table class="table app-table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Tháng</th>
+                                        <th>Lượt mua</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tháng 1</td>
+                                        <td>50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tháng 2</td>
+                                        <td>70</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tháng 3</td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tháng 4</td>
+                                        <td>150</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -121,9 +136,262 @@
         </div>
     </div>
 </div>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+@section Scripts {
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var chartData = [];
+            var chart = new Morris.Bar({
+                element: 'myfirstchart',
+                parseTime: false,
+                data: chartData,
+                xkey: 'date',
+
+                ykeys: ['revenue'],
+
+                labels: ['Doanh thu']
+            });
+            //filter all data chart
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetRevenue", "Statistical")",
+                success: function (data) {
+                    console.log(data);
+                    chart.setData(data);
+                }
+            });
+            //submit filter date in chart
+            $(".filter-date").change(function () {
+                var filterdate = $(this).val();
+               // alert(filterdate);
+
+                $.ajax({
+                    type: "POST",
+                        url: "@Url.Action("SelectFilterDate", "Statistical")",
+                    data: { filterdate: filterdate },
+                    success: function (data) {
+                        chart.setData(data);
+                    }
+                });
+            })
+
+         $(".btn-filter-date").click(function () {
+            var startDate = $("#startDate").val();
+            var endDate = $("#endDate").val();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetRevenue", "Statistical")",
+                data: { startDate: startDate, endDate: endDate },
+                success: function (data) {
+                    console.log(data); // Kiểm tra dữ liệu trả về
+                    if (data.length > 0) {
+                        chart.setData(data); // Cập nhật dữ liệu cho biểu đồ
+                    } else {
+                        console.warn("Không có dữ liệu để hiển thị.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Lỗi:", error);
+                }
+            });
+        });
+    });
+    </script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({
+                dateFormat: 'yy-mm-dd', onSelect: function (datetext) {
+                    var d = new Date(); // for now
+
+                    var h = d.getHours();
+                    h = (h < 10) ? ("0" + h) : h;
+
+                    var m = d.getMinutes();
+                    m = (m < 10) ? ("0" + m) : m;
+
+                    var s = d.getSeconds();
+                    s = (s < 10) ? ("0" + s) : s;
+
+                    datetext = datetext + " " + h + ":" + m + ":" + s;
+
+                    $('#datepicker').val(datetext);
+                }
+            });
+        });
+    </script>
+}
+@* @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/Chart.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script>
+
+        $(function () {
+
+            $.ajax({
+
+                url: 'GetChartData', // Đảm bảo URL chính xác
+
+                type: 'POST',
+
+                success: function (data) {
+
+                    if (data && data.length > 0) {
+
+                        var labels = [];
+
+                        var revenues = [];
+
+
+                        // Xử lý dữ liệu
+
+                        $.each(data, function (index, item) {
+
+                            labels.push(moment(item.Date).format('DD/MM/YYYY'));
+
+                            revenues.push(item.TotalRevenue || 0); // Đảm bảo không có lỗi nếu TotalRevenue bị undefined
+
+                        });
+
+
+                        // Hiển thị biểu đồ
+
+                        var ctx = document.getElementById('barChart').getContext('2d');
+
+                        new Chart(ctx, {
+
+                            type: 'bar',
+
+                            data: {
+
+                                labels: labels,
+
+                                datasets: [{
+
+                                    label: 'Doanh thu (VNĐ)',
+
+                                    data: revenues,
+
+                                    backgroundColor: 'rgba(78, 115, 223, 0.5)',
+
+                                    borderColor: 'rgba(78, 115, 223, 1)',
+
+                                    borderWidth: 1
+
+                                }]
+
+                            },
+
+                            options: {
+
+                                responsive: true,
+
+                                maintainAspectRatio: false,
+
+                                scales: {
+
+                                    y: {
+
+                                        beginAtZero: true,
+
+                                        ticks: {
+
+                                            callback: function (value) {
+
+                                                return value.toLocaleString() + " VNĐ"; // Định dạng số tiền
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                },
+
+                                plugins: {
+
+                                    tooltip: {
+
+                                        callbacks: {
+
+                                            label: function (context) {
+
+                                                return context.raw.toLocaleString() + " VNĐ"; // Định dạng tooltip
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                        });
+
+
+                        // Hiển thị dữ liệu trong bảng
+
+                        loadTable(data);
+
+                    } else {
+
+                        console.log("Không có dữ liệu.");
+
+                    }
+
+                },
+
+                error: function (xhr, status, error) {
+
+                    console.error("Lỗi:", error);
+
+                }
+
+            });
+
+
+            // Hàm hiển thị dữ liệu trong bảng
+
+            function loadTable(data) {
+
+                var html = "";
+
+                $.each(data, function (index, item) {
+
+                    var revenue = item.TotalRevenue || 0; // Gán giá trị mặc định nếu undefined
+
+                    html += "<tr>";
+
+                    html += "<td>" + (index + 1) + "</td>";
+
+                    html += "<td>" + moment(item.Date).format('DD/MM/YYYY') + "</td>";
+
+                    html += "<td>" + revenue.toLocaleString() + " VNĐ</td>";
+
+                    html += "</tr>";
+
+                });
+
+                $("#load_data").html(html);
+
+            }
+
+        });
+
+    </script>
+
+} *@
+
+@* <script>
     // Doanh thu Chart
     var ctxRevenue = document.getElementById('chart-revenue').getContext('2d');
     new Chart(ctxRevenue, {
@@ -182,3 +450,4 @@
         }
     });
 </script>
+ *@

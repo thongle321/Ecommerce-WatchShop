@@ -29,16 +29,16 @@ namespace Ecommerce_WatchShop
                 await _context.Categories.AddRangeAsync(donghoco, donghopin, donghonangluong);
                 await _context.SaveChangesAsync();
             }
-            if (!_context.Suppliers.Any())
-            {
-                Supplier citizen_supplier = new Supplier { Name = "Công ty Citizen Watch", Phone = "(800) 321-1023", Information = "CÔNG TY CITIZEN WATCH là một nhà sản xuất thực sự với một quy trình sản xuất toàn diện", Address = "6-1-12, Tanashi-cho, Nishi-Tokyo-shi, Tokyo 188-8511, Japan" };
-                Supplier doxa_supplier = new Supplier { Name = "Công ty Doxa", Phone = "1-520-369 -872", Information = "Thương hiệu đồng hồ Doxa nổi tiếng của Thuỵ Sĩ được ra mắt với công chúng vào năm 1889 bởi một nghệ nhân chế tác đồng hồ trẻ tuổi", Address = "Rue de Zurich 23A, 2500 Biel/Bienne, Switzerland" };
-                Supplier curnon_supplier = new Supplier { Name = "Công ty Curnon", Phone = "0868889103", Information = "Với những sản phẩm được thiết kế bằng nhiệt huyết, khát khao và khối óc đầy sáng tạo của đội ngũ chính những người trẻ Việt Nam.", Address = "25 Nguyễn Trãi, P.Bến Thành, Quận 1." };
-                Supplier seiko_supplier = new Supplier { Name = "Công ty Seiko", Phone = "81-3-3563-2111", Information = "Công ty Nhật Bản thành lập vào năm 1881; nổi tiếng trong lĩnh vực sản xuất và mua bán đồng hồ, thiết bị điện tử", Address = "1-8 Nakase, Mihama-ku, Chiba-shi, Chiba 261-8507, Japan" };
+            //if (!_context.Suppliers.Any())
+            //{
+            //    Supplier citizen_supplier = new Supplier { Name = "Công ty Citizen Watch", Phone = "(800) 321-1023", Information = "CÔNG TY CITIZEN WATCH là một nhà sản xuất thực sự với một quy trình sản xuất toàn diện", Address = "6-1-12, Tanashi-cho, Nishi-Tokyo-shi, Tokyo 188-8511, Japan" };
+            //    Supplier doxa_supplier = new Supplier { Name = "Công ty Doxa", Phone = "1-520-369 -872", Information = "Thương hiệu đồng hồ Doxa nổi tiếng của Thuỵ Sĩ được ra mắt với công chúng vào năm 1889 bởi một nghệ nhân chế tác đồng hồ trẻ tuổi", Address = "Rue de Zurich 23A, 2500 Biel/Bienne, Switzerland" };
+            //    Supplier curnon_supplier = new Supplier { Name = "Công ty Curnon", Phone = "0868889103", Information = "Với những sản phẩm được thiết kế bằng nhiệt huyết, khát khao và khối óc đầy sáng tạo của đội ngũ chính những người trẻ Việt Nam.", Address = "25 Nguyễn Trãi, P.Bến Thành, Quận 1." };
+            //    Supplier seiko_supplier = new Supplier { Name = "Công ty Seiko", Phone = "81-3-3563-2111", Information = "Công ty Nhật Bản thành lập vào năm 1881; nổi tiếng trong lĩnh vực sản xuất và mua bán đồng hồ, thiết bị điện tử", Address = "1-8 Nakase, Mihama-ku, Chiba-shi, Chiba 261-8507, Japan" };
 
-                await _context.Suppliers.AddRangeAsync(citizen_supplier, doxa_supplier, curnon_supplier, seiko_supplier);
-                await _context.SaveChangesAsync();
-            }
+            //    await _context.Suppliers.AddRangeAsync(citizen_supplier, doxa_supplier, curnon_supplier, seiko_supplier);
+            //    await _context.SaveChangesAsync();
+            //}
             if (!_context.Products.Any())
             {
                 var donghopin = _context.Categories.FirstOrDefault(c => c.CategoryName == "Đồng hồ pin");
@@ -50,10 +50,10 @@ namespace Ecommerce_WatchShop
                 var curnon = _context.Brands.FirstOrDefault(b => b.Name == "Curnon");
                 var seiko = _context.Brands.FirstOrDefault(b => b.Name == "Seiko");
 
-                var citizen_supplier = _context.Suppliers.FirstOrDefault(s => s.Name == "Công ty Citizen Watch");
-                var doxa_supplier = _context.Suppliers.FirstOrDefault(s => s.Name == "Công ty Doxa");
-                var curnon_supplier = _context.Suppliers.FirstOrDefault(s => s.Name == "Công ty Curnon");
-                var seiko_supplier = _context.Suppliers.FirstOrDefault(s => s.Name == "Công ty Seiko");
+                //var citizen_supplier = _context.Suppliers.FirstOrDefault(s => s.Name == "Công ty Citizen Watch");
+                //var doxa_supplier = _context.Suppliers.FirstOrDefault(s => s.Name == "Công ty Doxa");
+                //var curnon_supplier = _context.Suppliers.FirstOrDefault(s => s.Name == "Công ty Curnon");
+                //var seiko_supplier = _context.Suppliers.FirstOrDefault(s => s.Name == "Công ty Seiko");
 
                 await _context.Products.AddRangeAsync(
                     new Product
@@ -62,7 +62,6 @@ namespace Ecommerce_WatchShop
                         ProductName = "Curnon Kashmir",
                         CategoryId = donghoco?.CategoryId,
                         BrandId = curnon?.BrandId,
-                        SupplierId = curnon_supplier?.SupplierId,
                         Gender = 1,
                         Price = 2279000,
                         ShortDescription = "Đồng hồ sang trọng dành cho nam",
@@ -82,7 +81,6 @@ namespace Ecommerce_WatchShop
                         ProductName = "Citizen BI5104 57e",
                         CategoryId = donghopin?.CategoryId,
                         BrandId = citizen?.BrandId,
-                        SupplierId = citizen_supplier?.SupplierId,
                         Gender = 1,
                         Price = 5280000,
                         ShortDescription = "Citizen BI5104-57E – Nam – Quartz (Pin) – Mặt Số 41mm, Kính Cứng, Chống Nước 5ATM",
@@ -102,7 +100,6 @@ namespace Ecommerce_WatchShop
                         ProductName = "Citizen Tsuyosa",
                         CategoryId = donghoco?.CategoryId,
                         BrandId = citizen?.BrandId,
-                        SupplierId = citizen_supplier?.SupplierId,
                         Gender = 1,
                         Price = 12485000,
                         ShortDescription = "Citizen Tsuyosa NJ0151-88M – Nam – Kính Sapphire – Mặt Số 40mm",
@@ -122,7 +119,6 @@ namespace Ecommerce_WatchShop
                         ProductName = "Citizen NH9130 84L",
                         CategoryId = donghoco?.CategoryId,
                         BrandId = citizen?.BrandId,
-                        SupplierId = citizen_supplier?.SupplierId,
                         Gender = 1,
                         Price = 10085000,
                         ShortDescription = "Citizen NH9130-84L – Nam – Kính Sapphire – Automatic – Trữ Cót 40 Giờ, Họa Tiết Guilloche, Open Heart",
@@ -142,7 +138,6 @@ namespace Ecommerce_WatchShop
                         ProductName = "Citizen Eco Drive",
                         CategoryId = donghopin?.CategoryId,
                         BrandId = citizen?.BrandId,
-                        SupplierId = citizen_supplier?.SupplierId,
                         Gender = 0,
                         Price = 7585000,
                         ShortDescription = "Citizen Eco-Drive EM0506-77A – Nữ – Kính Cứng – Eco-Drive (Năng Lượng Ánh Sáng) – Mặt Số 32mm",
@@ -162,7 +157,6 @@ namespace Ecommerce_WatchShop
                         ProductName = "Citizen EM0863-53D",
                         CategoryId = donghonangluong?.CategoryId,
                         BrandId = citizen?.BrandId,
-                        SupplierId = citizen_supplier?.SupplierId,
                         Gender = 0,
                         Price = 12685000,
                         ShortDescription = "Citizen EM0863-53D – Nữ – Eco-Drive (Năng Lượng Ánh Sáng) – Mặt Số 25mm, Kính Cứng, Chống Nước 5ATM",
@@ -182,7 +176,6 @@ namespace Ecommerce_WatchShop
                         ProductName = "Doxa Executive Slim",
                         CategoryId = donghopin?.CategoryId,
                         BrandId = doxa?.BrandId,
-                        SupplierId = doxa_supplier?.SupplierId,
                         Gender = 1,
                         Price = 23250000,
                         ShortDescription = "Doxa Executive Slim D201RSV – Nam – Kính Sapphire – Quartz (Pin) – Mặt Số 40mm, Swiss Made, Chống Nước 5ATM",
@@ -202,7 +195,6 @@ namespace Ecommerce_WatchShop
                         ProductName = "Doxa x Dorian Ho Earlymoon",
                         CategoryId = donghopin?.CategoryId,
                         BrandId = doxa?.BrandId,
-                        SupplierId = doxa_supplier?.SupplierId,
                         Gender = 1,
                         Price = 2290000,
                         ShortDescription = "Doxa x Dorian Ho Earlymoon D226RGY – Nam – Kính Sapphire – Quartz (Pin) – Mặt số trẻ trung cùng giờ thế giới tiện dụng – Dây vải Nato bền bỉ mạnh mẽ",
@@ -222,7 +214,6 @@ namespace Ecommerce_WatchShop
                         ProductName = "Doxa Noble",
                         CategoryId = donghopin?.CategoryId,
                         BrandId = doxa?.BrandId,
-                        SupplierId = doxa_supplier?.SupplierId,
                         Gender = 0,
                         Price = 25030000,
                         ShortDescription = "Doxa Noble D132TWH – Nữ – Kính Sapphire – Quartz (Pin) – Mặt số Rococo cùng 8 viên kim cương tự nhiên – Họa tiết Guilloche phong cách Byzantine",
@@ -242,7 +233,6 @@ namespace Ecommerce_WatchShop
                         ProductName = "Seiko Prospex Speedtimer SSC943P1",
                         CategoryId = donghonangluong?.CategoryId,
                         BrandId = seiko?.BrandId,
-                        SupplierId = seiko_supplier?.SupplierId,
                         Gender = 1,
                         Price = 23600000,
                         ShortDescription = "Seiko Prospex Speedtimer SSC943P1 là mẫu đồng hồ thể thao sang trọng với chức năng: Chronograph – Tachymeter – Lịch ngày – Kim xăng báo năng lượng còn lại.",
@@ -501,23 +491,87 @@ namespace Ecommerce_WatchShop
                 (
                     new Customer { FullName = "Nguyễn Văn A", Phone = "0123456789", Address = "123 Đường ABC, Quận 1", Email = "vana@gmail.com", Dob = DateOnly.ParseExact("1990-01-01", "yyyy-MM-dd"), Gender = true, AccountId = 2, DisplayName = "user1" },
 
-                    new Customer { FullName = "Trần Thị B", Phone = "0987654321", Address = "456 Đường DEF, Quận 2", Email = "btran@gmail.com",  Dob = DateOnly.ParseExact("1992-02-02", "yyyy-MM-dd"), Gender = false, AccountId = 3, DisplayName = "user2" },
+                    new Customer { FullName = "Trần Thị B", Phone = "0987654321", Address = "456 Đường DEF, Quận 2", Email = "btran@gmail.com", Dob = DateOnly.ParseExact("1992-02-02", "yyyy-MM-dd"), Gender = false, AccountId = 3, DisplayName = "user2" },
 
                     new Customer { FullName = "Lê Văn C", Phone = "0123456780", Address = "789 Đường GHI, Quận 3", Email = "cle@gmail.com", Dob = DateOnly.ParseExact("1988-03-03", "yyyy-MM-dd"), Gender = true, AccountId = 4, DisplayName = "user3" },
 
-                    new Customer { FullName = "Phạm Thị D", Phone = "0987654310", Address = "321 Đường JKL, Quận 4", Email = "dpham@gmail.com",  Dob = DateOnly.ParseExact("1985-04-04", "yyyy-MM-dd"), Gender = false, AccountId = 5, DisplayName = "user4" },
+                    new Customer { FullName = "Phạm Thị D", Phone = "0987654310", Address = "321 Đường JKL, Quận 4", Email = "dpham@gmail.com", Dob = DateOnly.ParseExact("1985-04-04", "yyyy-MM-dd"), Gender = false, AccountId = 5, DisplayName = "user4" },
 
                     new Customer { FullName = "Nguyễn Văn E", Phone = "0123456790", Address = "654 Đường MNO, Quận 5", Email = "evan@gmail.com", Dob = DateOnly.ParseExact("1995-05-05", "yyyy-MM-dd"), Gender = true, AccountId = 6, DisplayName = "user5" },
 
                     new Customer { FullName = "Trần Thị F", Phone = "0987654322", Address = "987 Đường PQR, Quận 6", Email = "ftran@gmail.com", Dob = DateOnly.ParseExact("1990-06-06", "yyyy-MM-dd"), Gender = false, AccountId = 7, DisplayName = "user6" },
 
                     new Customer { FullName = "Lê Văn G", Phone = "0123456781", Address = "135 Đường STU, Quận 7", Email = "gle@gmail.com", Dob = DateOnly.ParseExact("1982-07-07", "yyyy-MM-dd"), Gender = true, AccountId = 8, DisplayName = "user7" },
-                    
+
                     new Customer { FullName = "Phạm Thị H", Phone = "0987654311", Address = "246 Đường VWX, Quận 8", Email = "hpham@gmail.com", Dob = DateOnly.ParseExact("2000-07-07", "yyyy-MM-dd"), Gender = true, AccountId = 9, DisplayName = "user8" },
 
                     new Customer { FullName = "Nguyễn Văn I", Phone = "0123456791", Address = "357 Đường YZ, Quận 9", Email = "ivan@gmail.com", Dob = DateOnly.ParseExact("2002-08-30", "yyyy-MM-dd"), Gender = true, AccountId = 10, DisplayName = "user9" },
 
                     new Customer { FullName = "Trần Thị J", Phone = "0987654323", Address = "468 Đường ABCD, Quận 10", Email = "jtran@gmail.com", Dob = DateOnly.ParseExact("1996-01-11", "yyyy-MM-dd"), Gender = true, AccountId = 11, DisplayName = "user10" }
+                );
+                await _context.SaveChangesAsync();
+            }
+            if (!_context.Bills.Any())
+            {
+                await _context.Bills.AddRangeAsync
+                (
+                    new Bill { CustomerId = 1, OrderDate = new DateTime(2021, 5, 15), FullName = "Nguyễn Văn A", Phone = "0123456789", Email = "vana@gmail.com", Address = "123 Đường ABC, Quận 1", Province = "TPHCM", District = "Quận 1", Ward = "Phường 1", PaymentMethod = "Momo", Total = 15118000, Status = 2 },
+
+                    new Bill { CustomerId = 2, OrderDate = new DateTime(2021, 6, 20), FullName = "Trần Thị B", Phone = "0987654321", Email = "btran@gmail.com", Address = "456 Đường DEF, Quận 2", Province = "TPHCM", District = "Quận 2", Ward = "Phường 2", PaymentMethod = "COD", Total = 32655000, Status = 2 },
+
+                    new Bill { CustomerId = 3, OrderDate = new DateTime(2022, 1, 10), FullName = "Lê Văn C", Phone = "0123456780", Email = "cle@gmail.com", Address = "789 Đường GHI, Quận 3", Province = "Hà Nội", District = "Quận 3", Ward = "Phường 3", PaymentMethod = "Momo", Total = 32955000, Status = 2 },
+
+                    new Bill { CustomerId = 4, OrderDate = new DateTime(2022, 3, 15), FullName = "Phạm Thị D", Phone = "0987654310", Email = "dpham@gmail.com", Address = "321 Đường JKL, Quận 4", Province = "Đà Nẵng", District = "Quận 4", Ward = "Phường 4", PaymentMethod = "COD", Total = 27830000, Status = 2 },
+
+                    new Bill { CustomerId = 5, OrderDate = new DateTime(2023, 2, 25), FullName = "Nguyễn Văn E", Phone = "0123456790", Email = "evan@gmail.com", Address = "654 Đường MNO, Quận 5", Province = "Hải Phòng", District = "Quận 5", Ward = "Phường 5", PaymentMethod = "Momo", Total = 75090000, Status = 2 },
+
+                    new Bill { CustomerId = 6, OrderDate = new DateTime(2023, 4, 30), FullName = "Trần Thị F", Phone = "0987654322", Email = "ftran@gmail.com", Address = "987 Đường PQR, Quận 6", Province = "TPHCM", District = "Quận 6", Ward = "Phường 6", PaymentMethod = "COD", Total = 51758000, Status = 2 },
+                            
+                    new Bill { CustomerId = 7, OrderDate = new DateTime(2024, 7, 5), FullName = "Lê Văn G", Phone = "0123456781", Email = "gle@gmail.com", Address = "135 Đường STU, Quận 7", Province = "Hà Nội", District = "Quận 7", Ward = "Phường 7", PaymentMethod = "Momo", Total = 30255000, Status = 2 },
+
+                    new Bill { CustomerId = 8, OrderDate = new DateTime(2024, 9, 10), FullName = "Phạm Thị H", Phone = "0987654311", Email = "hpham@gmail.com", Address = "246 Đường VWX, Quận 8", Province = "Đà Nẵng", District = "Quận 8", Ward = "Phường 8", PaymentMethod = "COD", Total = 7585000, Status = 2 },
+
+                    new Bill { CustomerId = 9, OrderDate = new DateTime(2025, 1, 15), FullName = "Nguyễn Văn I", Phone = "0123456791", Email = "ivan@gmail.com", Address = "357 Đường YZ, Quận 9", Province = "Hải Phòng", District = "Quận 9", Ward = "Phường 9", PaymentMethod = "Momo", Total = 63425000, Status = 2 },
+
+                    new Bill { CustomerId = 10, OrderDate = new DateTime(2025, 3, 20), FullName = "Trần Thị J", Phone = "0987654323", Email = "jtran@gmail.com", Address = "468 Đường ABCD, Quận 10", Province = "TPHCM", District = "Quận 10", Ward = "Phường 10", PaymentMethod = "COD", Total = 11450000, Status = 2 }
+
+                );
+                await _context.SaveChangesAsync();
+            }
+            if (!_context.Invoices.Any())
+            {
+                await _context.Invoices.AddRangeAsync
+                (
+                    new Invoice { BillId = 1, ProductId = 1, Price = 2279000, Quantity = 2, Total = 4558000 },
+
+                    new Invoice { BillId = 1, ProductId = 2, Price = 5280000, Quantity = 2, Total = 10560000 },
+
+                    new Invoice { BillId = 2, ProductId = 3, Price = 12485000, Quantity = 1, Total = 12485000 },
+
+                    new Invoice { BillId = 2, ProductId = 4, Price = 10085000, Quantity = 2, Total = 20170000 },
+
+                    new Invoice { BillId = 3, ProductId = 5, Price = 7585000, Quantity = 1, Total = 7585000 },
+
+                    new Invoice { BillId = 3, ProductId = 6, Price = 12685000, Quantity = 2, Total = 25370000 },
+
+                    new Invoice { BillId = 4, ProductId = 7, Price = 23250000, Quantity = 1, Total = 23250000 },
+
+                    new Invoice { BillId = 4, ProductId = 8, Price = 2290000, Quantity = 2, Total = 4580000 },
+
+                    new Invoice { BillId = 5, ProductId = 9, Price = 25030000, Quantity = 3, Total = 75090000 },
+
+                    new Invoice { BillId = 6, ProductId = 10, Price = 23600000, Quantity = 2, Total = 47200000 },
+
+                    new Invoice { BillId = 6, ProductId = 1, Price = 2279000, Quantity = 2, Total = 4558000 },
+
+                    new Invoice { BillId = 7, ProductId = 4, Price = 10085000, Quantity = 3, Total = 30255000 },
+
+                    new Invoice { BillId = 8, ProductId = 5, Price = 7585000, Quantity = 1, Total = 7585000 },
+
+                    new Invoice { BillId = 9, ProductId = 6, Price = 12685000, Quantity = 5, Total = 63425000 },
+
+                    new Invoice { BillId = 10, ProductId = 8, Price = 2290000, Quantity = 5, Total = 11450000 }
+
                 );
                 await _context.SaveChangesAsync();
             }
