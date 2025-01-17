@@ -60,12 +60,29 @@
                     contentType: 'application/json', // Loại dữ liệu gửi đi là JSON
                     data: JSON.stringify({ productId: productId, quantity: parseInt(quantity) }), // Dữ liệu gửi đi
                     success: function (response) {
-                       alert(response.message);
+                        Swal.fire({
+                            title: 'Thành công!',
+                            text: 'Đã thêm sản phẩm vào giỏ hàng',
+                            icon: 'success',
+                            showCancelButton: true,
+                            confirmButtonText: 'Đến giỏ hàng',
+                            cancelButtonText: 'Tiếp tục mua'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '/Cart/Cart';
+                            }
+                        });
                     },
                     error: function (xhr) {
                         // Hiển thị thông báo lỗi nếu có
-                        var errorMessage = xhr.responseJSON?.message || "Có lỗi xảy ra!";
-                        alert(errorMessage);
+                        // var errorMessage = xhr.responseJSON?.message || "Có lỗi xảy ra!";
+                        // alert(errorMessage);
+                            Swal.fire({
+                            title: 'Lỗi',
+                            text: 'Có lỗi xảy ra khi thêm vào giỏ hàng',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
                     }
                 });
             });

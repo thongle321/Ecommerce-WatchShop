@@ -239,6 +239,56 @@ namespace Ecommerce_WatchShop.Controllers
 
             return RedirectToAction("ProductDetail", new { id }); // Quay lại trang chi tiết sản phẩm
         }
+        public IActionResult AddToCart([FromBody] CartRequest request)
+        {
+            if (request.ProductId <= 0)
+            {
+                return BadRequest(new { message = "ID sản phẩm không hợp lệ!" });
+            }
+
+            var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
+            int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Json(new { success = false, message = "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng." });
+            }
+
+            // Tìm sản phẩm trong cơ sở dữ liệu
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == request.ProductId);
+            if (product == null)
+            {
+                return BadRequest(new { message = "Sản phẩm không tồn tại!" });
+            }
+
+            // Tìm sản phẩm trong giỏ hàng của khách hàng
+            var existingCartItem = _context.Carts.FirstOrDefault(c => c.ProductId == request.ProductId && c.CustomerId == customerId);
+
+            if (existingCartItem != null)
+            {
+                existingCartItem.Quantity++;
+                if (existingCartItem.Quantity > product.Quantity)
+                {
+                    existingCartItem.Quantity = product.Quantity ?? 0;
+                }
+                _context.Carts.Update(existingCartItem);
+            }
+            else
+            {
+                var newCartItem = new Cart
+                {
+                    ProductId = request.ProductId,
+                    CustomerId = customerId,
+                    Quantity = 1,
+                    Price = (decimal?)product.Price
+                };
+                _context.Carts.Add(newCartItem);
+            }
+
+            _context.SaveChanges();
+            return Ok(new { message = "Sản phẩm đã được thêm vào giỏ hàng!", success = true });
+        }
+
 
     }
 }
