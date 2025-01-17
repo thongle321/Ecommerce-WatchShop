@@ -40,8 +40,6 @@ public partial class DongHoContext : DbContext
 
     public required virtual DbSet<Role> Roles { get; set; }
 
-    public required virtual DbSet<Supplier> Suppliers { get; set; }
-
     public required virtual DbSet<Footer> Footers { get; set; }
 
     public required virtual DbSet<FooterLink> FooterLinks { get; set; }

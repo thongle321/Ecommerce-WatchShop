@@ -16,8 +16,6 @@ public partial class Product
 
     public int? BrandId { get; set; }
 
-    public int? SupplierId { get; set; }
-
     public int? Gender { get; set; }
 
     public double? Price { get; set; }
