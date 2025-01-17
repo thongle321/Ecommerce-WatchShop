@@ -111,6 +111,7 @@ public class AccountController : Controller
         return View(bills);
     }
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Order(int id)
     {
         var bill = await _context.Bills.FirstOrDefaultAsync(b => b.BillId == id);
@@ -118,6 +119,12 @@ public class AccountController : Controller
         if (bill == null)
         {
             return NotFound();
+        }
+        // Giả sử trạng thái 2 là "Đã thanh toán"
+        if (bill.Status == 2)
+        {
+            TempData["ErrorMessage"] = "Đơn hàng đã thanh toán, không thể hủy.";
+            return RedirectToAction("Order");
         }
 
         // Giả sử trạng thái 3 là "Đã hủy"
