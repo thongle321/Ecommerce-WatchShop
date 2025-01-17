@@ -88,11 +88,29 @@ public class AccountController : Controller
     }
 
 
-    public IActionResult Order()
+    [HttpGet]
+    public async Task<IActionResult> Order(int? status)
     {
         ViewBag.Title = "Đơn hàng";
-        return View();
+
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "AccountId");
+        if (customerIdClaim == null) return RedirectToAction("Index", "Home");
+
+        int customerId = int.Parse(customerIdClaim.Value);
+        Console.WriteLine($"Customer ID: {customerId}");
+
+        var query = _context.Bills.Where(b => b.CustomerId == customerId);
+
+        if (status.HasValue)
+        {
+            query = query.Where(b => b.Status == status.Value);
+        }
+
+        var bills = await query.ToListAsync();
+
+        return View(bills);
     }
+
     public IActionResult Favorite()
     {
         //int? customerId = HttpContext.Session.GetInt32("CustomerId");
@@ -143,5 +161,6 @@ public class AccountController : Controller
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction("Index", "Home");
     }
+    
 
 }
