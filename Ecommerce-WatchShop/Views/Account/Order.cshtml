@@ -1,6 +1,8 @@
 @{
     ViewData["Title"] = "Đơn hàng";
 }
+@model IEnumerable<Ecommerce_WatchShop.Models.Bill>
+
 <!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
     <div class="breadcrumb-wrapper">
@@ -11,7 +13,7 @@
                     <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
                         <nav aria-label="breadcrumb">
                             <ul>
-                                <li><a asp-controller="Home" asp-action="index">Trang Chủ</a></li>
+                                <li><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
                                 <li class="active" aria-current="page">@ViewBag.Title</li>
                             </ul>
                         </nav>
@@ -53,25 +55,51 @@
                 <div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
                     <div class="tab-pane fade show active">
                         <h4>Đơn hàng</h4>
+                        <form method="get" class="mb-3">
+                            @* <label for="statusFilter">Lọc theo trạng thái:</label> *@
+                            <select id="statusFilter" name="status" onchange="this.form.submit()">
+                                <option value="">Tất cả</option>
+                                <option value="1">Chưa thanh toán</option>
+                                <option value="2">Đã thanh toán</option>
+                                <option value="3">Đã hủy</option>
+                            </select>
+                        </form>
+
                         <div class="table_page table-responsive">
                             <table>
                                 <thead>
-                                <tr>
-                                    <th>Mã đơn hàng</th>
-                                    <th>Ngày đặt</th>
-                                    <th>Trạng thái</th>
-                                    <th>Tổng tiền</th>
-                                    <th></th>
-                                </tr>
+                                    <tr>
+                                        <th>Mã đơn hàng</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Họ tên</th>
+                                        <th>Trạng thái</th>
+                                        <th>Tổng tiền</th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>31-01-2024</td>
-                                    <td><span class="success">Hoàn thành</span></td>
-                                    <td>2.159.000₫</td>
-                                    <td><a href="cart.html" class="view">Xem</a></td>
-                                </tr>
+                                    @if (!Model.Any())
+                                    {
+                                        <p>Không có đơn hàng nào.</p>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var bill in Model)
+                                        {
+                                            <tr>
+                                                <td>@bill.BillId</td>
+                                                <td>@bill.OrderDate.ToString("dd-MM-yyyy")</td>
+                                                <td>@bill.FullName</td>
+                                                <td>
+                                                    <span class="@(bill.Status == 1 ? "warning" : bill.Status == 2 ? "success" : "danger")">
+                                                        @(bill.Status == 1 ? "Chưa thanh toán" : bill.Status == 2 ? "Đã thanh toán" : "Đã hủy")
+                                                    </span>
+                                                </td>
+                                                <td>@bill.Total.ToString("C")</td>
+                                                <td><a href="@Url.Action("Detail", "Order", new { id = bill.BillId })" class="view">Xem</a></td>
+                                            </tr>
+                                        }
+                                    }
                                 </tbody>
                             </table>
                         </div>
