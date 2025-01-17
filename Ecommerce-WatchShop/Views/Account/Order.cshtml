@@ -106,7 +106,16 @@
                                                     </span>
                                                 </td>
                                                 <td>@bill.Total.ToString("C")</td>
-                                                @* <td><a href="@Url.Action("Detail", "Order", new { id = bill.BillId })" class="view">Xem</a></td> *@
+                                                <td>
+                                                        @* <a href="@Url.Action("Detail", "Order", new { id = bill.BillId })" class="view">Xem</a> *@
+                                                        @if (bill.Status != 3)
+                                                        {
+                                                            <form method="post" action="@Url.Action("Order", "Account")" style="display:inline;">
+                                                                <input type="hidden" name="id" value="@bill.BillId" />
+                                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?');">Hủy</button>
+                                                            </form>
+                                                        }
+                                                   </td>
                                             </tr>
                                         }
                                     }
