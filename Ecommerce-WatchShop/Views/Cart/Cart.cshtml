@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Ecommerce_WatchShop.Models.ViewModels.CartRequest
+@using System.Globalization
+@{
     ViewData["Title"] = "Giỏ hàng";
 }
    <!-- ...:::: Start Breadcrumb Section:::... -->
@@ -43,32 +45,58 @@
                                     </tr>
                                 </thead> <!-- End Cart Table Head -->
                                 <tbody>
-                                    <!-- Start Cart Single Item-->
-                                    <tr>
-
-                                        <td class="product_thumb">
-                                            <a href="product-details-default.html">
-                                                <img src="~/images/Curnon Kashmir.png"
-                                                     alt="">
-                                            </a>
-                                        </td>
-                                        <td class="product_name">
-                                            <a href="product-details-default.html">
-                                                Đồng hồ Curnon Kashmir
-                                            </a>
-                                        </td>
-                                        <td class="product-price">2.159.000₫</td>
-                                        <td class="product_quantity">
-                                            <label>Quantity</label> <input min="1"
-                                                                           max="100" value="1" type="number">
-                                        </td>
-                                        <td class="product_total">2.159.000₫</td>
-                                        <td class="product_remove">
-                                            <a href="#"><i class="fa fa-trash-o"></i></a>
-                                        </td>
-                                    </tr> <!-- End Cart Single Item-->
+                                    @foreach (var item in Model.CartItems)
+                                    {
+                                        <tr data-product-id="@item.ProductId">
+                                            <td class="product_thumb">
+                                                <a href="@Url.Action("Details", "Product", new { id = item.ProductId })">
+                                                    <img src="~/images/@item.Product.Image" alt="@item.Product.ProductName">
+                                                </a>
+                                            </td>
+                                            <td class="product_name">
+                                                <a href="@Url.Action("Details", "Product", new { id = item.ProductId })">
+                                                    @item.Product.ProductName
+                                                </a>
+                                            </td>
+                                            <td class="product-price"> @String.Format(new CultureInfo("vi-VN"), "{0:C}", item.Product.Price)</td>
+                                            <td class="product_quantity">
+                                                <input type="number" value="@item.Quantity" min="1" max="100" />
+                                            </td>
+                                            <td class="product_total">
+                                                @(@item.Product.Price * item.Quantity).ToString("C0")
+                                            </td>
+                                            <td class="product_remove">
+                                                <a href="@Url.Action("RemoveItem", "Cart", new { id = item.ProductId })">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
+                            <div class="page-pagination text-center" data-aos="fade-up" data-aos-delay="0">
+                                <ul>
+                                    <!-- Liên kết trang trước -->
+                                    @if (Model.CurrentPage > 1)
+                                    {
+                                        <li><a href="@Url.Action("Cart", new { page = Model.CurrentPage - 1 })">&laquo; Trước</a></li>
+                                    }
+
+                                    <!-- Liên kết các trang -->
+                                    @for (int i = 1; i <= Model.TotalPages; i++)
+                                    {
+                                        <li class="@(i == Model.CurrentPage ? "active" : "")">
+                                            <a href="@Url.Action("Cart", new { page = i })">@i</a>
+                                        </li>
+                                    }
+
+                                    <!-- Liên kết trang sau -->
+                                    @if (Model.CurrentPage < Model.TotalPages)
+                                    {
+                                        <li><a href="@Url.Action("Cart", new { page = Model.CurrentPage + 1 })">Sau &raquo;</a></li>
+                                    }
+                                </ul>
+                            </div>
                         </div>
                         <div class="cart_submit">
                             <button class="btn btn-md btn-golden" type="submit">Xoá giỏ hàng</button>
@@ -78,6 +106,13 @@
             </div>
         </div>
     </div> <!-- End Cart Table -->
+    @{
+        double cartTotal = 0;
+    foreach (var item in Model.CartItems)
+        {
+            cartTotal += (double)(item.Quantity * item.Product.Price); // Tính tổng
+        }
+    }
     <!-- Start Coupon Start -->
     <div class="coupon_area d-flex justify-content-end">
         <div class="col-lg-5" style="margin-right: 5.1rem">
@@ -86,7 +121,7 @@
                 <div class="coupon_inner">
                     <div class="cart_subtotal">
                         <p>Tạm tính</p>
-                        <p class="cart_amount">2.159.000₫</p>
+                        <p class="cart_amount"> @String.Format(new CultureInfo("vi-VN"), "{0:C}", cartTotal)</p>
                     </div>
                     @*                             <div class="cart_subtotal ">
                                 <p>Shipping</p>
@@ -95,7 +130,7 @@
 
                     <div class="cart_subtotal">
                         <p>Tổng</p>
-                        <p class="cart_amount">2.159.000₫</p>
+                        <p class="cart_amount">@String.Format(new CultureInfo("vi-VN"), "{0:C}", cartTotal)</p>
                     </div>
                     <div class="checkout_btn">
                         <a asp-controller="Cart" asp-action="Checkout" class="btn btn-md btn-golden">Mua hàng</a>
