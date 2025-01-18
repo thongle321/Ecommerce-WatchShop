@@ -267,12 +267,10 @@
             var maxVal = parseInt(values[1]);
 
 
-            console.log("Min Price: ", minVal); // Kiểm tra giá trị min
+            console.log("Min Price: ", minVal); 
 
-            console.log("Max Price: ", maxVal); // Kiểm tra giá trị max
+            console.log("Max Price: ", maxVal);
 
-
-            // Tạo các trường ẩn để gửi giá trị minPrice và maxPrice
 
             $('<input>').attr({
 
@@ -294,9 +292,6 @@
                 value: maxVal
 
             }).appendTo('form');
-
-
-            // Gửi form
 
             $('form').submit();
 

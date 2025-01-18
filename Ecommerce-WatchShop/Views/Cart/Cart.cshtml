@@ -63,7 +63,7 @@
                                                 <input type="number" class="update-quantity" value="@item.Quantity" min="1" max="100" />
                                             </td>
                                             <td class="product_total">
-                                                @(@item.Product.Price * item.Quantity).ToString("C0")
+                                                @String.Format(new CultureInfo("vi-VN"), "{0:C}", (@item.Product.Price * item.Quantity))
                                             </td>
                                             <td class="product_remove">
                                                 <a href="@Url.Action("RemoveItem", "Cart", new { id = item.ProductId })">
@@ -133,7 +133,7 @@
                         <p class="cart_amount">@String.Format(new CultureInfo("vi-VN"), "{0:C}", cartTotal)</p>
                     </div>
                     <div class="checkout_btn">
-                        <a asp-controller="Cart" asp-action="Checkout" class="btn btn-md btn-golden">Mua hàng</a>
+                        <a asp-controller="Checkout" asp-action="Checkout" class="btn btn-md btn-golden">Mua hàng</a>
                     </div>
                 </div>
             </div>
