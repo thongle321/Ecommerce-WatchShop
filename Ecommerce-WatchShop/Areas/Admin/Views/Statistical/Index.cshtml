@@ -137,15 +137,6 @@
 
                 labels: ['Doanh thu']
             });
-            var purchaseChart = new Morris.Line({
-                element: 'purchasechart',
-                parseTime: false,
-                data: purchaseData,
-                xkey: 'date',
-                ykeys: ['TotalPurchases'],
-                labels: ['Lượt mua']
-
-            });
 
             $.ajax({
                 type: "POST",
@@ -154,13 +145,30 @@
                     chart.setData(data);
                 }
             });
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("GetPurchase", "Statistical")",
-                success: function (data) {
-                    purchaseChart.setData(data);
-                }
-            });
+        var purchaseChart = new Morris.Line({
+            element: 'purchasechart',
+            parseTime: false,
+            data: [], // Khởi tạo rỗng
+            xkey: 'date',
+            ykeys: ['TotalPurchases'],
+            labels: ['Lượt mua'],
+            resize: true,
+            lineColors: ['#1b5a90'], // Thêm màu sắc cho đường
+            dateFormat: function(d) {
+                return d; // Format ngày nếu cần
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetPurchase", "Statistical")",
+            success: function (data) {
+                purchaseChart.setData(data);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
             $(".filter-select").change(function () {
                 var filterdate = $(this).val();
                alert(filterdate);

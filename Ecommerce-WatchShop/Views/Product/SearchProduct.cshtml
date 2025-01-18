@@ -3,7 +3,6 @@
 }
 @model Ecommerce_WatchShop.Models.ViewModels.PagedProductListVM
 @using System.Globalization
-<!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
     <div class="breadcrumb-wrapper">
         <div class="container">
@@ -28,7 +27,7 @@
     <div class="container">
         <div class="row flex-column-reverse flex-lg-row">
             <div class="col-lg-3">
-                <form method="get" asp-controller="Product" asp-action="ProductList">
+                <form method="get" asp-controller="Product" asp-action="Index">
                     <div class="sidebar-single-widget">
                         <h6 class="sidebar-title">Tìm kiếm</h6>
                         <div class="default-search-style d-flex">
@@ -99,6 +98,8 @@
                 </div> <!-- End Single Sidebar Widget --> *@
             </div> <!-- End Sidebar Area -->
             <div class="col-lg-9">
+                <h5>Có @Model.Products.Count() sản phẩm</h5>
+
                 <!-- Start Shop Product Sorting Section -->
                 <div class="shop-sort-section">
                     <div class="container">
@@ -182,9 +183,7 @@
                                                                 @item.ShortDescription
                                                             </p>
                                                             <div class="product-action-icon-link-list">
-                                                                <a asp-controller="Cart" asp-action="Cart" data-bs-toggle="modal"
-                                                                   data-bs-target="#modalAddcart"
-                                                                   class="btn btn-lg btn-black-default-hover">
+                                                                <a id="addToCartButton" data-bs-toggle="modal" data-bs-target="#modalAddcart" data-product-id="@item.ProductId" class="btn btn-lg btn-black-default-hover">
                                                                     Thêm vào giỏ
                                                                 </a>
                                                             </div>
@@ -205,21 +204,21 @@
                             <!-- Liên kết trang trước -->
                             @if (Model.CurrentPage > 1)
                             {
-                                <li><a href="@Url.Action("ProductList", new { page = Model.CurrentPage - 1 })">&laquo; Trước</a></li>
+                                <li><a href="@Url.Action("Index", new { page = Model.CurrentPage - 1 })">&laquo; Trước</a></li>
                             }
 
                             <!-- Liên kết các trang -->
                             @for (int i = 1; i <= Model.TotalPages; i++)
                             {
                                 <li class="@(i == Model.CurrentPage ? "active" : "")">
-                                    <a href="@Url.Action("ProductList", new { page = i })">@i</a>
+                                    <a href="@Url.Action("Index", new { page = i })">@i</a>
                                 </li>
                             }
 
                             <!-- Liên kết trang sau -->
                             @if (Model.CurrentPage < Model.TotalPages)
                             {
-                                <li><a href="@Url.Action("ProductList", new { page = Model.CurrentPage + 1 })">Sau &raquo;</a></li>
+                                <li><a href="@Url.Action("Index", new { page = Model.CurrentPage + 1 })">Sau &raquo;</a></li>
                             }
                         </ul>
                     </div> <!-- End Pagination -->
@@ -230,8 +229,8 @@
 </div>
 @section Scripts {
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script>
 
+    <script>
         $(function() {
 
             var minPrice = 2000000;
@@ -305,6 +304,73 @@
         });
 
         });
+    </script>
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[data-product-id]').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-product-id');
 
+                    // Gọi API thêm vào giỏ
+                    fetch('/Cart/AddToCart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // Thêm anti-forgery token nếu cần
+                        },
+                        body: JSON.stringify({
+                            productId: productId,
+                            quantity: 1
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success === false) {
+                            // Nếu chưa đăng nhập hoặc có lỗi
+                            Swal.fire({
+                                title: 'Thông báo',
+                                text: data.message,
+                                icon: 'warning',
+                                confirmButtonText: 'OK'
+                            });
+                            if (data.message.includes("đăng nhập")) {
+                                Swal.fire({
+                                    title: 'Lỗi',
+                                    text: 'Bạn cần đăng nhập để thêm vào giỏ',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        } else {
+                            // Thêm thành công
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: 'Đã thêm sản phẩm vào giỏ hàng',
+                                icon: 'success',
+                                showCancelButton: true,
+                                confirmButtonText: 'Đến giỏ hàng',
+                                cancelButtonText: 'Tiếp tục mua'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/Cart/Cart';
+                                }
+                            });
+
+
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Lỗi',
+                            text: 'Có lỗi xảy ra khi thêm vào giỏ hàng',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    });
+                });
+            });
+        });
     </script>
 }

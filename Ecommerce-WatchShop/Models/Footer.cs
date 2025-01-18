@@ -16,8 +16,10 @@ namespace Ecommerce_WatchShop.Models
         [Column(TypeName = "nvarchar(200)")]
         public string? Address { get; set; }
 
+        [EmailAddress(ErrorMessage = "Email không hợp lệ")]
         public string? Email { get; set; }
 
+        [RegularExpression(@"/(?:\\+84|0084|0)[235789][0-9]{1,2}[0-9]{7}(?:[^\\d]+|$)/g")]
         [StringLength(15)]
         public string? Phone { get; set; }
 
