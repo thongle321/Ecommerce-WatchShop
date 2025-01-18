@@ -63,12 +63,13 @@
                                                 <input type="number" class="update-quantity" value="@item.Quantity" min="1" max="100" />
                                             </td>
                                             <td class="product_total">
+                                              
                                                 @String.Format(new CultureInfo("vi-VN"), "{0:C}", (@item.Product.Price * item.Quantity))
                                             </td>
                                             <td class="product_remove">
-                                                <a href="@Url.Action("RemoveItem", "Cart", new { id = item.ProductId })">
+                                                <button class="remove-item-btn" data-product-id="@item.ProductId">
                                                     <i class="fa fa-trash-o"></i>
-                                                </a>
+                                                </button>
                                             </td>
                                         </tr>
                                     }
@@ -189,6 +190,31 @@
                     },
                     error: function () {
                         alert("Đã xảy ra lỗi khi xóa giỏ hàng.");
+                    }
+                });
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('.remove-item-btn').on('click', function () {
+            var productId = $(this).data('product-id');
+
+            // Hiển thị hộp thoại xác nhận trước khi xóa
+            if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+                $.ajax({
+                    url: '@Url.Action("RemoveItem", "Cart")',
+                    method: 'POST',
+                    data: { productId: productId },
+                    success: function (response) {
+                        alert(response.message);
+                        if (response.success) {
+                            location.reload(); // Tải lại trang để cập nhật giỏ hàng
+                        }
+                    },
+                    error: function () {
+                        alert("Đã xảy ra lỗi khi xóa sản phẩm khỏi giỏ hàng.");
                     }
                 });
             }
