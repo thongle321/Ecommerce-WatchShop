@@ -33,21 +33,21 @@ namespace DongHo_Admin.Areas.Admin.Controllers
                     i => i.BillId,
                     (b, i) => new RevenueStatisticVM
                     {
-                        Date = b.OrderDate.Date, // Chỉ lấy ngày
-                        Revenue = i.Quantity * i.Price // Tính doanh thu từng hóa đơn
+                        Date = b.OrderDate.Date, 
+                        Revenue = i.Quantity * i.Price 
                     })
                 .GroupBy(s => s.Date)
                 .Select(group => new RevenueStatisticVM
                 {
                     Date = group.Key,
-                    Revenue = group.Sum(s => s.Revenue) // Tổng doanh thu theo ngày
+                    Revenue = group.Sum(s => s.Revenue)
                 })
-                .OrderBy(s => s.Date) // Sắp xếp theo ngày
+                .OrderBy(s => s.Date)  
                 .ToList();
 
             var result = chartData.Select(item => new
             {
-                Date = item.Date.ToString("yyyy-MM-dd"), // Chuyển đổi định dạng ngày thành chuỗi
+                Date = item.Date.ToString("yyyy-MM-dd"), 
                 Revenue = item.Revenue
             }).ToList();
 
@@ -63,25 +63,19 @@ namespace DongHo_Admin.Areas.Admin.Controllers
                     i => i.BillId,
                     (b, i) => new
                     {
-                        Date = b.OrderDate.Date, // Chỉ lấy ngày
-                        Quantity = i.Quantity // Số lượng sản phẩm trong hóa đơn
+                        Date = b.OrderDate.Date,
+                        Quantity = i.Quantity
                     })
                 .GroupBy(s => s.Date)
                 .Select(group => new
                 {
-                    Date = group.Key,
-                    TotalPurchases = group.Sum(s => s.Quantity) // Tổng số lượt mua theo ngày
+                    date = group.Key.ToString("yyyy-MM-dd"),
+                    TotalPurchases = group.Sum(s => s.Quantity)
                 })
-                .OrderBy(s => s.Date) // Sắp xếp theo ngày
+                .OrderBy(s => s.date)
                 .ToList();
 
-            var result = purchaseData.Select(item => new
-            {
-                Date = item.Date.ToString("yyyy-MM-dd"), // Chuyển đổi định dạng ngày thành chuỗi
-                TotalPurchases = item.TotalPurchases
-            }).ToList();
-
-            return Json(result);
+            return Json(purchaseData);
         }
         [HttpPost]
         [Route("SubmitFilterDate")]

@@ -3,8 +3,6 @@
 }
 @model Ecommerce_WatchShop.Models.ViewModels.PagedProductListVM
 @using System.Globalization
-<h5>Có @Model.Products.Count() sản phẩm</h5>
-!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
     <div class="breadcrumb-wrapper">
         <div class="container">
@@ -100,6 +98,8 @@
                 </div> <!-- End Single Sidebar Widget --> *@
             </div> <!-- End Sidebar Area -->
             <div class="col-lg-9">
+                <h5>Có @Model.Products.Count() sản phẩm</h5>
+
                 <!-- Start Shop Product Sorting Section -->
                 <div class="shop-sort-section">
                     <div class="container">

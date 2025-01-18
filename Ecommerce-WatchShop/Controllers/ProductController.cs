@@ -22,7 +22,6 @@ namespace Ecommerce_WatchShop.Controllers
             var pageSize = 5;  // Số sản phẩm mỗi trang
             var products = _context.Products.AsQueryable();
 
-            //Tìm kiếm theo tên
             if (!string.IsNullOrEmpty(search))
             {
                 search = search.ToLower().Trim();
@@ -57,6 +56,7 @@ namespace Ecommerce_WatchShop.Controllers
 
             // Lấy các sản phẩm cho trang hiện tại
             var result = await products
+                .Where(p => p.Status == 1)
                 .Include(p => p.ProductRatings)
                 .Skip((page - 1) * pageSize) // Bỏ qua các sản phẩm của các trang trước
                 .Take(pageSize) // Lấy sản phẩm cho trang hiện tại
