@@ -168,7 +168,6 @@ namespace Ecommerce_WatchShop.Controllers
             var product = _context.Products
                    .Include(p => p.Category)
                 .Include(p => p.Brand)
-                .Include(p => p.Supplier)
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductComments)
                 .Include(p => p.ProductRatings)
