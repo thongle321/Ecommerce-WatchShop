@@ -56,5 +56,4 @@ public partial class Product
 
     public virtual ICollection<ProductRating> ProductRatings { get; set; } = new List<ProductRating>();
 
-    public virtual Supplier? Supplier { get; set; }
 }
