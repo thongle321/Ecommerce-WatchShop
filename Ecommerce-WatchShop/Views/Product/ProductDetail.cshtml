@@ -40,12 +40,12 @@
         });
 
                 $(document).ready(function () {
-            // Bắt sự kiện click cho nút "Thêm vào giỏ"
-            $('#addToCartButton').click(function (e) {
-                e.preventDefault();  // Ngăn chặn hành động mặc định của thẻ <a>
 
-                var productId = $(this).data('product-id'); // Lấy productId từ thuộc tính data
-                var quantity = $('#Quantity').val(); // Lấy giá trị số lượng từ input
+            $('#addToCartButton').click(function (e) {
+                e.preventDefault(); 
+
+                var productId = $(this).data('product-id'); 
+                var quantity = $('#Quantity').val();
 
                 // Kiểm tra giá trị quantity hợp lệ
                 if (quantity <= 0 || isNaN(quantity)) {
@@ -55,10 +55,10 @@
 
                 // Thực hiện Ajax để thêm sản phẩm vào giỏ hàng
                 $.ajax({
-                    url: '/Cart/AddToCart', // Đường dẫn đến controller action
-                    type: 'POST', // Phương thức gửi dữ liệu
-                    contentType: 'application/json', // Loại dữ liệu gửi đi là JSON
-                    data: JSON.stringify({ productId: productId, quantity: parseInt(quantity) }), // Dữ liệu gửi đi
+                    url: '/Cart/AddToCart', 
+                    type: 'POST', 
+                    contentType: 'application/json',
+                    data: JSON.stringify({ productId: productId, quantity: parseInt(quantity) }),
                     success: function (response) {
                         Swal.fire({
                             title: 'Thành công!',
@@ -74,9 +74,7 @@
                         });
                     },
                     error: function (xhr) {
-                        // Hiển thị thông báo lỗi nếu có
-                        // var errorMessage = xhr.responseJSON?.message || "Có lỗi xảy ra!";
-                        // alert(errorMessage);
+;
                             Swal.fire({
                             title: 'Lỗi',
                             text: 'Có lỗi xảy ra khi thêm vào giỏ hàng',
