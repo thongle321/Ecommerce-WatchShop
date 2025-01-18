@@ -122,6 +122,63 @@ public class CartController : Controller
         _context.SaveChanges();
         return Ok(new { message = "Sản phẩm đã được thêm vào giỏ hàng!" });
     }
+    //cập nhật số lượng
+    [HttpPost]
+    public IActionResult UpdateCart([FromBody] CartRequest request)
+    {
+        if (request.Quantity <= 0)
+        {
+            return BadRequest(new { message = "Số lượng phải lớn hơn 0!" });
+        }
+
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
+        int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
+
+        if (!User.Identity.IsAuthenticated || customerId == null)
+        {
+            return Json(new { success = false, message = "Bạn cần đăng nhập để chỉnh sửa giỏ hàng." });
+        }
+
+        // Tìm sản phẩm trong giỏ hàng của khách hàng
+        var existingCartItem = _context.Carts.FirstOrDefault(c => c.ProductId == request.ProductId && c.CustomerId == customerId);
+        if (existingCartItem == null)
+        {
+            return BadRequest(new { message = "Sản phẩm không tồn tại trong giỏ hàng!" });
+        }
+
+        // Tìm sản phẩm trong cơ sở dữ liệu để kiểm tra số lượng có sẵn
+        var product = _context.Products.FirstOrDefault(p => p.ProductId == request.ProductId);
+        if (product == null || request.Quantity > product.Quantity)
+        {
+            return BadRequest(new { message = "Số lượng yêu cầu vượt quá số lượng có sẵn!" });
+        }
+
+        // Cập nhật số lượng trong giỏ hàng
+        existingCartItem.Quantity = request.Quantity;
+        _context.Carts.Update(existingCartItem);
+        _context.SaveChanges();
+
+        return Ok(new { message = "Số lượng sản phẩm trong giỏ hàng đã được cập nhật!" });
+    }
+    // Xóa hết giỏ hàng
+    public IActionResult ClearCart()
+    {
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
+        int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
+
+        if (customerId == null || !User.Identity.IsAuthenticated)
+        {
+            return Json(new { success = false, message = "Bạn cần đăng nhập để xóa giỏ hàng." });
+        }
+
+        // Xóa tất cả các sản phẩm trong giỏ hàng của khách hàng
+        var cartItems = _context.Carts.Where(c => c.CustomerId == customerId).ToList();
+        _context.Carts.RemoveRange(cartItems);
+        _context.SaveChanges();
+
+        return Json(new { success = true, message = "Giỏ hàng đã được xóa thành công." });
+    }
+
 
     public IActionResult Checkout()
     {
