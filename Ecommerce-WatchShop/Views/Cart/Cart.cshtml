@@ -1,4 +1,4 @@
-﻿@model Ecommerce_WatchShop.Models.ViewModels.CartRequest
+﻿@model IEnumerable<Ecommerce_WatchShop.Models.ViewModels.CartRequest>
 @using System.Globalization
 @{
     ViewData["Title"] = "Giỏ hàng";
@@ -45,63 +45,76 @@
                                     </tr>
                                 </thead> <!-- End Cart Table Head -->
                                 <tbody>
-                                    @foreach (var item in Model.CartItems)
+                                    @foreach (var item in Model)
                                     {
-                                        <tr data-product-id="@item.ProductId">
+                                        <tr data-product-slug="@item.Slug">
                                             <td class="product_thumb">
-                                                <a href="@Url.Action("Details", "Product", new { id = item.ProductId })">
-                                                    <img src="~/images/@item.Product.Image" alt="@item.Product.ProductName">
+                                                <a href="@Url.Action("ProductDetail", "Product", new { slug = item.Slug })">
+                                                    <img src="~/images/@item.Image" alt="@item.ProductName">
                                                 </a>
                                             </td>
                                             <td class="product_name">
-                                                <a href="@Url.Action("Details", "Product", new { id = item.ProductId })">
-                                                    @item.Product.ProductName
+                                                <a href="@Url.Action("ProductDetail", "Product", new { slug = item.Slug })">
+                                                    @item.ProductName
                                                 </a>
                                             </td>
-                                            <td class="product-price">@String.Format(new CultureInfo("vi-VN"), "{0:C}", item.Price)</td>
+                                            <td class="product-price item-price">@String.Format(new CultureInfo("vi-VN"), "{0:C}", item.Price)</td>
                                             <td class="product_quantity">
-                                                <input type="number" class="update-quantity" value="@item.Quantity" min="1" max="100" />
+                                                <input type="number" class="quantity-input" data-slug="@item.Slug" value="@item.Quantity" min="1" onchange="updateQuantity(this)" />
                                             </td>
                                             <td class="product_total">
-                                              
-                                                @String.Format(new CultureInfo("vi-VN"), "{0:C}", (@item.Product.Price * item.Quantity))
+
+                                                <span id="item-total-price">@String.Format(new CultureInfo("vi-VN"), "{0:C}", (@item.Price * item.Quantity))</span>
                                             </td>
                                             <td class="product_remove">
-                                                <button class="remove-item-btn" data-product-id="@item.ProductId">
-                                                    <i class="fa fa-trash-o"></i>
-                                                </button>
+                                                <form asp-controller="Cart" asp-action="RemoveCartItem" asp-route-slug="@item.Slug">
+                                                    <button class="remove-item-btn" @* data-product-id="@item.ProductId"  *@ type="submit">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     }
                                 </tbody>
                             </table>
-                            <div class="page-pagination text-center" data-aos="fade-up" data-aos-delay="0">
-                                <ul>
-                                    <!-- Liên kết trang trước -->
-                                    @if (Model.CurrentPage > 1)
-                                    {
-                                        <li><a href="@Url.Action("Cart", new { page = Model.CurrentPage - 1 })">&laquo; Trước</a></li>
-                                    }
+                            @if (ViewBag.TotalPages > 1)
+                            {
+                                <div class="page-pagination text-center" data-aos="fade-up" data-aos-delay="0">
+                                    <ul>
+                                        <!-- Link trang trước -->
+                                        @if (ViewBag.CurrentPage > 1)
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("Cart", new { page = ViewBag.CurrentPage - 1 })">&laquo; Trước</a>
+                                            </li>
+                                        }
 
-                                    <!-- Liên kết các trang -->
-                                    @for (int i = 1; i <= Model.TotalPages; i++)
-                                    {
-                                        <li class="@(i == Model.CurrentPage ? "active" : "")">
-                                            <a href="@Url.Action("Cart", new { page = i })">@i</a>
-                                        </li>
-                                    }
+                                        <!-- Link các trang -->
+                                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                        {
+                                            <li class="@(i == ViewBag.CurrentPage ? "active" : "")">
+                                                <a href="@Url.Action("Cart", new { page = i })">@i</a>
+                                            </li>
+                                        }
 
-                                    <!-- Liên kết trang sau -->
-                                    @if (Model.CurrentPage < Model.TotalPages)
-                                    {
-                                        <li><a href="@Url.Action("Cart", new { page = Model.CurrentPage + 1 })">Sau &raquo;</a></li>
-                                    }
-                                </ul>
-                            </div>
+                                        <!-- Link trang sau -->
+                                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("Cart", new { page = ViewBag.CurrentPage + 1 })">Sau &raquo;</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
                         </div>
+                        <form asp-controller="Cart" asp-action="ClearCart">
                         <div class="cart_submit">
-                            <button class="btn btn-md btn-golden" id="clear-cart-btn" type="button">Xóa giỏ hàng</button>
+                           
+                            <button class="btn btn-md btn-golden" id="clear-cart-btn" type="submit">Xóa giỏ hàng</button>
                         </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -109,9 +122,9 @@
     </div> <!-- End Cart Table -->
     @{
         double cartTotal = 0;
-    foreach (var item in Model.CartItems)
+    foreach (var item in Model)
         {
-            cartTotal += (double)(item.Quantity * item.Product.Price); // Tính tổng
+            cartTotal += (double)(item.Quantity * item.Price); // Tính tổng
         }
     }
     <!-- Start Coupon Start -->
@@ -122,19 +135,14 @@
                 <div class="coupon_inner">
                     <div class="cart_subtotal">
                         <p>Tạm tính</p>
-                        <p class="cart_amount"> @String.Format(new CultureInfo("vi-VN"), "{0:C}", cartTotal)</p>
+                        <p class="cart_amount" id="cart-subtotal">@String.Format(new CultureInfo("vi-VN"), "{0:C}", cartTotal)</p>
                     </div>
-                    @*                             <div class="cart_subtotal ">
-                                <p>Shipping</p>
-                                <p class="cart_amount"><span>Flat Rate:</span> $255.00</p>
-                            </div> *@
-
                     <div class="cart_subtotal">
                         <p>Tổng</p>
-                        <p class="cart_amount">@String.Format(new CultureInfo("vi-VN"), "{0:C}", cartTotal)</p>
+                        <p class="cart_amount" id="cart-final-total">@String.Format(new CultureInfo("vi-VN"), "{0:C}", cartTotal)</p>
                     </div>
                     <div class="checkout_btn">
-                        <a asp-controller="Checkout" asp-action="Checkout" class="btn btn-md btn-golden">Mua hàng</a>
+                        <a asp-controller="Checkout" asp-action="Index" class="btn btn-md btn-golden">Mua hàng</a>
                     </div>
                 </div>
             </div>
@@ -144,7 +152,7 @@
 </div> <!-- ...:::: End Cart Section:::... -->
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
         $(document).ready(function () {
         $('.product_quantity input').on('change', function () {
@@ -221,3 +229,67 @@
         });
     });
 </script>
+ *@
+
+@section Scripts {
+    <script>
+        function updateQuantity(input) {
+            var slug = $(input).data('slug');
+            var quantity = parseInt($(input).val());
+
+            var priceStr = $(input).closest('tr').find('.item-price').text().trim();
+            var price = parseFloat(priceStr.replace(/[^0-9]/g, ''));
+
+            $.ajax({
+                url: "@Url.Action("UpdateCart", "Cart")",
+                type: 'POST',
+                data: {
+                    slug: slug,
+                    quantity: quantity
+                },
+                success: function(response) {
+                    if (response.success) {
+                        var itemTotal = price * quantity;
+
+                        var formattedItemTotal = new Intl.NumberFormat('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        }).format(itemTotal);
+
+                        $(input).closest('tr').find('#item-total-price').text(formattedItemTotal);
+
+                        var cartTotal = 0;
+                        $('#item-total-price').each(function() {
+                            var itemTotalStr = $(this).text().trim();
+                            cartTotal += parseFloat(itemTotalStr.replace(/[^0-9]/g, ''));
+                        });
+
+                        var formattedCartTotal = new Intl.NumberFormat('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        }).format(cartTotal);
+
+                        $('#cart-subtotal').text(formattedCartTotal);
+                        $('#cart-final-total').text(formattedCartTotal);
+
+                    } else {
+                        Swal.fire({
+                        title: 'Lỗi!',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        }).then(() => {
+                            if (response.originalQuantity !== undefined) {
+                                $(input).val(response.originalQuantity);
+                            }
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    $(input).val($(input).attr('value'));
+                }
+            });
+        }
+    </script>
+}

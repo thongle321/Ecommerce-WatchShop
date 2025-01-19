@@ -3,91 +3,6 @@
 @{
     ViewData["Title"] = "Chi tiết sản phẩm";
 }
-@section scripts
-{
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-
-        $(document).on('click', '.add-to-wishlist', function (e) {
-            e.preventDefault();
-
-            var productId = $(this).data('id'); // Lấy ID sản phẩm
-
-            $.ajax({
-                url: '/Account/AddToWishlist', // Đường dẫn tới action
-                type: 'POST',
-                data: { productId: productId },
-                success: function (response) {
-                    if (response.success) {
-                        alert(response.message); // Thông báo thành công
-
-                        // Cập nhật trạng thái yêu thích (thay đổi màu sắc icon)
-                        var icon = $(this).find('i'); // Lấy icon bên trong button
-
-                        if (response.isFavorite) {
-                            icon.removeClass('fa-heart-o').addClass('fa-heart').css('color', 'red');
-                        } else {
-                            icon.removeClass('fa-heart').addClass('fa-heart-o').css('color', 'gray');
-                        }
-                    } else {
-                        alert(response.message); // Thông báo lỗi
-                    }
-                },
-                error: function () {
-                    alert('Đã xảy ra lỗi khi thêm vào danh sách yêu thích.');
-                }
-            });
-        });
-
-                $(document).ready(function () {
-
-            $('#addToCartButton').click(function (e) {
-                e.preventDefault(); 
-
-                var productId = $(this).data('product-id'); 
-                var quantity = $('#Quantity').val();
-
-                // Kiểm tra giá trị quantity hợp lệ
-                if (quantity <= 0 || isNaN(quantity)) {
-                    $('#message').html('<div class="alert alert-danger">Số lượng không hợp lệ.</div>');
-                    return;
-                }
-
-                // Thực hiện Ajax để thêm sản phẩm vào giỏ hàng
-                $.ajax({
-                    url: '/Cart/AddToCart', 
-                    type: 'POST', 
-                    contentType: 'application/json',
-                    data: JSON.stringify({ productId: productId, quantity: parseInt(quantity) }),
-                    success: function (response) {
-                        Swal.fire({
-                            title: 'Thành công!',
-                            text: 'Đã thêm sản phẩm vào giỏ hàng',
-                            icon: 'success',
-                            showCancelButton: true,
-                            confirmButtonText: 'Đến giỏ hàng',
-                            cancelButtonText: 'Tiếp tục mua'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = '/Cart/Cart';
-                            }
-                        });
-                    },
-                    error: function (xhr) {
-;
-                            Swal.fire({
-                            title: 'Lỗi',
-                            text: 'Có lỗi xảy ra khi thêm vào giỏ hàng',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                });
-            });
-        });
-
-    </script>
-}
 <!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
     <div class="breadcrumb-wrapper">
@@ -154,9 +69,9 @@
                                     bool hasHalfStar = (Model.ProductRating - (int)Model.ProductRating) >= 0.4;
 
                                 }
-                                @if(Model.ProductRating==0)
+                                @if (Model.ProductRating == 0)
                                 {
-                                    for(int i=1;i<=5;i++)
+                                    for (int i = 1; i <= 5; i++)
                                     {
                                         <li class="fill"><i class="ion-android-star"></i></li>
                                     }
@@ -182,7 +97,7 @@
                                         <li class="empty"><i class="ion-android-star"></i></li>
                                     }
                                 }
-                              
+
                             </ul>
                             <a href="#" class="customer-review ml-2">1 lượt xem</a>
                             <a href="#" class="customer-review ml-2">(@Model.TotalRating)</a>
@@ -206,23 +121,25 @@
                                     }
                                     else
                                     {
-                                        <span style="color: green;">Còn hàng(@Model.Product.Quantity)</span>
+                                        <span style="color: green;">Còn hàng</span>
                                     }
                                 </span>
                             </div>
                         </div>
                         <!-- Product Variable Single Item -->
                         <div class="d-flex align-items-center ">
+                            <input type="hidden" name="slug" value="@Model.Product.Slug" />
                             <div class="variable-single-item ">
-                                <span>Quantity</span>
+                                <span>Số lượng</span>
                                 <div class="product-variable-quantity">
-                                    <input id="Quantity" min="1" max="100" value="1" type="number">
+                                    <input id="quantity" name="quantity" min="1" value="1" type="number">
                                 </div>
                             </div>
-
-                            <div class="product-add-to-cart-btn">
-                                <a id="addToCartButton" href="#" class="btn btn-block btn-lg btn-black-default-hover"
-                                   data-bs-toggle="modal" data-bs-target="#modalAddcart" data-product-id="@Model.Product.ProductId">+ Thêm vào giỏ</a>
+                            <div class="product-add-to-cart-btn add-to-cart">
+                                <button id="add-to-cart" data-slug="@Model.Product.Slug" data-quantity="1" href="#" class="btn btn-block btn-lg btn-black-default-hover add-to-cart"
+                                @*  data-bs-toggle="modal" data-bs-target="#modalAddcart" data-product-id="@Model.Product.ProductId" *@ type="submit">
+                                    + Thêm vào giỏ
+                                </button>
                             </div>
                         </div>
                         <!-- Start  Product Details Meta Area-->
@@ -321,12 +238,12 @@
                                             </li>
                                         }
                                     </ul>
-                                  <hr />
+                                    <hr />
 
                                     <div class="review-form">
                                         <div class="review-form-text-top">
                                             <h5>Thêm bình luận</h5>
-                                        </div> 
+                                        </div>
                                         @if (!User.Identity.IsAuthenticated)
                                         {
                                             <div class="alert alert-warning">
@@ -356,7 +273,7 @@
                                                     </div>
                                                 </div>
                                             </form>
-                                        }    
+                                        }
 
                                     </div>
                                 </div>
@@ -478,3 +395,91 @@
     </div>
 </div>
 <!-- End Product Default Slider Section -->
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).on('click', '.add-to-wishlist', function (e) {
+            e.preventDefault();
+
+            var productId = $(this).data('id'); // Lấy ID sản phẩm
+
+            $.ajax({
+                url: '/Account/AddToWishlist', // Đường dẫn tới action
+                type: 'POST',
+                data: { productId: productId },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message); // Thông báo thành công
+
+                        // Cập nhật trạng thái yêu thích (thay đổi màu sắc icon)
+                        var icon = $(this).find('i'); // Lấy icon bên trong button
+
+                        if (response.isFavorite) {
+                            icon.removeClass('fa-heart-o').addClass('fa-heart').css('color', 'red');
+                        } else {
+                            icon.removeClass('fa-heart').addClass('fa-heart-o').css('color', 'gray');
+                        }
+                    } else {
+                        alert(response.message); // Thông báo lỗi
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi thêm vào danh sách yêu thích.');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#add-to-cart').click(function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                var slug = $(this).data('slug');
+                var quantity = parseInt($('#quantity').val()) || 1;
+
+                $.ajax({
+                    url: '@Url.Action("AddToCart", "Cart")',
+                    type: 'POST',
+                    data: { slug: slug, quantity: quantity },
+                    success: function (result) {
+                        if (result.success) {
+                            Toastify({
+                                text: result.message,
+                                duration: 3000,
+                                close: true,
+                                stopOnFocus: true,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: "#5cb85c",
+                                className: "info"
+                            }).showToast();
+                        } else {
+                            Toastify({
+                                text: result.message,
+                                duration: 3000,
+                                close: true,
+                                stopOnFocus: true,
+                                gravity: "top",
+                                position: "right",
+                                backgroundColor: "#FF0000",
+                                className: "error"
+                            }).showToast();
+                        }
+                    },
+                    error: function () {
+                        Toastify({
+                            text: 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.',
+                            duration: 3000,
+                            close: true,
+                            stopOnFocus: true,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: "#FF0000",
+                            className: "error"
+                        }).showToast();
+                    }
+                });
+            });
+        });
+    </script>
+}

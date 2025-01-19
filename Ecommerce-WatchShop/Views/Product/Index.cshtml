@@ -182,7 +182,7 @@
                                                                 @item.ShortDescription
                                                             </p>
                                                             <div class="product-action-icon-link-list">
-                                                                <a id="addToCartButton" data-bs-toggle="modal" data-bs-target="#modalAddcart" data-product-id="@item.ProductId" class="btn btn-lg btn-black-default-hover">
+                                                                <a id="add-to-cart" data-slug="@item.Slug" data-quantity="1" class="btn btn-lg btn-black-default-hover add-to-cart">
                                                                     Thêm vào giỏ
                                                                 </a>
                                                             </div>
@@ -256,7 +256,7 @@
             });
 
 
-            $("#amount").val($("#slider-range").slider("values", 0) + " - " + $("#slider-range").slider("values", 1));
+        $("#amount").val($("#slider-range").slider("values", 0) + " - " + $("#slider-range").slider("values", 1));
 
         $("#filter-button").on("click", function() {
 
@@ -300,69 +300,55 @@
         });
     </script>
     <script>
-            document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('[data-product-id]').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const productId = this.getAttribute('data-product-id');
+        $(document).ready(function () {
+            $('.add-to-cart').click(function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                var slug = $(this).data('slug');
+                var quantity = $(this).data('quantity');
 
-                    // Gọi API thêm vào giỏ
-                    fetch('/Cart/AddToCart', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            // Thêm anti-forgery token nếu cần
-                        },
-                        body: JSON.stringify({
-                            productId: productId,
-                            quantity: 1
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success === false) {
-                            // Nếu chưa đăng nhập hoặc có lỗi
-                            Swal.fire({
-                                title: 'Thông báo',
-                                text: data.message,
-                                icon: 'warning',
-                                confirmButtonText: 'OK'
-                            });
-                            if (data.message.includes("đăng nhập")) {
-                                Swal.fire({
-                                    title: 'Lỗi',
-                                    text: 'Bạn cần đăng nhập để thêm vào giỏ',
-                                    icon: 'error',
-                                    confirmButtonText: 'OK'
-                                });
-                            }
-                        } else {
-                            // Thêm thành công
-                            Swal.fire({
-                                title: 'Thành công!',
-                                text: 'Đã thêm sản phẩm vào giỏ hàng',
-                                icon: 'success',
-                                showCancelButton: true,
-                                confirmButtonText: 'Đến giỏ hàng',
-                                cancelButtonText: 'Tiếp tục mua'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = '/Cart/Cart';
+                $.ajax({
+                    url: '@Url.Action("AddToCart", "Cart")',
+                    type: 'POST',
+                    data: { slug: slug, quantity: quantity },
+                    success: function (result) {
+                        if (result.success) {
+                            Toastify({
+                                text: result.message,
+                                duration: 3000,
+                                close: true,
+                                stopOnFocus: true,
+                                gravity: "top",
+                                position: "right",
+                                style: {
+                                    background: "#5cb85c",
                                 }
-                            });
-
-
+                            }).showToast();
+                        } else {
+                            Toastify({
+                                text: result.message,
+                                duration: 2000,
+                                close: true,
+                                gravity: "top",
+                                position: "right",
+                                style: {
+                                    background: "#FF0000"
+                                }
+                            }).showToast();
                         }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire({
-                            title: 'Lỗi',
-                            text: 'Có lỗi xảy ra khi thêm vào giỏ hàng',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    });
+                    },
+                    error: function () {
+                        Toastify({
+                            text: 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.',
+                            duration: 2000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            style: {
+                                background: "#FF0000",
+                            }
+                        }).showToast();
+                    }
                 });
             });
         });
