@@ -9,11 +9,11 @@ namespace Ecommerce_WatchShop.Models.ViewModels
 
         public string Image { get; set; } = null!;
 
-        public string? ProductName { get; set; }
+        public string ProductName { get; set; } = string.Empty;
 
         public double? Price { get; set; }
 
-        public string? ShortDescription { get; set; }
+        public string ShortDescription { get; set; } = string.Empty;
 
         public double ProductRating { get; set; }
 

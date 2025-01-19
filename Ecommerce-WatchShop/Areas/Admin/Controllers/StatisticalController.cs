@@ -55,28 +55,28 @@ namespace DongHo_Admin.Areas.Admin.Controllers
         }
         [HttpPost]
         [Route("GetPurchase")]
-        public IActionResult GetPurchase()
-        {
-            var purchaseData = _context.Bills
-                .Join(_context.Invoices,
-                    b => b.BillId,
-                    i => i.BillId,
-                    (b, i) => new
-                    {
-                        Date = b.OrderDate.Date,
-                        Quantity = i.Quantity
-                    })
-                .GroupBy(s => s.Date)
-                .Select(group => new
-                {
-                    date = group.Key.ToString("yyyy-MM-dd"),
-                    TotalPurchases = group.Sum(s => s.Quantity)
-                })
-                .OrderBy(s => s.date)
-                .ToList();
+        //public IActionResult GetPurchase()
+        //{
+        //    var purchaseData = _context.Bills
+        //        .Join(_context.Invoices,
+        //            b => b.BillId,
+        //            i => i.BillId,
+        //            (b, i) => new
+        //            {
+        //                Date = b.OrderDate.Date,
+        //                Quantity = i.Quantity
+        //            })
+        //        .GroupBy(s => s.Date)
+        //        .Select(group => new
+        //        {
+        //            date = group.Key.ToString("yyyy-MM-dd"),
+        //            TotalPurchases = group.Sum(s => s.Quantity)
+        //        })
+        //        .OrderBy(s => s.date)
+        //        .ToList();
 
-            return Json(purchaseData);
-        }
+        //    return Json(purchaseData);
+        //}
         [HttpPost]
         [Route("SubmitFilterDate")]
         public IActionResult SubmitFilterDate(string filterdate)

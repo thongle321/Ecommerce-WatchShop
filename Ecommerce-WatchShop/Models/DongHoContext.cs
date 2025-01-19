@@ -18,8 +18,6 @@ public partial class DongHoContext : DbContext
 
     public required virtual DbSet<Brand> Brands { get; set; }
 
-    public required virtual DbSet<Cart> Carts { get; set; }
-
     public required virtual DbSet<Category> Categories { get; set; }
 
     public required virtual DbSet<Contact> Contacts { get; set; }

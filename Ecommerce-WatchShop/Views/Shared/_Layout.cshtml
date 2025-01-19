@@ -12,6 +12,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
 </head>
 <body>
@@ -425,8 +426,6 @@
         </div>
     </div>
 
-    @* @await Html.PartialAsync("_LoginPartial", new Ecommerce_WatchShop.Models.ViewModels.LoginVM())
-    @* @await Html.PartialAsync("_RegisterPartial", new Ecommerce_WatchShop.Models.ViewModels.RegisterVM()) *@
 
     <button type="button" class="btn btn-success position-fixed right-0 text-white rounded-circle" style="bottom: 100px; margin-right: 23px; width: 56px; height: 56px">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
@@ -440,7 +439,7 @@
     <script src="~/assets/js/plugins/plugins.min.js"></script>
     <!-- Main JS -->
     <script src="~/assets/js/main.js"></script>
-
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
@@ -471,6 +470,13 @@
     </script>
     <script>
         $(document).ready(function () {
+            @if (TempData["ShowLoginModal"] != null && (bool)TempData["ShowLoginModal"])
+            {
+                <text>
+                $('#loginModal').modal('show');
+                </text>
+            }
+
             $('#loginModal').on('show.bs.modal', function () {
                 const currentUrl = window.location.pathname + window.location.search;
                 $('#loginForm').append(`<input type="hidden" name="ReturnUrl" value="${currentUrl}">`);

@@ -21,7 +21,7 @@ public class FileExtensionAttribute : ValidationAttribute
             // Kiểm tra kích thước file nếu cần
             if (file.Length > 1 * 1024 * 1024) // 5MB
             {
-                return new ValidationResult("Kích thước file không được vượt quá 5MB");
+                return new ValidationResult("Kích thước file không được vượt quá 1MB");
             }
         }
         return ValidationResult.Success;

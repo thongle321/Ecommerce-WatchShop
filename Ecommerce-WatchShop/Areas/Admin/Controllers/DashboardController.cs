@@ -71,7 +71,6 @@ namespace DongHo_Admin.Areas.Admin.Controllers
                     {
                         existingFooter.Description = model.Footer.Description;
                         existingFooter.Address = model.Footer.Address;
-                        existingFooter.Phone = model.Footer.Phone;
                         existingFooter.Email = model.Footer.Email;
                         existingFooter.FacebookUrl = model.Footer.FacebookUrl;
                         if (!string.IsNullOrEmpty(model.Footer.Logo))

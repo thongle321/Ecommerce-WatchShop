@@ -4,6 +4,7 @@ using Ecommerce_WatchShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce_WatchShop.Migrations
 {
     [DbContext(typeof(DongHoContext))]
-    partial class DongHoContextModelSnapshot : ModelSnapshot
+    [Migration("20250118101819_ChangeDatabase_15")]
+    partial class ChangeDatabase_15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,6 +193,35 @@ namespace Ecommerce_WatchShop.Migrations
                     b.ToTable("Brands");
                 });
 
+            modelBuilder.Entity("Ecommerce_WatchShop.Models.Cart", b =>
+                {
+                    b.Property<int>("CartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"));
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,0)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("Ecommerce_WatchShop.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -330,6 +362,7 @@ namespace Ecommerce_WatchShop.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
+                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
@@ -640,6 +673,23 @@ namespace Ecommerce_WatchShop.Migrations
                     b.Navigation("Blog");
                 });
 
+            modelBuilder.Entity("Ecommerce_WatchShop.Models.Cart", b =>
+                {
+                    b.HasOne("Ecommerce_WatchShop.Models.Customer", "Customer")
+                        .WithMany("Carts")
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("Ecommerce_WatchShop.Models.Product", "Product")
+                        .WithMany("Carts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Ecommerce_WatchShop.Models.Customer", b =>
                 {
                     b.HasOne("Ecommerce_WatchShop.Models.Account", "Account")
@@ -772,6 +822,8 @@ namespace Ecommerce_WatchShop.Migrations
                 {
                     b.Navigation("Bills");
 
+                    b.Navigation("Carts");
+
                     b.Navigation("Favorites");
 
                     b.Navigation("ProductComments");
@@ -781,6 +833,8 @@ namespace Ecommerce_WatchShop.Migrations
 
             modelBuilder.Entity("Ecommerce_WatchShop.Models.Product", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("Favorites");
 
                     b.Navigation("Invoices");

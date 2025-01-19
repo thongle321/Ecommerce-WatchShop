@@ -27,8 +27,6 @@ public partial class Customer
 
     public virtual ICollection<Bill> Bills { get; set; } = new List<Bill>();
 
-    public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
-
     public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
 
     public virtual ICollection<ProductComment> ProductComments { get; set; } = new List<ProductComment>();

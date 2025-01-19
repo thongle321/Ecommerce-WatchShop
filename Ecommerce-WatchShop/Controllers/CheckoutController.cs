@@ -2,101 +2,100 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce_WatchShop.Models.ViewModels;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using Microsoft.AspNetCore.Authorization;
+using Ecommerce_WatchShop.Helper;
 namespace Ecommerce_WatchShop.Controllers
 {
     public class CheckoutController : Controller
     {
         private readonly DongHoContext _context;
+        public List<CartRequest> Carts => CartHelper.GetCart(HttpContext.Session);
 
         public CheckoutController(DongHoContext context)
         {
             _context = context;
         }
-        public IActionResult Checkout()
+        public IActionResult Index()
         {
             if (!User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Login", "Account");
+                TempData["ShowLoginModal"] = true;
+                return RedirectToAction("Index", "Home");
             }
-
-            var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
-            int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
-
-            if (customerId == null)
+            if(Carts is null || Carts.Count == 0)
             {
+                TempData["error"] = "Giỏ hàng của bạn đang trống";
                 return RedirectToAction("Cart", "Cart");
-            }
-
-            var cartItems = _context.Carts
-                .Where(c => c.CustomerId == customerId)
-                .Include(c => c.Product) // Load product details
-                .ToList();
-
-            var viewModel = new CheckoutVM
-            {
-                CartItems = cartItems,
-                TotalAmount = (decimal)cartItems.Sum(c => c.Quantity * (c.Product.Price ?? 0))
-            };
-
-            return View(viewModel);
+            }    
+            return View(Carts);
         }
         [HttpPost]
-        public IActionResult Checkout(CheckoutVM model)
+        public async Task<IActionResult> Checkout(CheckoutVM checkoutVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(model);
-            }
-
-            var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
-            int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
-
-            if (customerId == null)
-            {
-                return BadRequest("Không tìm thấy khách hàng.");
-            }
-
-            var bill = new Bill
-            {
-                CustomerId = customerId.Value,
-                OrderDate = DateTime.Now,
-                FullName = model.FullName,
-                Phone = model.Phone,
-                Address = model.Address,
-                Province = model.Province,
-                District = model.District,
-                Ward = model.Ward,
-                PaymentMethod = model.PaymentMethod,
-                Total = model.TotalAmount,
-                Status = 0 // 0: Chờ xử lý
-            };
-
-            _context.Bills.Add(bill);
-            _context.SaveChanges();
-
-            foreach (var item in model.CartItems)
-            {
-                var invoice = new Invoice
+                var customerIdClaim = HttpContext.User.Claims.SingleOrDefault(c => c.Type == "CustomerId");
+                if (customerIdClaim != null && int.TryParse(customerIdClaim.Value, out var customerId))
                 {
-                    BillId = bill.BillId,
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    Price = (decimal)(item.Product.Price ?? 0),
-                    Total = (decimal)(item.Quantity * (item.Product.Price ?? 0))
-                };
+                    var bill = new Bill
+                    {
+                        CustomerId = customerId,
+                        FullName = checkoutVM.FullName,
+                        Phone = checkoutVM.Phone,
+                        Email = checkoutVM.Email,
+                        Address = checkoutVM.Address,
+                        Province = checkoutVM.Province,
+                        District = checkoutVM.District,
+                        Ward = checkoutVM.Ward,
+                        PaymentMethod = checkoutVM.PaymentMethod,
+                        Total = checkoutVM.TotalAmount,
+                        Status = 1,
+                        OrderDate = DateTime.Now
+                    };
+                    await _context.Database.BeginTransactionAsync();
+                    
+                    try
+                    {
+                        await _context.AddAsync(bill);
+                        await _context.SaveChangesAsync();
 
-                _context.Invoices.Add(invoice);
-            }
+                        var invoices = new List<Invoice>();
+                        foreach(var item in Carts)
+                        {
+                            var productExists = await _context.Products.AnyAsync(p => p.ProductId == item.ProductId);
+                            if (!productExists)
+                            {
+                                continue; 
+                            }
+                            invoices.Add(new Invoice
+                            {
+                                BillId   = bill.BillId,
+                                ProductId = item.ProductId,
+                                Quantity = item.Quantity,
+                                Price = (decimal)item.Price,
+                                Total = (decimal)(item.Quantity * item.Price)
 
-            _context.SaveChanges();
+                            });
+                        }
+                        if (invoices.Any())
+                        {
+                            await _context.AddRangeAsync(invoices);
+                            await _context.SaveChangesAsync();
+                        }
+;
+                        await _context.Database.CommitTransactionAsync();
 
-            // Xóa giỏ hàng
-            var cartItems = _context.Carts.Where(c => c.CustomerId == customerId).ToList();
-            _context.Carts.RemoveRange(cartItems);
-            _context.SaveChanges();
-
-            return RedirectToAction("Success");
+                        CartHelper.ClearCart(HttpContext.Session);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    catch
+                    {
+                        await _context.Database.RollbackTransactionAsync();
+                    }
+                }    
+            }    
+            return RedirectToAction("Index", "Home");
         }
-
     }
 }

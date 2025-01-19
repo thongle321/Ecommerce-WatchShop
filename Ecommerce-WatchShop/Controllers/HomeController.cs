@@ -62,7 +62,6 @@ public class HomeController : Controller
             return RedirectToAction("Index");
         }
 
-
         return View("Contact", contactVM);
     }
     [HttpPost]
@@ -113,7 +112,11 @@ public class HomeController : Controller
             return Json(new { redirectToUrl = Url.Action("Index", "Home") });
         }
     }
-
+    [HttpGet]
+    public IActionResult LoginPartial()
+    {
+        return PartialView("_LoginPartial", new LoginVM());
+    }
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginVM loginVM, string? ReturnUrl = null)
@@ -177,6 +180,7 @@ public class HomeController : Controller
         }
 
     }
+
 
 
     public IActionResult Privacy()
