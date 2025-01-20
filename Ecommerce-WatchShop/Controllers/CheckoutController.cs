@@ -87,6 +87,7 @@ namespace Ecommerce_WatchShop.Controllers
                         await _context.Database.CommitTransactionAsync();
 
                         CartHelper.ClearCart(HttpContext.Session);
+                        TempData["success"] = "Đã mua hàng thành công";
                         return RedirectToAction("Index", "Home");
                     }
                     catch

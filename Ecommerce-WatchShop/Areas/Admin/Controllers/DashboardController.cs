@@ -24,11 +24,10 @@ namespace DongHo_Admin.Areas.Admin.Controllers
                 Footer = await _context.Footers.FirstOrDefaultAsync(),
             };
             ViewBag.customerCount =  await _context.Customers.CountAsync();
-            ViewBag.productCount = await _context.Products.CountAsync();
-            ViewBag.orderCount = await _context.Bills.CountAsync();
+            ViewBag.productCount = await _context.Products.Where(p => p.Status == 1).CountAsync();
+            ViewBag.orderCount = await _context.Bills.Where(b => b.Status == 2).CountAsync();
             return View(footerVM);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Update(FooterVM model)
