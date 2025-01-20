@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace DongHo_Admin.Areas.Admin.Controllers
+namespace Ecommerce_WatchShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Policy = "Admin")]
@@ -58,10 +58,10 @@ namespace DongHo_Admin.Areas.Admin.Controllers
                     {
                         model.LogoFile.CopyTo(fileStream);
                     }
-                    model.Footer.Logo = uniqueFileName;
+                    model.Footer!.Logo = uniqueFileName;
                 }
 
-                if (model.Footer.Id == 0)
+                if (model.Footer!.Id == 0)
                     _context.Footers.Add(model.Footer);
                 else
                 {

@@ -93,7 +93,7 @@ public class AccountController : Controller
     {
         ViewBag.Title = "Đơn hàng";
 
-        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "AccountId");
+        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
         if (customerIdClaim == null) return RedirectToAction("Index", "Home");
 
         int customerId = int.Parse(customerIdClaim.Value);

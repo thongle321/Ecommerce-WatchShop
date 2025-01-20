@@ -20,7 +20,7 @@ namespace Ecommerce_WatchShop.Controllers
             var blogs = _context.Blogs.AsNoTracking();
             if (!string.IsNullOrEmpty(searchString))
             {
-                blogs = blogs.Where(b => b.Subject.Contains(searchString) || b.Contents.Contains(searchString));
+                blogs = blogs.Where(b => b.Subject!.Contains(searchString) || b.Contents!.Contains(searchString));
                 ViewData["CurrentFilter"] = searchString;
             }
             return View(await PaginatedList<Blog>.CreateAsync(blogs, pageNumber ?? 1, pageSize));

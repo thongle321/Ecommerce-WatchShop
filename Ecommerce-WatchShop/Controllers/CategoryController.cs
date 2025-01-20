@@ -29,10 +29,10 @@ namespace Ecommerce_WatchShop.Controllers
             var result = await products.Select(p => new ProductVM
             {
                 ProductId = p.ProductId,
-                ProductName = p.ProductName,
-                Image = p.ProductImages.FirstOrDefault().Image ?? "",
+                ProductName = p.ProductName!,
+                Image = p.ProductImages.FirstOrDefault()!.Image ?? "",
                 Price = p.Price,
-                ShortDescription = p.ShortDescription,
+                ShortDescription = p.ShortDescription!,
                 ProductRating = p.ProductRatings.Any()
                     ? p.ProductRatings.Average(r => (double)r.Rating!)
                     : 0,

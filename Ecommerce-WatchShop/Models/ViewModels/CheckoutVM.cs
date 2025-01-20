@@ -9,7 +9,7 @@ namespace Ecommerce_WatchShop.Models.ViewModels
         public string? FullName { get; set; }
 
         [Required(ErrorMessage = "Số điện thoại là bắt buộc.")]
-        [RegularExpression(@"^0\d{9}$", ErrorMessage = "Số điện thoại phải bắt đầu bằng 0 và có chính xác 10 chữ số.")]
+        [RegularExpression(@"^(?:\+84|0084|0)[235789][0-9]{8}$", ErrorMessage = "Số điện thoại không hợp lệ")]        
         [StringLength(15)]
         public string? Phone { get; set; }
 

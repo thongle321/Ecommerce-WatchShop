@@ -33,13 +33,13 @@ namespace Ecommerce_WatchShop.Controllers
             // Lọc theo category
             if (!string.IsNullOrEmpty(categories))
             {
-                products = products.Where(p => p.Category.Slug == categories);
+                products = products.Where(p => p.Category!.Slug == categories);
             }
 
             // Lọc theo brand
             if (!string.IsNullOrEmpty(brands))
             {
-                products = products.Where(p => p.Brand.Slug == brands);
+                products = products.Where(p => p.Brand!.Slug == brands);
             }
             if (minPrice.HasValue)
             {
@@ -63,10 +63,10 @@ namespace Ecommerce_WatchShop.Controllers
                 .Select(p => new ProductVM
                 {
                     ProductId = p.ProductId,
-                    ProductName = p.ProductName,
+                    ProductName = p.ProductName!,
                     Image = p.Image ?? "",
                     Price = p.Price,
-                    ShortDescription = p.ShortDescription,
+                    ShortDescription = p.ShortDescription!,
                     ProductRating = p.ProductRatings.Any()
                         ? p.ProductRatings.Average(r => (double)r.Rating!) : 0,
                     TotalRating = p.ProductRatings.Count,
@@ -108,10 +108,10 @@ namespace Ecommerce_WatchShop.Controllers
                 .Select(p => new ProductVM
                 {
                     ProductId = p.ProductId,
-                    ProductName = p.ProductName,
+                    ProductName = p.ProductName!,
                     Image = p.Image ?? "",
                     Price = p.Price,
-                    ShortDescription = p.ShortDescription,
+                    ShortDescription = p.ShortDescription!,
                     ProductRating = p.ProductRatings.Any()
                         ? p.ProductRatings.Average(r => (double)r.Rating!) : 0,
                     TotalRating = p.ProductRatings.Count,
@@ -165,14 +165,14 @@ namespace Ecommerce_WatchShop.Controllers
             var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
             int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
             // Lấy sản phẩm, đánh giá, và bình luận từ cơ sở dữ liệu
-            var product = _context.Products
+            var product = await _context.Products
                    .Include(p => p.Category)
                 .Include(p => p.Brand)
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductComments)
                 .Include(p => p.ProductRatings)
                 .ThenInclude(c => c.Customer)
-                .FirstOrDefault(p => p.Slug == slug);
+                .FirstOrDefaultAsync(p => p.Slug == slug);
 
             if (product == null) // Kiểm tra sản phẩm tồn tại
             {
