@@ -203,7 +203,6 @@ namespace Ecommerce_WatchShop.Controllers
         [Route("ProductDetail/{id}/AddReview")]
         public IActionResult AddReview(int id, string content, int rating)
         {
-            // Lấy customerId
             var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
             int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
             // Kiểm tra sản phẩm tồn tại
@@ -213,7 +212,6 @@ namespace Ecommerce_WatchShop.Controllers
                 return NotFound();
             }
 
-            // Tạo mới bình luận
             var comment = new ProductComment
             {
 
@@ -223,7 +221,6 @@ namespace Ecommerce_WatchShop.Controllers
                 CreatedAt = DateTime.Now
             };
 
-            // Tạo mới đánh giá
             var productRating = new ProductRating
             {
                 ProductId = id,
@@ -231,7 +228,6 @@ namespace Ecommerce_WatchShop.Controllers
                 Rating = rating
             };
 
-            // Lưu dữ liệu vào cơ sở dữ liệu
             _context.ProductComments.Add(comment);
             _context.ProductRatings.Add(productRating);
             _context.SaveChanges();
