@@ -3,7 +3,7 @@ using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace YourProject.Components
+namespace Ecommerce_WatchShop.Components
 {
     public class FooterViewComponent : ViewComponent
     {
