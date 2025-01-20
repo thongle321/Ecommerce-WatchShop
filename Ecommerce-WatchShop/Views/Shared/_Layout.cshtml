@@ -174,11 +174,12 @@
                                         </a>
                                     </li>
                                 }
-                                <li>
+                                @* <li>
                                     <a asp-controller="cart" asp-action="cart">
                                         <i class="icon-bag"></i>
                                     </a>
-                                </li>
+                                </li> *@
+                                @await Component.InvokeAsync("Cart")
 
                             </ul>
                             <!-- End Header Action Link -->

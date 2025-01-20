@@ -18,7 +18,7 @@ namespace Ecommerce_WatchShop.Controllers
         }
         public IActionResult Index()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (!User.Identity!.IsAuthenticated)
             {
                 TempData["ShowLoginModal"] = true;
                 return RedirectToAction("Index", "Home");
@@ -28,10 +28,15 @@ namespace Ecommerce_WatchShop.Controllers
                 TempData["error"] = "Giỏ hàng của bạn đang trống";
                 return RedirectToAction("Cart", "Cart");
             }    
-            return View(Carts);
+            var checkoutValidationVM = new CheckoutValidationVM
+            {
+                CheckoutVM = new CheckoutVM(),
+                CartRequest = Carts
+            };
+            return View(checkoutValidationVM);
         }
         [HttpPost]
-        public async Task<IActionResult> Checkout(CheckoutVM checkoutVM)
+        public async Task<IActionResult> Checkout(CheckoutValidationVM checkoutValidationVM)
         {
             if (ModelState.IsValid)
             {
@@ -41,27 +46,28 @@ namespace Ecommerce_WatchShop.Controllers
                     var bill = new Bill
                     {
                         CustomerId = customerId,
-                        FullName = checkoutVM.FullName,
-                        Phone = checkoutVM.Phone,
-                        Email = checkoutVM.Email,
-                        Address = checkoutVM.Address,
-                        Province = checkoutVM.Province,
-                        District = checkoutVM.District,
-                        Ward = checkoutVM.Ward,
-                        PaymentMethod = checkoutVM.PaymentMethod,
-                        Total = checkoutVM.TotalAmount,
+                        FullName = checkoutValidationVM.CheckoutVM.FullName,
+                        Phone = checkoutValidationVM.CheckoutVM.Phone,
+                        Email = checkoutValidationVM.CheckoutVM.Email,
+                        Address = checkoutValidationVM.CheckoutVM.Address,
+                        Province = checkoutValidationVM.CheckoutVM.Province,
+                        District = checkoutValidationVM.CheckoutVM.District,
+                        Ward = checkoutValidationVM.CheckoutVM.Ward,
+                        PaymentMethod = checkoutValidationVM.CheckoutVM.PaymentMethod,
+                        Total = checkoutValidationVM.CheckoutVM.TotalAmount,
                         Status = 1,
                         OrderDate = DateTime.Now
                     };
+        
                     await _context.Database.BeginTransactionAsync();
                     
                     try
                     {
                         await _context.AddAsync(bill);
                         await _context.SaveChangesAsync();
-
+        
                         var invoices = new List<Invoice>();
-                        foreach(var item in Carts)
+                        foreach(var item in checkoutValidationVM.CartRequest)
                         {
                             var productExists = await _context.Products.AnyAsync(p => p.ProductId == item.ProductId);
                             if (!productExists)
@@ -75,7 +81,6 @@ namespace Ecommerce_WatchShop.Controllers
                                 Quantity = item.Quantity,
                                 Price = (decimal)item.Price,
                                 Total = (decimal)(item.Quantity * item.Price)
-
                             });
                         }
                         if (invoices.Any())
@@ -83,9 +88,9 @@ namespace Ecommerce_WatchShop.Controllers
                             await _context.AddRangeAsync(invoices);
                             await _context.SaveChangesAsync();
                         }
-;
+        
                         await _context.Database.CommitTransactionAsync();
-
+        
                         CartHelper.ClearCart(HttpContext.Session);
                         TempData["success"] = "Đã mua hàng thành công";
                         return RedirectToAction("Index", "Home");
@@ -96,7 +101,7 @@ namespace Ecommerce_WatchShop.Controllers
                     }
                 }    
             }    
-            return RedirectToAction("Index", "Home");
+            return View("Index", checkoutValidationVM);
         }
     }
 }

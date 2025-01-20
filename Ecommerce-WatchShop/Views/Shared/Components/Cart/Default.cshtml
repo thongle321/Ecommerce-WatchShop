@@ -1,0 +1,7 @@
+@model Ecommerce_WatchShop.Models.ViewModels.CartVM
+<li>
+    <a asp-controller="cart" asp-action="cart">
+        <i class="icon-bag"></i>
+        <span>@Model.Quantity</span><strong><p style="display: inline; letter-spacing: 0; padding-left: 5px;">Tổng: @Model.Total</p></strong>
+    </a>
+</li>

@@ -17,16 +17,16 @@ public class CartController : Controller
 
     public List<CartRequest> Carts => CartHelper.GetCart(HttpContext.Session);
 
-    public async Task<IActionResult> Cart(int page = 1, int pageSize = 5)
+    public IActionResult Cart(int page = 1, int pageSize = 5)
     {
         // Kiểm tra nếu người dùng chưa đăng nhập
-        if (!User.Identity.IsAuthenticated)
+        if (!User.Identity!.IsAuthenticated)
         {
             ViewBag.Message = "Giỏ hàng của bạn hiện đang trống!";
             return View(Carts);
         }
 
-        var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
+        var customerIdClaim =  User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
         int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
 
         if (customerId == null)
@@ -71,8 +71,8 @@ public class CartController : Controller
             item = new CartRequest
             {
                 ProductId = products.ProductId,
-                Slug = products.Slug,
-                ProductName = products.ProductName,
+                Slug = products.Slug!,
+                ProductName = products.ProductName!,
                 Image = products.Image,
                 Price = products.Price ?? 0,
                 Quantity = quantity,
