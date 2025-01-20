@@ -72,7 +72,7 @@ namespace Ecommerce_WatchShop
                         Views = 1000,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
-                        Deleted = null,
+                        Deleted = 0,
                         Slug = "curnon-kashmir"
                     },
                     new Product
@@ -91,7 +91,7 @@ namespace Ecommerce_WatchShop
                         Views = 50,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
-                        Deleted = null,
+                        Deleted = 0,
                         Slug = "citizen-bi5104-57e"
                     },
                     new Product
@@ -110,7 +110,7 @@ namespace Ecommerce_WatchShop
                         Views = 100,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
-                        Deleted = null,
+                        Deleted = 0,
                         Slug = "citizen-tsuyosa"
                     },
                     new Product
@@ -119,7 +119,7 @@ namespace Ecommerce_WatchShop
                         ProductName = "Citizen NH9130 84L",
                         CategoryId = donghoco?.CategoryId,
                         BrandId = citizen?.BrandId,
-                        Gender = 1,
+                        Gender = 2,
                         Price = 10085000,
                         ShortDescription = "Citizen NH9130-84L – Nam – Kính Sapphire – Automatic – Trữ Cót 40 Giờ, Họa Tiết Guilloche, Open Heart",
                         Description = "Citizen Automatic NH9130-84L thiết kế Open heart cùng họa tiết Guilloche hoàn toàn mới mang đến diện mạo nam tính, lịch lãm. Trang bị bộ máy cơ Japan Movt trữ cót 40 giờ, tự động lên cót khi đeo liên tục mỗi ngày.",
@@ -129,7 +129,7 @@ namespace Ecommerce_WatchShop
                         Views = 2000,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
-                        Deleted = null,
+                        Deleted = 0,
                         Slug = "citizen-nh9130-84l"
                     },
                     new Product
@@ -144,11 +144,11 @@ namespace Ecommerce_WatchShop
                         Description = "Mẫu Citizen Eco-Drive EM0506-77A phiên bản dây đeo tone màu vàng demi, nền mặt số xà cừ với họa tiết Guilloche thẩm mỹ. Mặt số 32mm với trọng lượng vừa phải phù hợp với nữ giới, sử dụng năng lượng mặt trời có tuổi thọ dài giúp tiết kiệm chi phí, cực kỳ trang nhã và thanh lịch.",
                         Specification = "Kính: Mineral Crystal (Kính cứng), Máy: Eco-Drive (Năng lượng ánh sáng), Đường Kính Mặt Số: 32 mm, Bề Dày Mặt Số: 7.6 mm, Niềng: Thép không gỉ, Dây Đeo: Thép không gỉ, Chống Nước: 5 ATM.",
                         Quantity = 11,
-                        Status = 1,
+                        Status = 2,
                         Views = 500,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
-                        Deleted = null,
+                        Deleted = 0,
                         Slug = "citizen-eco-drive"
                     },
                     new Product
@@ -163,11 +163,11 @@ namespace Ecommerce_WatchShop
                         Description = "Citizen Silhouette Crystal EM0863-53D thiết kế mạ vàng PVD sang trọng kết hợp những viên đá pha lê tuyển chọn có độ tán sắc cao, lấp lánh thu hút ánh nhìn. Trang bị bộ máy Eco-Drive hoạt động cực kỳ chính xác mà không phải thay pin thường xuyên.",
                         Specification = "Kính: Mineral Crystal (Kính cứng), Máy: Eco-Drive (Năng lượng ánh sáng), Đường kính mặt số: 25 mm, Bề dày mặt số: 7.3 mm, Niềng: Thép không gỉ, Dây đeo: Thép không gỉ, Màu mặt số: Trắng xà cừ, Chống nước: 5 ATM.",
                         Quantity = 17,
-                        Status = 1,
+                        Status = 2,
                         Views = 250,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
-                        Deleted = null,
+                        Deleted = 0,
                         Slug = "citizen-em0863-53d"
                     },
                     new Product
@@ -182,11 +182,11 @@ namespace Ecommerce_WatchShop
                         Description = "Mẫu Doxa D201RSV vẻ ngoài sang trọng với mẫu vạch số tạo hình mỏng mang lại sự tinh tế dành cho phái mạnh đầy nổi bật khi các chi tiết kim chỉ được phủ tông vàng hồng trẻ trung đầy cuốn hút.",
                         Specification = "Kính: Sapphire (Kính chống trầy),Máy: Quartz (Pin), Đường kính mặt số: 40 mm, Bề dày mặt số: 6.7 mm, Niềng: Thép không gỉ, Dây đeo: Thép không gỉ, Màu mặt số: Trắng, Chống nước: 5 ATM.",
                         Quantity = 20,
-                        Status = 1,
+                        Status = 2,
                         Views = 5000,
-                        CreatedAt = null,
+                        CreatedAt = DateTime.Now,
                         UpdatedAt = null,
-                        Deleted = null,
+                        Deleted = 0,
                         Slug = "doxa-executive-slim"
                     },
                     new Product
@@ -201,11 +201,11 @@ namespace Ecommerce_WatchShop
                         Description = "Mẫu Doxa D226RGY phiên bản dây vải Nato tone màu xám đen, kết hợp vỏ kim loại mạ vàng hồng, cùng tính năng GMT tiện dụng, tạo nên vẻ ngoài thời trang năng động cho các chàng trong mọi tình huống.",
                         Specification = "Kính: Sapphire (Kính Chống Trầy),Máy: Quartz (Pin), Đường Kính Mặt Số: 42 mm, Bề Dày Mặt Số: 12 mm",
                         Quantity = 9,
-                        Status = 1,
+                        Status = 3,
                         Views = 4000,
-                        CreatedAt = null,
+                        CreatedAt = DateTime.Now,
                         UpdatedAt = null,
-                        Deleted = null,
+                        Deleted = 0,
                         Slug = "doxa-x-dorian-ho-earlymoon"
                     },
                     new Product
@@ -220,11 +220,11 @@ namespace Ecommerce_WatchShop
                         Description = "Mẫu Doxa Noble D132TWH có thiết kế tinh xảo với họa tiết Guilloché, đính 8 viên kim cương, cùng bộ máy Swiss Made, hứa hẹn mang đên phong thái tự tin và sang trọng cho quý cô.",
                         Specification = "Kính: Sapphire (Kính chống trầy), Máy: Quartz (Pin), Đường kính mặt số: 29 mm, Niềng: Thép không gỉ, Dây đeo: Thép không gỉ, Màu mặt số: Trắng, Chống nước: 5 ATM",
                         Quantity = 22,
-                        Status = 1,
+                        Status = 3,
                         Views = 150,
-                        CreatedAt = null,
+                        CreatedAt = DateTime.Now,
                         UpdatedAt = null,
-                        Deleted = null,
+                        Deleted = 0,
                         Slug = "doxa-noble"
                     },
                     new Product
@@ -255,11 +255,11 @@ namespace Ecommerce_WatchShop
                             <p><strong>Chống Nước: </strong>10 ATM</p>
                         ",
                         Quantity = 10,
-                        Status = 1,
+                        Status = 3,
                         Views = 999,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = null,
-                        Deleted = null,
+                        Deleted = 0,
                         Slug = "seiko-prospex-speedtimer-ssc943p1"
 
                     }
