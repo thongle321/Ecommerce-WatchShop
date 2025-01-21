@@ -1,5 +1,4 @@
 @using System.Globalization
-@model IEnumerable<Ecommerce_WatchShop.Models.Product>
 <div class="product-wrapper" data-aos="fade-up" data-aos-delay="0">
     <div class="container">
         <div class="row">
@@ -11,12 +10,12 @@
                         <div class="swiper-wrapper">
                             <!-- End Product Default Single Item -->
                             <!-- Start Product Default Single Item -->
-                            @foreach (var item in Model)
+                            @foreach (var item in ViewBag.BestSellerProduct)
                             {
                                 <div class="product-default-single-item product-color--pink swiper-slide">
 
                                     <div class="image-box">
-                                        <a asp-controller="Product" asp-action="ProductDetail" class="image-link">
+                                        <a asp-controller="Product" asp-action="ProductDetail" asp-route-slug="@item.Slug" class="image-link">
                                             <img src="~/images/@item.Image" alt=""
                                                  style="width: 320px; height: 320px; object-fit: contain">
                                         </a>
@@ -30,16 +29,43 @@
                                     <div class="content">
                                         <div class="content-left">
                                             <h6 class="title">
-                                                <a asp-controller="Product" asp-action="ProductDetail">
+                                                <a asp-controller="Product" asp-action="ProductDetail" asp-route-slug="@item.Slug">
                                                     @item.ProductName
                                                 </a>
                                             </h6>
                                             <ul class="review-star">
-                                                <li class="fill"><i class="ion-android-star"></i></li>
-                                                <li class="fill"><i class="ion-android-star"></i></li>
-                                                <li class="fill"><i class="ion-android-star"></i></li>
-                                                <li class="fill"><i class="ion-android-star"></i></li>
-                                                <li class="empty"><i class="ion-android-star"></i></li>
+                                                @{
+                                                    bool hasHalfStar = (item.ProductRating - (int)item.ProductRating) >= 0.4;
+
+                                                }
+                                                @if (item.ProductRating == 0)
+                                                {
+                                                    for (int i = 1; i <= 5; i++)
+                                                    {
+                                                        <li class="fill"><i class="ion-android-star"></i></li>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @for (int i = 1; i <= (int)item.ProductRating; i++)
+                                                    {
+                                                        <li class="fill"><i class="ion-android-star"></i></li>
+                                                    }
+
+                                                    {
+                                                        if ((int)item.ProductRating < 5)
+                                                        {
+                                                            if (hasHalfStar)
+                                                            {
+                                                                <li class="half" style="color: #b19361"><i class="ion-android-star-half"></i></li>
+                                                            }
+                                                        }
+                                                    }
+                                                    for (int i = (int)item.ProductRating + (hasHalfStar ? 1 : 0); i < 5; i++)
+                                                    {
+                                                        <li class="empty"><i class="ion-android-star"></i></li>
+                                                    }
+                                                }
                                             </ul>
                                         </div>
                                         <div class="content-right">

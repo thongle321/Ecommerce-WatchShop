@@ -176,9 +176,6 @@ namespace Ecommerce_WatchShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BrandId"));
 
-                    b.Property<string>("Contents")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(100)");
 

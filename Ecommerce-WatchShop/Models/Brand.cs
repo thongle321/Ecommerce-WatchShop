@@ -7,7 +7,7 @@ public partial class Brand
 {
     [Key]
     public int BrandId { get; set; }
-    public string? Contents { get; set; }
+    
     [Column(TypeName = "nvarchar(100)")]
     public string? Name { get; set; }
     [Column(TypeName = "varchar(100)")]

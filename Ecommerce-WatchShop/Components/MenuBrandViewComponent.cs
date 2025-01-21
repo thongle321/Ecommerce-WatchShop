@@ -17,7 +17,6 @@ namespace Ecommerce_WatchShop.Components
             var menuBrand = await _context.Brands.Select(b => new MenuBrandVM
             {
                 BrandId = b.BrandId,
-                Contents = b.Contents,
                 Name = b.Name,
                 Slug = b.Slug
             }).ToListAsync();

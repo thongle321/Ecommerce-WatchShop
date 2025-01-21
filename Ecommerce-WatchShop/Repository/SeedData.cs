@@ -10,10 +10,10 @@ namespace Ecommerce_WatchShop
             await _context.Database.MigrateAsync();
             if (!_context.Brands.Any())
             {
-                Brand citizen = new Brand { Name = "Citizen", Contents = null, Slug = "citizen" };
-                Brand doxa = new Brand { Name = "Doxa", Contents = null, Slug = "doxa" };
-                Brand curnon = new Brand { Name = "Curnon", Contents = null, Slug = "curnon" };
-                Brand seiko = new Brand { Name = "Seiko", Contents = null, Slug = "seiko" };
+                Brand citizen = new Brand { Name = "Citizen", Slug = "citizen" };
+                Brand doxa = new Brand { Name = "Doxa", Slug = "doxa" };
+                Brand curnon = new Brand { Name = "Curnon", Slug = "curnon" };
+                Brand seiko = new Brand { Name = "Seiko",  Slug = "seiko" };
 
                 await _context.Brands.AddRangeAsync(citizen, doxa, curnon, seiko);
                 await _context.SaveChangesAsync();
