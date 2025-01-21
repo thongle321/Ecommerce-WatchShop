@@ -294,58 +294,58 @@
 
         });
     </script>
-    <script>
-        $(document).ready(function () {
-            $('.add-to-cart').click(function (e) {
-                e.preventDefault();
-                var $this = $(this);
-                var slug = $(this).data('slug');
-                var quantity = $(this).data('quantity');
-
-                $.ajax({
-                    url: '@Url.Action("AddToCart", "Cart")',
-                    type: 'POST',
-                    data: { slug: slug, quantity: quantity },
-                    success: function (result) {
-                        if (result.success) {
-                            Toastify({
-                                text: result.message,
-                                duration: 3000,
-                                close: true,
-                                stopOnFocus: true,
-                                gravity: "top",
-                                position: "right",
-                                style: {
-                                    background: "#5cb85c",
-                                }
-                            }).showToast();
-                        } else {
-                            Toastify({
-                                text: result.message,
-                                duration: 2000,
-                                close: true,
-                                gravity: "top",
-                                position: "right",
-                                style: {
-                                    background: "#FF0000"
-                                }
-                            }).showToast();
-                        }
-                    },
-                    error: function () {
-                        Toastify({
-                            text: 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.',
-                            duration: 2000,
-                            close: true,
-                            gravity: "top",
-                            position: "right",
-                            style: {
-                                background: "#FF0000",
-                            }
-                        }).showToast();
-                    }
-                });
-            });
-        });
-    </script>
+    @* <script> *@
+    @*     $(document).ready(function () { *@
+    @*         $('.add-to-cart').click(function (e) { *@
+    @*             e.preventDefault(); *@
+    @*             var $this = $(this); *@
+    @*             var slug = $(this).data('slug'); *@
+    @*             var quantity = $(this).data('quantity'); *@
+    @* *@
+    @*             $.ajax({ *@
+    @*                 url: '@Url.Action("AddToCart", "Cart")', *@
+    @*                 type: 'POST', *@
+    @*                 data: { slug: slug, quantity: quantity }, *@
+    @*                 success: function (result) { *@
+    @*                     if (result.success) { *@
+    @*                         Toastify({ *@
+    @*                             text: result.message, *@
+    @*                             duration: 3000, *@
+    @*                             close: true, *@
+    @*                             stopOnFocus: true, *@
+    @*                             gravity: "top", *@
+    @*                             position: "right", *@
+    @*                             style: { *@
+    @*                                 background: "#5cb85c", *@
+    @*                             } *@
+    @*                         }).showToast(); *@
+    @*                     } else { *@
+    @*                         Toastify({ *@
+    @*                             text: result.message, *@
+    @*                             duration: 2000, *@
+    @*                             close: true, *@
+    @*                             gravity: "top", *@
+    @*                             position: "right", *@
+    @*                             style: { *@
+    @*                                 background: "#FF0000" *@
+    @*                             } *@
+    @*                         }).showToast(); *@
+    @*                     } *@
+    @*                 }, *@
+    @*                 error: function () { *@
+    @*                     Toastify({ *@
+    @*                         text: 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.', *@
+    @*                         duration: 2000, *@
+    @*                         close: true, *@
+    @*                         gravity: "top", *@
+    @*                         position: "right", *@
+    @*                         style: { *@
+    @*                             background: "#FF0000", *@
+    @*                         } *@
+    @*                     }).showToast(); *@
+    @*                 } *@
+    @*             }); *@
+    @*         }); *@
+    @*     }); *@
+    @* </script> *@
 }
