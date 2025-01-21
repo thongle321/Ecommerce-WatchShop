@@ -59,11 +59,12 @@ public class CartController : Controller
 
     public async Task<IActionResult> AddToCart(string slug, int quantity)
     {
+        Console.WriteLine($"Slug: {slug}, Quantity: {quantity}");
         var cart = Carts;
-        var item = cart.SingleOrDefault(p => p.Slug == slug);
-        if (item == null)
+        var item = cart.FirstOrDefault(p => p.Slug == slug);
+        if (item is null)
         {
-            var products = await _context.Products.SingleOrDefaultAsync(p => p.Slug == slug);
+            var products = await _context.Products.FirstOrDefaultAsync(p => p.Slug == slug);
             if (products == null)
             {
                 return Json(new { success = false, message = $"Không tìm thấy sản phẩm có mã {slug}." });
@@ -133,4 +134,17 @@ public class CartController : Controller
         TempData["success"] = "Đã xoá tất cả sản phẩm trong giỏ hàng.";
         return RedirectToAction("Cart"); 
     }
+    [HttpGet("cart-summary")]
+    public IActionResult GetCartSummary()
+    {
+        var cart = Carts;
+        var cartVM = new CartVM
+        {
+            Quantity = cart.Sum(p => p.Quantity),
+            Total = cart.Sum(p => p.Total)
+        };
+
+        return PartialView("Components/Cart/Default", cartVM);
+    }
+
 }

@@ -3,11 +3,8 @@
     <a asp-controller="cart" asp-action="cart">
         <i class="icon-bag"></i>
         <span>@Model.Quantity</span>
-    </a>
-</li>
-<li>
-    <a asp-controller="cart" asp-action="cart">
-        <i class="icon-wallet"></i>
-        <strong><p class="d-inline p-3" style="letter-spacing: 0px">@Model.Total</p></strong>
+        <i class=" d-line p-3 icon-wallet" style="letter-spacing: 0px"></i>
+        <strong><p class="d-inline" style="letter-spacing: 0px">@Model.Total</p></strong>
+
     </a>
 </li>

@@ -128,15 +128,14 @@
                         </div>
                         <!-- Product Variable Single Item -->
                         <div class="d-flex align-items-center ">
-                            <input type="hidden" name="slug" value="@Model.Product.Slug" />
                             <div class="variable-single-item ">
                                 <span>Số lượng</span>
                                 <div class="product-variable-quantity">
-                                    <input id="quantity" name="quantity" min="1" value="1" type="number">
+                                    <input id="quantity_input"  min="1" value="1" type="number">
                                 </div>
                             </div>
-                            <div class="product-add-to-cart-btn add-to-cart">
-                                <button id="add-to-cart" data-slug="@Model.Product.Slug" data-quantity="1" href="#" class="btn btn-block btn-lg btn-black-default-hover add-to-cart"
+                            <div class="product-add-to-cart-btn">
+                                <button data-slug="@Model.Product.Slug" data-quantity="1" href="#" class="btn btn-block btn-lg btn-black-default-hover add-to-cart"
                                 @*  data-bs-toggle="modal" data-bs-target="#modalAddcart" data-product-id="@Model.Product.ProductId" *@ type="submit">
                                     + Thêm vào giỏ
                                 </button>
@@ -429,57 +428,58 @@
             });
         });
     </script>
-    <script>
-        $(document).ready(function () {
-            $('#add-to-cart').click(function (e) {
-                e.preventDefault();
-                var $this = $(this);
-                var slug = $(this).data('slug');
-                var quantity = parseInt($('#quantity').val()) || 1;
-
-                $.ajax({
-                    url: '@Url.Action("AddToCart", "Cart")',
-                    type: 'POST',
-                    data: { slug: slug, quantity: quantity },
-                    success: function (result) {
-                        if (result.success) {
-                            Toastify({
-                                text: result.message,
-                                duration: 3000,
-                                close: true,
-                                stopOnFocus: true,
-                                gravity: "top",
-                                position: "right",
-                                backgroundColor: "#5cb85c",
-                                className: "info"
-                            }).showToast();
-                        } else {
-                            Toastify({
-                                text: result.message,
-                                duration: 3000,
-                                close: true,
-                                stopOnFocus: true,
-                                gravity: "top",
-                                position: "right",
-                                backgroundColor: "#FF0000",
-                                className: "error"
-                            }).showToast();
-                        }
-                    },
-                    error: function () {
-                        Toastify({
-                            text: 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.',
-                            duration: 3000,
-                            close: true,
-                            stopOnFocus: true,
-                            gravity: "top",
-                            position: "right",
-                            backgroundColor: "#FF0000",
-                            className: "error"
-                        }).showToast();
-                    }
-                });
-            });
-        });
-    </script>
+    @* <script> *@
+    @*     $(document).ready(function () { *@
+    @*         $('.add-to-cart').click(function (e) { *@
+    @*             e.preventDefault(); *@
+    @*             var $this = $(this); *@
+    @*             var slug = $(this).data('slug'); *@
+    @*             var quantity_input = parseInt($('#quantity-input').val()) || 1; *@
+    @*             var quantity = $(this).data('quantity'); *@
+    @* *@
+    @*             $.ajax({ *@
+    @*                 url: '@Url.Action("AddToCart", "Cart")', *@
+    @*                 type: 'POST', *@
+    @*                 data: { slug: slug, quantity: quantity ,quantity_input: quantity_input }, *@
+    @*                 success: function (result) { *@
+    @*                     if (result.success) { *@
+    @*                         Toastify({ *@
+    @*                             text: result.message, *@
+    @*                             duration: 3000, *@
+    @*                             close: true, *@
+    @*                             stopOnFocus: true, *@
+    @*                             gravity: "top", *@
+    @*                             position: "right", *@
+    @*                             backgroundColor: "#5cb85c", *@
+    @*                             className: "info" *@
+    @*                         }).showToast(); *@
+    @*                     } else { *@
+    @*                         Toastify({ *@
+    @*                             text: result.message, *@
+    @*                             duration: 3000, *@
+    @*                             close: true, *@
+    @*                             stopOnFocus: true, *@
+    @*                             gravity: "top", *@
+    @*                             position: "right", *@
+    @*                             backgroundColor: "#FF0000", *@
+    @*                             className: "error" *@
+    @*                         }).showToast(); *@
+    @*                     } *@
+    @*                 }, *@
+    @*                 error: function () { *@
+    @*                     Toastify({ *@
+    @*                         text: 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.', *@
+    @*                         duration: 3000, *@
+    @*                         close: true, *@
+    @*                         stopOnFocus: true, *@
+    @*                         gravity: "top", *@
+    @*                         position: "right", *@
+    @*                         backgroundColor: "#FF0000", *@
+    @*                         className: "error" *@
+    @*                     }).showToast(); *@
+    @*                 } *@
+    @*             }); *@
+    @*         }); *@
+    @*     }); *@
+    @* </script> *@
 }
