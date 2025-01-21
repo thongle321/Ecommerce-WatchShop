@@ -151,11 +151,17 @@ namespace Ecommerce_WatchShop.Controllers
             {
                 return NotFound();
             }
+
+            var relatedProducts = await _context.Products
+                .Where(p => p.CategoryId == product.CategoryId && p.BrandId == product.BrandId && p.ProductId != product.ProductId)
+                .Take(5)
+                .ToListAsync();
             // Tạo ViewModel
             var viewModel = new ProductDetailVM
             {
 
                 Product = product,
+                RelatedProducts = relatedProducts,
                 ProductRating = product.ProductRatings.Any()
                     ? product.ProductRatings.Average(r => (double)r.Rating!) // Tính trung bình điểm đánh giá
                     : 0,
@@ -167,7 +173,7 @@ namespace Ecommerce_WatchShop.Controllers
                         Content = c.Contents,
                         CreatedAt = c.CreatedAt,
                         Rating = product.ProductRatings.FirstOrDefault(r => r.CustomerId == c.CustomerId)?.Rating
-                    }).ToList()
+                    }).ToList(),
             };
 
             return View(viewModel); // Trả về View
