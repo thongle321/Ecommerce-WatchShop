@@ -2,6 +2,12 @@
 <li>
     <a asp-controller="cart" asp-action="cart">
         <i class="icon-bag"></i>
-        <span>@Model.Quantity</span><strong><p style="display: inline; letter-spacing: 0; padding-left: 5px;">Tổng: @Model.Total</p></strong>
+        <span>@Model.Quantity</span>
+    </a>
+</li>
+<li>
+    <a asp-controller="cart" asp-action="cart">
+        <i class="icon-wallet"></i>
+        <strong><p class="d-inline p-3" style="letter-spacing: 0px">@Model.Total</p></strong>
     </a>
 </li>

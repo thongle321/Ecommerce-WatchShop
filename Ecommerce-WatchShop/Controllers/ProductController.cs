@@ -17,7 +17,7 @@ namespace Ecommerce_WatchShop.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string? search, string? categories = "", string? brands = "", double? minPrice = null, double? maxPrice = null, int page = 1)
+        public async Task<IActionResult> Index(string? search, string? categories = "", string? brands = "", double? minPrice = null, double? maxPrice = null, int page = 1, int? gender = null)
         {
             var pageSize = 5;  // Số sản phẩm mỗi trang
             var products = _context.Products.AsQueryable();
@@ -50,13 +50,17 @@ namespace Ecommerce_WatchShop.Controllers
                 products = products.Where(p => p.Price <= maxPrice.Value);
             }
 
+            if (gender is not null)
+            {
+                products = products.Where(p => p.Gender == (gender.Value == 1 ? 1 : 0));
+            }
             // Lấy tổng số sản phẩm sau khi áp dụng các bộ lọc
             var totalProducts = await products.CountAsync();
             var totalPages = (int)Math.Ceiling(totalProducts / (double)pageSize);
 
             // Lấy các sản phẩm cho trang hiện tại
             var result = await products
-                .Where(p => p.Status == 1)
+                .Where(p => p.Deleted == 0)
                 .Include(p => p.ProductRatings)
                 .Skip((page - 1) * pageSize) // Bỏ qua các sản phẩm của các trang trước
                 .Take(pageSize) // Lấy sản phẩm cho trang hiện tại
@@ -69,7 +73,6 @@ namespace Ecommerce_WatchShop.Controllers
                     ShortDescription = p.ShortDescription!,
                     ProductRating = p.ProductRatings.Any()
                         ? p.ProductRatings.Average(r => (double)r.Rating!) : 0,
-                    TotalRating = p.ProductRatings.Count,
                     Slug = p.Slug
                 })
                 .ToListAsync();
@@ -125,36 +128,6 @@ namespace Ecommerce_WatchShop.Controllers
             };
             return View(viewModel);
         }
-
-        //[Route("ProductDetail/{id}")]
-        //public IActionResult ProductDetail(int id)
-        //{
-        //    var data= _context.Products
-        //        .Include(p => p.Category)
-        //        .Include(p => p.Brand)
-        //        .Include(p => p.Supplier)
-        //        .Include(p => p.ProductImages)
-        //        .Include(p => p.ProductComments)
-        //        .Include(p => p.ProductRatings)
-        //        .FirstOrDefault(p=>p.ProductId==id);
-        //    if (data == null)       
-        //    {
-        //        return NotFound();
-        //    }
-        //    var result = new ProductDetailVM
-        //    {
-        //        Product = data,
-        //        ProductRating = data.ProductRatings
-        //        .Where(r => r.ProductId == id) // Lọc đánh giá theo ProductId
-        //        .Select(r => (double?)r.Rating)  // Chuyển giá trị đánh giá sang nullable double
-        //        .Average() ?? 0,
-        //        TotalRating= data.ProductRatings
-        //        .Where(r => r.ProductId == id)
-        //        .Count()
-
-        //    };
-        //    return View("ProductDetail", result);
-        //}
         [Route("ProductDetail/{slug}")]
         public async Task<IActionResult> ProductDetail(string? slug)
         {
@@ -163,13 +136,13 @@ namespace Ecommerce_WatchShop.Controllers
                 return NotFound();
             }    
             var customerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "CustomerId");
-            int? customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
+            var customerId = customerIdClaim != null ? int.Parse(customerIdClaim.Value) : (int?)null;
             // Lấy sản phẩm, đánh giá, và bình luận từ cơ sở dữ liệu
             var product = await _context.Products
-                   .Include(p => p.Category)
+                .Include(p => p.Category)
                 .Include(p => p.Brand)
                 .Include(p => p.ProductImages)
-                .Include(p => p.ProductComments)
+                .Include(p => p.ProductComments).ThenInclude(productComment => productComment.Customer)
                 .Include(p => p.ProductRatings)
                 .ThenInclude(c => c.Customer)
                 .FirstOrDefaultAsync(p => p.Slug == slug);
