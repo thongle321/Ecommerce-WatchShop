@@ -19,10 +19,9 @@ public class CartController : Controller
 
     public IActionResult Cart(int page = 1, int pageSize = 5)
     {
-        // Kiểm tra nếu người dùng chưa đăng nhập
         if (!User.Identity!.IsAuthenticated)
         {
-            ViewBag.Message = "Giỏ hàng của bạn hiện đang trống!";
+            TempData["error"] = "Không có tài khoản của khách hàng";
             return View(Carts);
         }
 
@@ -31,7 +30,7 @@ public class CartController : Controller
 
         if (customerId == null)
         {
-            ViewBag.Message = "Giỏ hàng của bạn hiện đang trống!";
+            TempData["error"] = "Không tìm thấy tài khoản khách hàng";
             return View(Carts);
         }
 
@@ -39,8 +38,8 @@ public class CartController : Controller
 
         if (cartItems == null || !cartItems.Any())
         {
-            ViewBag.Message = "Giỏ hàng của bạn hiện đang trống!";
-            return View(Carts);
+            
+            return View("EmptyCart");
         }
 
         var totalItems = cartItems.Count;
