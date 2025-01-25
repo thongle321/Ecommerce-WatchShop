@@ -14,11 +14,14 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly DongHoContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public HomeController(ILogger<HomeController> logger, DongHoContext context)
+    public HomeController(ILogger<HomeController> logger, DongHoContext context,
+        IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<IActionResult> Index()
@@ -36,11 +39,13 @@ public class HomeController : Controller
         };
         return View(aboutVM);
     }
+
     [HttpGet]
     public IActionResult Contact()
     {
         return View();
     }
+
     [HttpPost]
     public async Task<IActionResult> Contact(ContactVM contactVM)
     {
@@ -64,6 +69,7 @@ public class HomeController : Controller
 
         return View("Contact", contactVM);
     }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterVM registerVM, string? ReturnUrl = null)
@@ -97,11 +103,12 @@ public class HomeController : Controller
         var customer = new Customer
         {
             AccountId = account.AccountId,
-            DisplayName = account.Username
+            DisplayName = account.Username,
         };
 
         _context.Customers.Add(customer);
         await _context.SaveChangesAsync();
+
         TempData["success"] = "Đăng ký thành công";
         if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
         {
@@ -112,11 +119,111 @@ public class HomeController : Controller
             return Json(new { redirectToUrl = Url.Action("Index", "Home") });
         }
     }
+
+    [HttpGet]
+    public IActionResult GoogleLogin(string? returnUrl = null)
+    {
+        var redirectUrl = Url.Action("RegisterGoogle", "Home", null, Request.Scheme);
+        var properties = new AuthenticationProperties
+        {
+            RedirectUri = redirectUrl
+        };
+        return Challenge(properties, "Google");
+    }
+
+    public async Task<IActionResult> RegisterGoogle(string? returnUrl = null)
+    {
+        // Retrieve the external login information
+        var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        if (result?.Principal == null || result.Principal.Claims == null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        var googleClaims = result.Principal.Claims.ToList();
+        var googleName = googleClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+        var googleEmail =  googleClaims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+        if (string.IsNullOrEmpty(googleName))
+        {
+            TempData["error"] = $"Khong tim thay google name {googleName}";
+            return RedirectToAction("Index");
+        }
+
+        var googleAccount = new Account
+        {
+            Username = googleName,
+            Password = Guid.NewGuid().ToString(),
+            Email = googleEmail,
+            RoleId = 1,
+        };
+
+        var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Username == googleAccount.Username);
+
+        if (account != null)
+        {
+            googleAccount = account;
+        }
+        else
+        {
+            _context.Accounts.Add(googleAccount);
+            await _context.SaveChangesAsync();
+        }
+        var customer = new Customer
+        {
+            AccountId = googleAccount.AccountId,
+            DisplayName = googleAccount.Username, 
+            Email = googleAccount.Email
+        };
+        var customers = await _context.Customers.FirstOrDefaultAsync(c => c.Email == googleAccount.Email);
+        if (customers == null)
+        {
+            _context.Customers.Add(customer);
+            await _context.SaveChangesAsync();
+        }
+
+        // Create claims for the authenticated user
+        var claims = new List<Claim>
+        {
+            new Claim("AccountId", googleAccount.AccountId.ToString()) // Claim for AccountId
+        };
+
+        if (customer != null && customer.CustomerId > 0)
+        {
+            claims.Add(new Claim("CustomerId", customer.CustomerId.ToString())); // Claim for CustomerId
+        }
+
+        // Create the identity and sign the user in
+        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var authProperties = new AuthenticationProperties
+        {
+            IsPersistent = true,
+            ExpiresUtc = DateTime.UtcNow.AddDays(5),
+        };
+
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity), authProperties);
+
+        TempData["success"] = "Đăng nhập Google thành công";
+
+        // Redirect to the return URL or home page
+        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+        {
+            return Redirect(returnUrl);
+        }
+        else
+        {
+            return RedirectToAction("Index", "Home");
+        }
+    }
+
+
     [HttpGet]
     public IActionResult LoginPartial()
     {
         return PartialView("_LoginPartial", new LoginVM());
     }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginVM loginVM, string? ReturnUrl = null)
@@ -145,6 +252,7 @@ public class HomeController : Controller
             ModelState.AddModelError("Username", "Không có quyền truy cập");
             return PartialView("_LoginPartial", loginVM);
         }
+
         var customer = await _context.Customers.FirstOrDefaultAsync(c => c.AccountId == account.AccountId);
 
         var claims = new List<Claim>
@@ -154,7 +262,6 @@ public class HomeController : Controller
         if (customer != null && customer.CustomerId > 0)
         {
             claims.Add(new Claim("CustomerId", customer.CustomerId.ToString())); // Claim cho CustomerId
-
         }
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -165,7 +272,8 @@ public class HomeController : Controller
             ExpiresUtc = DateTime.Now.AddDays(5),
         };
 
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity), authProperties);
 
         //HttpContext.Session.SetInt32("AccountId", account.AccountId);
         //HttpContext.Session.SetInt32("AccountId",account.Customerid);
@@ -178,9 +286,7 @@ public class HomeController : Controller
         {
             return Json(new { redirectToUrl = Url.Action("Index", "Home") });
         }
-
     }
-
 
 
     public IActionResult Privacy()
@@ -198,7 +304,6 @@ public class HomeController : Controller
         else
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-
         }
     }
 }

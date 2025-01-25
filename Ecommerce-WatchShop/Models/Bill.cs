@@ -30,6 +30,9 @@ public partial class Bill
     public string? PaymentMethod { get; set; }
     [Column(TypeName = "decimal(18,0)")]
     public decimal Total { get; set; } 
+    
+    [Column(TypeName = "nvarchar(255)")]
+    public string? Note { get; set; }
 
     public int Status { get; set; }
 

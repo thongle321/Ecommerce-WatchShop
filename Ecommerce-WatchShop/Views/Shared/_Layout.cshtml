@@ -422,9 +422,12 @@
                     <button class="btn btn-block btn-black-default-hover mb-4" type="submit">Đăng ký</button>
                     <div class="d-flex justify-content-center">
                         <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal"><strong>Có
-                                tài khoản? Đăng Nhập</strong></a>
+                            tài khoản? Đăng Nhập</strong></a>
                     </div>
                 </form>
+                <script src="https://accounts.google.com/gsi/client" async></script>
+                <a asp-controller="Home" asp-action="GoogleLogin" class="btn btn-block btn-outline-aqua">Sign in with Google</a>
+
             </div>
         </div>
     </div>
@@ -455,6 +458,7 @@
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
 <script>
     $(function () {
         var successMessage = '@Html.Raw(TempData["success"])';

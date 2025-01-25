@@ -185,9 +185,11 @@ public class AccountController : Controller
 
         return Json(new { success = true, message = "Đã thêm vào danh sách yêu thích!" });
     }
+
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        HttpContext.Session.Clear();
         return RedirectToAction("Index", "Home");
     }
     

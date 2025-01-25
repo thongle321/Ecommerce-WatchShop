@@ -29,16 +29,7 @@ namespace Ecommerce_WatchShop
                 await _context.Categories.AddRangeAsync(donghoco, donghopin, donghonangluong);
                 await _context.SaveChangesAsync();
             }
-            //if (!_context.Suppliers.Any())
-            //{
-            //    Supplier citizen_supplier = new Supplier { Name = "Công ty Citizen Watch", Phone = "(800) 321-1023", Information = "CÔNG TY CITIZEN WATCH là một nhà sản xuất thực sự với một quy trình sản xuất toàn diện", Address = "6-1-12, Tanashi-cho, Nishi-Tokyo-shi, Tokyo 188-8511, Japan" };
-            //    Supplier doxa_supplier = new Supplier { Name = "Công ty Doxa", Phone = "1-520-369 -872", Information = "Thương hiệu đồng hồ Doxa nổi tiếng của Thuỵ Sĩ được ra mắt với công chúng vào năm 1889 bởi một nghệ nhân chế tác đồng hồ trẻ tuổi", Address = "Rue de Zurich 23A, 2500 Biel/Bienne, Switzerland" };
-            //    Supplier curnon_supplier = new Supplier { Name = "Công ty Curnon", Phone = "0868889103", Information = "Với những sản phẩm được thiết kế bằng nhiệt huyết, khát khao và khối óc đầy sáng tạo của đội ngũ chính những người trẻ Việt Nam.", Address = "25 Nguyễn Trãi, P.Bến Thành, Quận 1." };
-            //    Supplier seiko_supplier = new Supplier { Name = "Công ty Seiko", Phone = "81-3-3563-2111", Information = "Công ty Nhật Bản thành lập vào năm 1881; nổi tiếng trong lĩnh vực sản xuất và mua bán đồng hồ, thiết bị điện tử", Address = "1-8 Nakase, Mihama-ku, Chiba-shi, Chiba 261-8507, Japan" };
 
-            //    await _context.Suppliers.AddRangeAsync(citizen_supplier, doxa_supplier, curnon_supplier, seiko_supplier);
-            //    await _context.SaveChangesAsync();
-            //}
             if (!_context.Products.Any())
             {
                 var donghopin = _context.Categories.FirstOrDefault(c => c.CategoryName == "Đồng hồ pin");
