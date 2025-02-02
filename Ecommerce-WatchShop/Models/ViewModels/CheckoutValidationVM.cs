@@ -4,7 +4,7 @@ namespace Ecommerce_WatchShop.Models.ViewModels
 {
     public class CheckoutValidationVM
     {
-        public IEnumerable<CartRequest> CartRequest { get; set; } = null!;
+        public List<CartRequest> CartRequest { get; set; } = new();
         public CheckoutVM CheckoutVM { get; set; } = null!; 
     }
 }

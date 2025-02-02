@@ -5,6 +5,7 @@ using Ecommerce_WatchShop.Models.ViewModels;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce_WatchShop.Helper;
+using System.Diagnostics;
 namespace Ecommerce_WatchShop.Controllers
 {
     public class CheckoutController : Controller
@@ -38,6 +39,12 @@ namespace Ecommerce_WatchShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(CheckoutValidationVM checkoutValidationVM)
         {
+            var carts = Carts;
+            if(carts is null && carts.Count == 0)
+            {
+                TempData["error"] = "Giỏ hàng của bạn đang trống";
+                return RedirectToAction("Cart", "Cart");
+            }
             if (ModelState.IsValid)
             {
                 var customerIdClaim = HttpContext.User.Claims.SingleOrDefault(c => c.Type == "CustomerId");
@@ -54,7 +61,7 @@ namespace Ecommerce_WatchShop.Controllers
                         District = checkoutValidationVM.CheckoutVM.District,
                         Ward = checkoutValidationVM.CheckoutVM.Ward,
                         PaymentMethod = checkoutValidationVM.CheckoutVM.PaymentMethod,
-                        Total = checkoutValidationVM.CheckoutVM.TotalAmount,
+                        Total = (decimal)carts.Sum(item => item.Quantity * item.Price),
                         Status = 1,
                         OrderDate = DateTime.Now
                     };
