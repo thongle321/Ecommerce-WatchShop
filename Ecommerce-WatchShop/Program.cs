@@ -7,8 +7,15 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Google;
+using Ecommerce_WatchShop.Services;
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton(x => new PaypalClient(
+    builder.Configuration["Paypal:AppId"],
+    builder.Configuration["Paypal:AppSecret"],
+    builder.Configuration["Paypal:Mode"]
+
+));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DongHoContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

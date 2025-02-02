@@ -102,15 +102,15 @@
                                 <h3>Phương thức thanh toán</h3>
                                 <div class="panel-default">
                                     <label class="checkbox-default" for="currencyCod" data-bs-toggle="collapse"
-                                        data-bs-target="#methodCod">
+                                           data-bs-target="#methodCod">
                                         <input type="radio" asp-for="@Model.CheckoutVM.PaymentMethod" value="COD"
-                                            required>
+                                               required>
                                         <span>Thanh toán khi nhận hàng (COD)</span>
                                     </label>
                                 </div>
                                 <div class="panel-default">
                                     <label class="checkbox-default" for="currencyPaypal" data-bs-toggle="collapse"
-                                        data-bs-target="#methodPaypal" required>
+                                           data-bs-target="#methodPaypal" required>
                                         <input type="radio" asp-for="@Model.CheckoutVM.PaymentMethod" value="Momo">
                                         <span>Ví Momo</span>
                                     </label>
@@ -120,6 +120,8 @@
                                     <button class="btn btn-md btn-black-default-hover" type="submit">
                                         Thanh toán
                                     </button>
+                                    <div id="paypal-button-container" style="width: 1000px" type="submit">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -173,4 +175,40 @@
     </div>
 </div>
 @section Scripts {
+    <script src="https://sandbox.paypal.com/sdk/js?client-id=@ViewBag.PaypalClientId"></script>
+
+    <script>
+        paypal.Buttons({
+            style: {
+                layout: 'vertical',
+                color: 'silver',
+                tagline: 'false'
+            },
+            createOrder: (data, actions) => {
+                return fetch("/Checkout/create-paypal-order", {
+                    method: "post",
+                }).then((response) => {
+                    if (!response.ok) {
+                        return response.json().then(error => { throw error; });
+                    }
+
+                    return response.json();
+                }).then((order) => order.id)
+                .catch(error => alert(error.message));
+            },
+            onApprove: (data, actions) => {
+                return fetch(`/Checkout/capture-paypal-order?orderId=${data.orderID}`, {
+                    method: "post",
+                }).then((response) => {
+                    if (!response.ok) {
+                        return response.json().then(error => { throw error; });
+                    }
+
+                    window.location.href = "/Home/Index";
+                }).catch(error => alert(error.message));
+            }
+        }).render('#paypal-button-container');
+    </script>
+
+
 }

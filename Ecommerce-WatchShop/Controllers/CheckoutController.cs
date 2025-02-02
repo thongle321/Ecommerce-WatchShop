@@ -6,16 +6,19 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using Microsoft.AspNetCore.Authorization;
 using Ecommerce_WatchShop.Helper;
 using System.Diagnostics;
+using Ecommerce_WatchShop.Services;
 namespace Ecommerce_WatchShop.Controllers
 {
     public class CheckoutController : Controller
     {
         private readonly DongHoContext _context;
+        private readonly PaypalClient _paypalClient;
         public List<CartRequest> Carts => CartHelper.GetCart(HttpContext.Session);
 
-        public CheckoutController(DongHoContext context)
+        public CheckoutController(DongHoContext context, PaypalClient paypalClient)
         {
             _context = context;
+            _paypalClient = paypalClient;
         }
         public IActionResult Index()
         {
@@ -34,6 +37,7 @@ namespace Ecommerce_WatchShop.Controllers
                 CheckoutVM = new CheckoutVM(),
                 CartRequest = Carts
             };
+            ViewBag.PaypalClientId = _paypalClient.ClientId;
             return View(checkoutValidationVM);
         }
         [HttpPost]
@@ -70,7 +74,6 @@ namespace Ecommerce_WatchShop.Controllers
                         var invoices = new List<Invoice>();
                         foreach(var item in Carts)
                         {
-                            Console.WriteLine($"ProductId: {item.ProductId}, Quantity: {item.Quantity}, Price: {item.Price}");
 
                             var productExists = await _context.Products.AnyAsync(p => p.ProductId == item.ProductId);
                             if (!productExists)
@@ -106,5 +109,43 @@ namespace Ecommerce_WatchShop.Controllers
             }
             return View("Index", checkoutValidationVM);
         }
+
+        [HttpPost("/Checkout/create-paypal-order")]
+        public async Task<IActionResult> CreatePaypalOrder(CancellationToken cancellationToken)
+        {
+            // Thông tin đơn hàng gửi qua Paypal
+            var TotalAmount = Carts.Sum(p => p.Total).ToString();
+            var Currency = "USD";
+            var OrderId = "DH" + DateTime.Now.Ticks.ToString();
+
+            try
+            {
+                var response = await _paypalClient.CreateOrder(TotalAmount, Currency, OrderId);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var error = new { ex.GetBaseException().Message };
+                return BadRequest(error);
+            }
+        }
+
+        [HttpPost("/Checkout/capture-paypal-order")]
+        public async Task<IActionResult> CapturePaypalOrder(string orderID, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var response = await _paypalClient.CaptureOrder(orderID);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                var error = new { ex.GetBaseException().Message };
+                return BadRequest(error);
+            }
+        }
+
     }
 }
