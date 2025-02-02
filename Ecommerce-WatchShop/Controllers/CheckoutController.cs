@@ -28,7 +28,7 @@ namespace Ecommerce_WatchShop.Controllers
             {
                 TempData["error"] = "Giỏ hàng của bạn đang trống";
                 return RedirectToAction("Cart", "Cart");
-            }    
+            }
             var checkoutValidationVM = new CheckoutValidationVM
             {
                 CheckoutVM = new CheckoutVM(),
@@ -39,12 +39,6 @@ namespace Ecommerce_WatchShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(CheckoutValidationVM checkoutValidationVM)
         {
-            var carts = Carts;
-            if(carts is null && carts.Count == 0)
-            {
-                TempData["error"] = "Giỏ hàng của bạn đang trống";
-                return RedirectToAction("Cart", "Cart");
-            }
             if (ModelState.IsValid)
             {
                 var customerIdClaim = HttpContext.User.Claims.SingleOrDefault(c => c.Type == "CustomerId");
@@ -61,7 +55,7 @@ namespace Ecommerce_WatchShop.Controllers
                         District = checkoutValidationVM.CheckoutVM.District,
                         Ward = checkoutValidationVM.CheckoutVM.Ward,
                         PaymentMethod = checkoutValidationVM.CheckoutVM.PaymentMethod,
-                        Total = (decimal)carts.Sum(item => item.Quantity * item.Price),
+                        Total = (decimal)Carts.Sum(item => item.Quantity * item.Price),
                         Status = 1,
                         OrderDate = DateTime.Now
                     };
@@ -74,8 +68,10 @@ namespace Ecommerce_WatchShop.Controllers
                         await _context.SaveChangesAsync();
         
                         var invoices = new List<Invoice>();
-                        foreach(var item in checkoutValidationVM.CartRequest)
+                        foreach(var item in Carts)
                         {
+                            Console.WriteLine($"ProductId: {item.ProductId}, Quantity: {item.Quantity}, Price: {item.Price}");
+
                             var productExists = await _context.Products.AnyAsync(p => p.ProductId == item.ProductId);
                             if (!productExists)
                             {
@@ -107,7 +103,7 @@ namespace Ecommerce_WatchShop.Controllers
                         await _context.Database.RollbackTransactionAsync();
                     }
                 }    
-            }    
+            }
             return View("Index", checkoutValidationVM);
         }
     }

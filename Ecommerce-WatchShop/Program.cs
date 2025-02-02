@@ -21,7 +21,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
 {
-    options.LoginPath = "/Home/Login";
+
     options.AccessDeniedPath = "/Home/404";
 })
 .AddCookie("Admin", options =>
